@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Code Generator - Donald W. Smith Jr.</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/code-generator.css">
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <img src="images/DLogo.jpg" alt="Logo" class="logo-img">
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#" class="disabled-link" onclick="return false;" aria-disabled="true">Request Code</a></li>
+                    <li><a href="info.html">Documents</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Email Hash Form Section -->
+        <section id="email-hash" class="section">
+            <h2 class="section-title fade-in">Email Code Generator</h2>
+            <div class="form-container fade-in">
+                <form id="emailForm" class="email-form">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required 
+                               placeholder="Enter your email address" class="form-input">
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Generate Code</button>
+                    </div>
+                    <div class="form-group result-container" id="resultContainer" style="display: none;">
+                        <label>6-Digit Code:</label>
+                        <div class="result-wrapper">
+                            <div class="hash-result" id="hashResult"></div>
+                            <button class="copy-btn" id="copyBtn" title="Copy to clipboard">
+                                📋
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-social">
+                <a href="https://linkedin.com/in/donaldwsmithjr" target="_blank" aria-label="LinkedIn">
+                    <span>🔗</span>
+                </a>
+                <a href="https://github.com/DWSMITHJR" target="_blank" aria-label="GitHub">
+                    <span>🐙</span>
+                </a>
+            </div>
+            <p class="footer-text"><a href="mailto:architect@donaldwsmithjr.com" aria-label="Email">
+    © 2025
+    <span>✉️</span>
+    Donald W. Smith Jr.
+</a> All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Function to copy text to clipboard
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Visual feedback
+                const originalText = button.textContent;
+                button.textContent = '✓';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
+        // Add click event to copy button
+        document.addEventListener('DOMContentLoaded', function() {
+            const copyBtn = document.getElementById('copyBtn');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', function() {
+                    const code = document.getElementById('hashResult').textContent.trim();
+                    if (code) {
+                        copyToClipboard(code, this);
+                    }
+                });
+            }
+        });
+        // Initialize the email form when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initEmailForm();
+            
+            // Initialize particles
+            createParticles();
+            
+            // Add scroll animation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        });
+    </script>
+
+<script defer
+  src="https://unpkg.com/verifalia-widget@1.13.0/dist/verifalia-widget.js"
+  data-verifalia-appkey="28d2c7b76549471f8ff2bdd1fe071d90"
+  integrity="sha512-lSDPMmyZ2UdFJe668Pqz6kpbWtycj+edgzRTBdbAhXCTtWY+Shz0Qhgpo4R5wzQwjTUqm5h/4DV0ALATSob5ow=="
+  crossorigin="anonymous"></script>
+
+</body>
+</html>
