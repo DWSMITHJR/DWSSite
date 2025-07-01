@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - System Information</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="css/legal.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <img src="images/DLogo.jpg" alt="Logo" class="logo-img">
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="about-container">
+        <h1 class="page-title">System Information</h1>
+            <!-- Application Information Section -->
+            <section class="info-section">
+                <h2>Application Details</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Version Information</h3>
+                        <p>App Version: <span id="app-version" class="value">1.0.0</span></p>
+                        <p>Build Date: <span id="build-date" class="value">2025-07-01</span></p>
+                        <p>Environment: <span id="app-environment" class="value">Production</span></p>
+                        <p>Last Updated: <span id="last-updated" class="value">Just now</span></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Performance</h3>
+                        <p>Page Load Time: <span id="page-load-time" class="value">0.00s</span></p>
+                        <p>Uptime: <span id="app-uptime" class="value">0h 0m 0s</span></p>
+                        <p>Memory Usage: <span id="memory-usage" class="value">Calculating...</span></p>
+                        <p>CPU Cores: <span id="cpu-cores" class="value">4</span></p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- System Information Section -->
+            <section class="info-section">
+                <h2>System Information</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Operating System</h3>
+                        <p><span id="os-name" class="value">Detecting...</span></p>
+                        <p>Platform: <span id="os-platform" class="value">-</span></p>
+                        <p>Architecture: <span id="os-arch" class="value">-</span></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>CPU Cores</h3>
+                        <p>Available: <span id="cpu-cores" class="value">-</span></p>
+                        <p>Threads: <span id="cpu-threads" class="value">-</span></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Memory</h3>
+                        <p>Total: <span id="mem-total" class="value">-</span></p>
+                        <p>Free: <span id="mem-free" class="value">-</span></p>
+                        <p>Used: <span id="mem-used" class="value">-</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Server Information Section -->
+            <section class="info-section">
+                <h2>Server Information</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Host</h3>
+                        <p>Hostname: <span id="server-hostname" class="value">-</span></p>
+                        <p>Port: <span id="server-port" class="value">-</span></p>
+                        <p>Protocol: <span id="server-protocol" class="value">-</span></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Request</h3>
+                        <p>Method: <span id="request-method" class="value">-</span></p>
+                        <p>URL: <span id="request-url" class="value">-</span></p>
+                        <p>Path: <span id="request-path" class="value">-</span></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Response</h3>
+                        <p>Status: <span id="response-status" class="value">-</span></p>
+                        <p>Content Type: <span id="content-type" class="value">-</span></p>
+                        <p>Server: <span id="server-software" class="value">-</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Session Section -->
+            <section class="info-section">
+                <h2>User Session</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Connection</h3>
+                        <p>Status: <span id="connection-status" class="value">-</span></p>
+                        <p>Type: <span id="connection-type" class="value">-</span></p>
+                        <p>Effective Type: <span id="effective-type" class="value">-</span></p>
+                        <p>Downlink: <span id="downlink" class="value">-</span></p>
+                        <p>RTT: <span id="rtt" class="value">-</span></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Authentication</h3>
+                        <p>Status: <span id="auth-status" class="value">-</span></p>
+                        <p>User: <span id="auth-user" class="value">-</span></p>
+                        <p>Role: <span id="auth-role" class="value">-</span></p>
+                        <p>Last Login: <span id="last-login" class="value">-</span></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Activity</h3>
+                        <p>Session Start: <span id="session-start" class="value">-</span></p>
+                        <p>Last Active: <span id="last-active" class="value">-</span></p>
+                        <p>Page Views: <span id="page-views" class="value">-</span></p>
+                        <p>Time on Page: <span id="time-on-page" class="value">-</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Browser Capabilities Section -->
+            <section class="info-section">
+                <h2>Browser Capabilities</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Browser</h3>
+                        <p>Name: <span id="browser-name" class="value">-</span></p>
+                        <p>Version: <span id="browser-version" class="value">-</span></p>
+                        <p>User Agent: <span id="user-agent" class="value">-</span></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Display</h3>
+                        <p>Resolution: <span id="screen-resolution" class="value">-</span></p>
+                        <p>Color Depth: <span id="color-depth" class="value">-</span></p>
+                        <p>Pixel Ratio: <span id="pixel-ratio" class="value">-</span></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Features</h3>
+                        <div class="capabilities">
+                            <span id="js" class="capability-tag">JavaScript</span>
+                            <span id="cookies" class="capability-tag">Cookies</span>
+                            <span id="webgl" class="capability-tag">WebGL</span>
+                            <span id="workers" class="capability-tag">Web Workers</span>
+                            <span id="geolocation" class="capability-tag">Geolocation</span>
+                            <span id="notifications" class="capability-tag">Notifications</span>
+                            <span id="touch" class="capability-tag">Touch</span>
+                            <span id="online" class="capability-tag">Online</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Diagnostic Panel Section -->
+        <section class="info-section">
+            <h2>Diagnostic Console</h2>
+            <div class="diagnostic-panel">
+                <div class="diagnostic-tabs">
+                    <button class="tab-button active" data-tab="runtime">Runtime</button>
+                    <button class="tab-button" data-tab="trace">Trace</button>
+                    <button class="tab-button" data-tab="diagnostics">Diagnostics</button>
+                    <button class="tab-button" data-tab="cloud">Cloud</button>
+                    <div class="diagnostic-controls">
+                        <button id="clear-logs" class="control-button" title="Clear logs">🗑️</button>
+                        <button id="copy-logs" class="control-button" title="Copy to clipboard">📋</button>
+                        <button id="refresh-logs" class="control-button" title="Refresh">🔄</button>
+                    </div>
+                </div>
+                <div class="diagnostic-content">
+                    <div id="runtime-log" class="log-content active"></div>
+                    <div id="trace-log" class="log-content"></div>
+                    <div id="diagnostics-log" class="log-content"></div>
+                    <div id="cloud-log" class="log-content"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <p>&copy; <span id="current-year"></span> Donald W. Smith Jr. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <span>•</span>
+                <a href="terms.html">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Update current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // System Information
+        function updateSystemInfo() {
+            // OS Info
+            const osInfo = {
+                name: navigator.platform,
+                platform: navigator.platform,
+                arch: navigator.cpuClass || 'Unknown',
+                cores: navigator.hardwareConcurrency || 'Unknown'
+            };
+
+            document.getElementById('os-name').textContent = osInfo.name;
+            document.getElementById('os-platform').textContent = osInfo.platform;
+            document.getElementById('os-arch').textContent = osInfo.arch;
+            document.getElementById('cpu-cores').textContent = osInfo.cores;
+            document.getElementById('cpu-threads').textContent = osInfo.cores * 2 || 'Unknown';
+
+            // Memory - Note: This is limited in browsers due to security
+            if (navigator.deviceMemory) {
+                const totalMemoryGB = navigator.deviceMemory;
+                document.getElementById('mem-total').textContent = `${totalMemoryGB} GB`;
+                document.getElementById('mem-free').textContent = 'Restricted by browser';
+                document.getElementById('mem-used').textContent = 'Restricted by browser';
+            } else {
+                document.getElementById('mem-total').textContent = 'Restricted by browser';
+                document.getElementById('mem-free').textContent = 'N/A';
+                document.getElementById('mem-used').textContent = 'N/A';
+            }
+        }
+
+        // Server Information
+        function updateServerInfo() {
+            document.getElementById('server-hostname').textContent = window.location.hostname;
+            document.getElementById('server-port').textContent = window.location.port || '80/443';
+            document.getElementById('server-protocol').textContent = window.location.protocol.replace(':', '').toUpperCase();
+            
+            // These would typically come from server-side in a real application
+            document.getElementById('request-method').textContent = 'GET';
+            document.getElementById('request-url').textContent = window.location.href;
+            document.getElementById('request-path').textContent = window.location.pathname;
+            
+            // Simulate server response info
+            document.getElementById('response-status').textContent = '200 OK';
+            document.getElementById('content-type').textContent = document.contentType || 'text/html';
+            document.getElementById('server-software').textContent = navigator.userAgent.split(' ').find(part => part.includes('/')) || 'Unknown';
+        }
+
+        // User Session
+        function updateUserSession() {
+            // Get IP - Note: This requires a third-party service in a real app
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('user-ip').textContent = data.ip || 'Unknown';
+                })
+                .catch(() => {
+                    document.getElementById('user-ip').textContent = 'Could not determine';
+                });
+
+            document.getElementById('user-lang').textContent = navigator.language || navigator.userLanguage || 'Unknown';
+            document.getElementById('user-online').textContent = navigator.onLine ? 'Yes' : 'No';
+            
+            // Time info
+            const now = new Date();
+            document.getElementById('local-time').textContent = now.toLocaleString();
+            document.getElementById('time-zone').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+            document.getElementById('daylight-saving').textContent = now.getTimezoneOffset() < now.getTimezoneOffset(new Date(2023, 6, 1)) ? 'Yes' : 'No';
+            
+            // Storage
+            document.getElementById('cookies-enabled').textContent = navigator.cookieEnabled ? 'Enabled' : 'Disabled';
+            document.getElementById('local-storage').textContent = typeof(Storage) !== 'undefined' ? 'Available' : 'Not Available';
+            document.getElementById('session-storage').textContent = typeof(sessionStorage) !== 'undefined' ? 'Available' : 'Not Available';
+        }
+
+        // Browser Capabilities
+        function updateBrowserCapabilities() {
+            // Browser info
+            const userAgent = navigator.userAgent;
+            let browserName = 'Unknown';
+            let browserVersion = 'Unknown';
+            
+            // Detect browser
+            if (userAgent.indexOf('Firefox') > -1) {
+                browserName = 'Mozilla Firefox';
+                browserVersion = userAgent.match(/Firefox\/(\d+\.?\d*)/)[1];
+            } else if (userAgent.indexOf('SamsungBrowser') > -1) {
+                browserName = 'Samsung Browser';
+                browserVersion = userAgent.match(/SamsungBrowser\/(\d+\.?\d*)/)[1];
+            } else if (userAgent.indexOf('Opera') > -1 || userAgent.indexOf('OPR') > -1) {
+                browserName = 'Opera';
+                browserVersion = (userAgent.match(/(?:Opera|OPR)\/(\d+\.?\d*)/) || [])[1] || 'Unknown';
+            } else if (userAgent.indexOf('Trident') > -1) {
+                browserName = 'Internet Explorer';
+                browserVersion = userAgent.match(/Trident\/\d+\.\d+; rv:(\d+\.?\d*)/)[1];
+            } else if (userAgent.indexOf('Edge') > -1) {
+                browserName = 'Microsoft Edge';
+                browserVersion = userAgent.match(/Edge\/(\d+\.?\d*)/)[1];
+            } else if (userAgent.indexOf('Chrome') > -1) {
+                browserName = 'Google Chrome';
+                browserVersion = userAgent.match(/Chrome\/(\d+\.?\d*)/)[1];
+            } else if (userAgent.indexOf('Safari') > -1) {
+                browserName = 'Safari';
+                browserVersion = userAgent.match(/Version\/(\d+\.?\d*)/)[1];
+            }
+            
+            document.getElementById('browser-name').textContent = browserName;
+            document.getElementById('browser-version').textContent = browserVersion;
+            document.getElementById('user-agent').textContent = userAgent;
+            
+            // Display info
+            document.getElementById('screen-resolution').textContent = `${window.screen.width} × ${window.screen.height} pixels`;
+            document.getElementById('color-depth').textContent = `${screen.colorDepth}-bit`;
+            document.getElementById('pixel-ratio').textContent = window.devicePixelRatio || 1;
+            
+            // Feature detection
+            const features = {
+                'js': true,
+                'cookies': navigator.cookieEnabled,
+                'webgl': (() => {
+                    try {
+                        return !!window.WebGLRenderingContext && 
+                               (document.createElement('canvas').getContext('webgl') || 
+                                document.createElement('canvas').getContext('experimental-webgl'));
+                    } catch (e) {
+                        return false;
+                    }
+                })(),
+                'workers': !!window.Worker,
+                'geolocation': 'geolocation' in navigator,
+                'notifications': 'Notification' in window,
+                'touch': 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+                'online': navigator.onLine
+            };
+            
+            // Update feature indicators
+            Object.entries(features).forEach(([id, supported]) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    if (supported) {
+                        element.classList.add('capability-tag');
+                    } else {
+                        element.classList.add('capability-tag', 'disabled');
+                        element.innerHTML = `${element.textContent} <span style="color: #f87171; margin-left: 4px;">✗</span>`;
+                    }
+                }
+            });
+        }
+
+        // Application Information
+        function updateAppInfo() {
+            // Set build date (would typically come from build process)
+            const buildDate = new Date();
+            document.getElementById('build-date').textContent = buildDate.toISOString().split('T')[0];
+            
+            // Track page load time
+            const pageLoadTime = window.performance.timing;
+            if (pageLoadTime.loadEventEnd > 0) {
+                const loadTime = (pageLoadTime.loadEventEnd - pageLoadTime.navigationStart) / 1000;
+                const loadTimeDisplay = `${loadTime.toFixed(2)} seconds`;
+                document.getElementById('page-load-time').textContent = loadTimeDisplay;
+                logger.log('info', `Page loaded in ${loadTimeDisplay}`, 'diagnostics');
+            }
+            
+            // Update last updated time
+            document.getElementById('last-updated').textContent = 'Just now';
+            
+            // Start uptime counter and performance monitoring
+            let seconds = 0;
+            let lastCpuUsage = 0;
+            
+            const updateMetrics = () => {
+                // Update uptime
+                seconds++;
+                const hours = Math.floor(seconds / 3600);
+                const minutes = Math.floor((seconds % 3600) / 60);
+                const secs = seconds % 60;
+                const uptimeStr = `${hours}h ${minutes}m ${secs}s`;
+                document.getElementById('app-uptime').textContent = uptimeStr;
+                
+                // Log memory usage if available
+                if (window.performance && performance.memory) {
+                    const mem = performance.memory;
+                    const usedMB = (mem.usedJSHeapSize / (1024 * 1024)).toFixed(2);
+                    const totalMB = (mem.totalJSHeapSize / (1024 * 1024)).toFixed(2);
+                    const percentUsed = ((mem.usedJSHeapSize / mem.totalJSHeapSize) * 100).toFixed(1);
+                    
+                    // Only log memory usage every 30 seconds to avoid log spam
+                    if (seconds % 30 === 0) {
+                        logger.log('debug', `Memory: ${usedMB}MB / ${totalMB}MB (${percentUsed}%)`, 'diagnostics');
+                    }
+                }
+                
+                // Log connection info if available
+                if (navigator.connection) {
+                    const conn = navigator.connection;
+                    if (seconds % 30 === 0) { // Log every 30 seconds
+                        const connectionInfo = {
+                            effectiveType: conn.effectiveType,
+                            downlink: conn.downlink ? `${conn.downlink} Mbps` : 'Unknown',
+                            rtt: conn.rtt ? `${conn.rtt}ms` : 'Unknown',
+                            saveData: conn.saveData ? 'Enabled' : 'Disabled'
+                        };
+                        logger.log('debug', `Connection: ${JSON.stringify(connectionInfo)}`, 'diagnostics');
+                    }
+                }
+                
+                // Simulate some cloud events occasionally
+                if (seconds % 45 === 0) {
+                    const cloudServices = ['auth', 'storage', 'database', 'functions'];
+                    const randomService = cloudServices[Math.floor(Math.random() * cloudServices.length)];
+                    const statuses = ['connected', 'disconnected', 'error', 'timeout'];
+                    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                    
+                    if (randomStatus === 'error') {
+                        logger.log('error', `Cloud service ${randomService} reported an error`, 'cloud');
+                    } else if (randomStatus === 'timeout') {
+                        logger.log('warn', `Timeout connecting to ${randomService} service`, 'cloud');
+                    } else {
+                        logger.log('info', `Cloud service ${randomService} ${randomStatus}`, 'cloud');
+                    }
+                }
+            };
+            
+            // Initial metrics update
+            updateMetrics();
+            
+            // Set up interval for periodic updates
+            setInterval(updateMetrics, 1000);
+            
+            // Log initial app info
+            logger.log('info', 'Application information initialized', 'runtime');
+            logger.log('debug', `Build date: ${buildDate.toISOString()}`, 'runtime');
+            logger.log('info', 'Performance monitoring started', 'diagnostics');
+        }
+
+        // Diagnostic Panel Functionality
+        class DiagnosticLogger {
+            constructor() {
+                this.logs = {
+                    runtime: [],
+                    trace: [],
+                    diagnostics: [],
+                    cloud: []
+                };
+                this.initializeEventListeners();
+                this.initializeDiagnosticInfo();
+            }
+
+            log(level, message, tab = 'runtime') {
+                const timestamp = new Date().toISOString();
+                const logEntry = { level, message, timestamp };
+                this.logs[tab].push(logEntry);
+                this.updateLogDisplay(tab);
+                return logEntry;
+            }
+
+            updateLogDisplay(tab) {
+                const logContent = document.getElementById(`${tab}-log`);
+                if (!logContent) return;
+
+                logContent.innerHTML = this.logs[tab].map(entry => {
+                    return `
+                        <div class="log-entry">
+                            <span class="log-timestamp">[${new Date(entry.timestamp).toLocaleTimeString()}]</span>
+                            <span class="log-level ${entry.level}">${entry.level.toUpperCase()}</span>
+                            <span>${entry.message}</span>
+                        </div>
+                    `;
+                }).join('');
+
+                // Auto-scroll to bottom
+                if (logContent.scrollHeight > logContent.clientHeight) {
+                    logContent.scrollTop = logContent.scrollHeight;
+                }
+            }
+
+            clearLogs(tab = null) {
+                if (tab) {
+                    this.logs[tab] = [];
+                    this.updateLogDisplay(tab);
+                } else {
+                    Object.keys(this.logs).forEach(t => {
+                        this.logs[t] = [];
+                        this.updateLogDisplay(t);
+                    });
+                }
+            }
+
+            copyLogsToClipboard(tab) {
+                const logsToCopy = this.logs[tab].map(entry => 
+                    `[${new Date(entry.timestamp).toISOString()}] ${entry.level.toUpperCase()}: ${entry.message}`
+                ).join('\n');
+
+                navigator.clipboard.writeText(logsToCopy).then(() => {
+                    this.log('info', 'Logs copied to clipboard', tab);
+                }).catch(err => {
+                    this.log('error', `Failed to copy logs: ${err.message}`, tab);
+                });
+            }
+
+            initializeEventListeners() {
+                // Tab switching
+                document.querySelectorAll('.tab-button').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const tab = e.target.dataset.tab;
+                        
+                        // Update active tab
+                        document.querySelectorAll('.tab-button').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        e.target.classList.add('active');
+
+                        // Show corresponding content
+                        document.querySelectorAll('.log-content').forEach(content => {
+                            content.classList.remove('active');
+                        });
+                        document.getElementById(`${tab}-log`).classList.add('active');
+                    });
+                });
+
+                // Control buttons
+                document.getElementById('clear-logs')?.addEventListener('click', () => {
+                    const activeTab = document.querySelector('.tab-button.active')?.dataset.tab;
+                    if (activeTab) {
+                        this.clearLogs(activeTab);
+                        this.log('info', 'Logs cleared', activeTab);
+                    }
+                });
+
+                document.getElementById('copy-logs')?.addEventListener('click', () => {
+                    const activeTab = document.querySelector('.tab-button.active')?.dataset.tab;
+                    if (activeTab) {
+                        this.copyLogsToClipboard(activeTab);
+                    }
+                });
+
+                document.getElementById('refresh-logs')?.addEventListener('click', () => {
+                    const activeTab = document.querySelector('.tab-button.active')?.dataset.tab;
+                    if (activeTab) {
+                        this.updateLogDisplay(activeTab);
+                        this.log('info', 'Logs refreshed', activeTab);
+                    }
+                });
+            }
+
+            initializeDiagnosticInfo() {
+                // Initial runtime info
+                this.log('info', 'Application initialized', 'runtime');
+                this.log('debug', `User Agent: ${navigator.userAgent}`, 'runtime');
+                this.log('debug', `Platform: ${navigator.platform}`, 'runtime');
+                this.log('debug', `Logical Processors: ${navigator.hardwareConcurrency || 'Unknown'}`, 'runtime');
+                this.log('debug', `Device Memory: ${navigator.deviceMemory || 'Unknown'} GB`, 'runtime');
+                this.log('debug', `Connection: ${navigator.connection ? JSON.stringify(navigator.connection) : 'Network info not available'}`, 'runtime');
+                
+                // Initial diagnostics
+                this.log('info', 'Running system diagnostics...', 'diagnostics');
+                this.log('debug', 'Checking browser capabilities...', 'diagnostics');
+                
+                // Cloud info
+                this.log('info', 'Checking cloud connectivity...', 'cloud');
+                this.log('debug', 'Cloud services: Not connected (client-side only)', 'cloud');
+                
+                // Trace info
+                this.log('info', 'Tracing enabled', 'trace');
+                this.log('debug', 'Page loaded', 'trace');
+                
+                // Simulate some trace events
+                setTimeout(() => {
+                    this.log('debug', 'DOM fully loaded', 'trace');
+                    this.log('info', 'Initialization complete', 'runtime');
+                }, 500);
+                
+                // Monitor performance
+                if (window.performance) {
+                    const perfEntries = performance.getEntriesByType('navigation');
+                    if (perfEntries.length > 0) {
+                        const navTiming = perfEntries[0];
+                        this.log('info', `Page loaded in ${navTiming.loadEventEnd - navTiming.startTime}ms`, 'diagnostics');
+                    }
+                }
+                
+                // Monitor memory (if available)
+                if (window.performance && performance.memory) {
+                    const formatBytes = (bytes) => {
+                        if (bytes === 0) return '0 Bytes';
+                        const k = 1024;
+                        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                        const i = Math.floor(Math.log(bytes) / Math.log(k));
+                        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+                    };
+                    
+                    setInterval(() => {
+                        const memory = performance.memory;
+                        this.log('debug', `Memory usage: ${formatBytes(memory.usedJSHeapSize)} / ${formatBytes(memory.totalJSHeapSize)} (${(memory.usedJSHeapSize / memory.totalJSHeapSize * 100).toFixed(1)}%)`, 'diagnostics');
+                    }, 10000); // Update every 10 seconds
+                }
+            }
+        }
+
+        // Initialize the diagnostic logger
+        const logger = new DiagnosticLogger();
+
+        // Initialize all updates
+        document.addEventListener('DOMContentLoaded', () => {
+            // Core information updates
+            updateSystemInfo();
+            updateServerInfo();
+            updateUserSession();
+            updateBrowserCapabilities();
+            updateAppInfo();
+            
+            // Update time every second
+            setInterval(() => {
+                const now = new Date();
+                document.getElementById('local-time').textContent = now.toLocaleString();
+                document.getElementById('user-online').textContent = navigator.onLine ? 'Yes' : 'No';
+                
+                // Update last updated time every minute
+                if (now.getSeconds() === 0) {
+                    document.getElementById('last-updated').textContent = `Last updated at ${now.toLocaleTimeString()}`;
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
