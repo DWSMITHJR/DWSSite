@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs').promises;
 const session = require('express-session');
 const cors = require('cors');
+const { logAccess } = require('./utils/logger');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -38,6 +39,36 @@ app.use(cors({
     credentials: true
 }));
 
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Middleware to get client IP and log basic access
+app.use((req, res, next) => {
+    // Get client IP
+    req.clientIp = getClientIp(req);
+    
+    // Log basic access
+    logAccess(req);
+    
+    next();
+});
+
+// API endpoint to receive tracking data from client
+app.post('/api/track', express.json(), async (req, res) => {
+    try {
+        const clientInfo = req.body;
+        clientInfo.ip = req.clientIp;
+        
+        // Log the detailed client info
+        await logAccess(req, clientInfo);
+        
+        res.status(200).json({ status: 'success' });
+    } catch (error) {
+        console.error('Error processing tracking data:', error);
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+});
+
 // Function to get client IP address
 const getClientIp = (req) => {
     // Check for forwarded IPs (if behind proxy)
@@ -63,7 +94,7 @@ const parseUserAgent = (userAgent) => {
     };
 };
 
-// Parse JSON bodies (as sent by API clients)
+// Parse JSON and URL-encoded bodies (as sent by API clients)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -165,31 +196,79 @@ function generateEmailHash(email) {
     }
 }
 
+// Log email verification attempts
+async function logVerificationAttempt(email, code, isValid, ip, userAgent) {
+    try {
+        const timestamp = new Date().toISOString();
+        const logEntry = {
+            timestamp,
+            event: 'email_verification',
+            email,
+            code,
+            isValid,
+            ip,
+            userAgent
+        };
+        
+        // Log to the main access log
+        await logAccess({ 
+            originalUrl: '/api/verify', 
+            method: 'POST',
+            clientIp: ip,
+            headers: { 'user-agent': userAgent }
+        }, logEntry);
+        
+        // Also log to a dedicated verification log file
+        const LOGS_DIR = path.join(__dirname, 'logs');
+        const VERIFICATION_LOG = path.join(LOGS_DIR, 'verification.log');
+        await fs.mkdir(LOGS_DIR, { recursive: true });
+        await fs.appendFile(VERIFICATION_LOG, JSON.stringify(logEntry) + '\n', 'utf8');
+    } catch (error) {
+        console.error('Error logging verification attempt:', error);
+    }
+}
+
 // API endpoint to verify email and code
-app.post('/api/verify', (req, res) => {
-    console.log('Verification attempt from:', req.clientInfo);
-    console.log('Verification request received:', { email: req.body.email });
+app.post('/api/verify', async (req, res) => {
     const { email, code } = req.body;
+    const ip = getClientIp(req);
+    const userAgent = req.headers['user-agent'] || 'unknown';
     
     if (!email || !code) {
-        return res.status(400).json({ error: 'Email and code are required' });
+        await logVerificationAttempt(email || 'missing', code || 'missing', false, ip, userAgent);
+        return res.status(400).json({ success: false, message: 'Email and code are required' });
     }
     
-    // Generate the expected code from the email
     const expectedCode = generateEmailHash(email);
+    const isValid = code === expectedCode;
     
-    if (code === expectedCode) {
+    // Log the verification attempt
+    await logVerificationAttempt(email, code, isValid, ip, userAgent);
+    
+    if (isValid) {
         // Set session as authenticated
         req.session.authenticated = true;
-        req.session.email = email;
+        req.session.email = email.toLowerCase();
         
-        // Set session expiration
-        req.session.cookie.expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
-        req.session.save();
+        // Set a cookie that expires in 24 hours
+        res.cookie('sessionToken', 'valid', { 
+            maxAge: 24 * 60 * 60 * 1000, // 24 hours
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict'
+        });
         
-        return res.json({ success: true, message: 'Authentication successful' });
+        res.json({ 
+            success: true, 
+            message: 'Verification successful',
+            timestamp: new Date().toISOString()
+        });
     } else {
-        return res.status(401).json({ error: 'Invalid email or code' });
+res.status(401).json({ 
+            success: false, 
+            message: 'Invalid verification code',
+            timestamp: new Date().toISOString()
+        });
     }
 });
 
