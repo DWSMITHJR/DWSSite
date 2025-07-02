@@ -1,81 +1,269 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document Library - Donald W. Smith Jr.</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/documents.css">
-    </style>
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Document library for Donald W. Smith Jr.'s portfolio. Access professional documents, certifications, and resources.">
+    <meta name="author" content="Donald W. Smith Jr.">
+    <meta name="keywords" content="document library, portfolio, certifications, professional documents, resources">
+    <meta name="theme-color" content="#ffffff">
+    
+    <title>Document Library | Donald W. Smith Jr.</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="css/documents.css" as="style">
+    <link rel="preload" href="images/DLogo.jpg" as="image">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css" media="all">
+    <link rel="stylesheet" href="css/shared-forms.css" media="all">
+    <link rel="stylesheet" href="css/documents.css" media="all">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Document Library",
+        "description": "Collection of professional documents and resources",
+        "itemListOrder": "https://schema.org/ItemListOrderDescending",
+        "creator": {
+            "@type": "Person",
+            "name": "Donald W. Smith Jr."
+        }
+    }
+    </script>
 <body>
     <!-- Animated Background -->
     <div class="bg-particles" id="particles"></div>
 
+    <!-- Skip to Main Content Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <!-- Header -->
-    <header>
-        <div class="header-content">
-            <a href="index.html" class="logo">
-                <img src="images/DLogo.jpg" alt="Logo" class="logo-img">
+    <header class="site-header" role="banner">
+        <div class="header-content" itemscope itemtype="https://schema.org/Person">
+            <a href="index.html" class="logo" aria-label="Return to Home Page" title="Return to Home Page" itemprop="url">
+                <img src="images/DLogo.jpg" alt="Donald W. Smith Jr. - Professional Portfolio" class="logo-img" width="50" height="50" loading="lazy" itemprop="image">
             </a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="link.html">Request Code</a></li>
-                    <li><a href="info.html" class="active">Documents</a></li>
-                    <li><a href="about.html">About</a></li>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primary-navigation">
+                Menu
+            </button>
+            
+            <!-- Primary Navigation -->
+            <nav id="primary-navigation" class="primary-navigation" aria-label="Primary">
+                <ul class="nav-links" role="menubar">
+                    <li role="none">
+                        <a href="index.html" class="nav-link" title="Navigate to Home Page" aria-label="Home" role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">🏠</span>
+                            <span class="nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="link.html" class="nav-link" title="Request Access Code" aria-label="Request Access Code" role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">🔑</span>
+                            <span class="nav-text">Request Code</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="info.html" class="nav-link active" aria-current="page" title="Current Page: Documents" role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">📂</span>
+                            <span class="nav-text">Documents</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="about.html" class="nav-link" title="About This Site" aria-label="About" role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">ℹ️</span>
+                            <span class="nav-text">About</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main>
+    <main id="main-content" role="main" tabindex="-1" itemscope itemtype="https://schema.org/CollectionPage">
         <!-- Login Form Section -->
-        <section id="login-section" class="section">
-            <h1 class="section-title fade-in">Document Library</h1>
-            <div class="login-container fade-in">
-                <h2>Please sign in to access documents</h2>
-                <form id="loginForm" class="login-form">
-                    <div class="form-group">
-                        <label for="loginEmail">Email Address</label>
-                        <input type="email" id="loginEmail" name="email" required 
-                               placeholder="Enter your email address" class="form-input">
-                        <div class="error-message" id="emailError"></div>
+        <section id="login-section" class="access-code-section" aria-labelledby="login-heading" itemscope itemtype="https://schema.org/WebPageElement">
+            <div class="container">
+                <div class="access-code-container">
+                    <div class="section-header" role="region" aria-labelledby="login-heading login-subtitle">
+                        <div class="icon-container" aria-hidden="true">
+                            <span class="icon-lock">🔒</span>
+                        </div>
+                        <h1 id="login-heading" class="section-title fade-in" itemprop="headline">Document Library</h1>
+                        <p id="login-subtitle" class="section-subtitle fade-in">Secure access to professional documents</p>
                     </div>
-                    <div class="form-group">
-                        <label for="accessCode">Access Code</label>
-                        <input type="text" id="accessCode" name="accessCode" required 
-                               placeholder="Enter your 6-digit code" class="form-input" maxlength="6" pattern="\d{6}">
-                        <div class="error-message" id="codeError"></div>
+                    
+                    <div class="form-container fade-in" role="region" aria-labelledby="login-form-heading">
+                        <div class="form-card" itemscope itemtype="https://schema.org/Form">
+                            <h2 id="login-form-heading" class="visually-hidden">Document Access Form</h2>
+                            
+                            <form id="loginForm" class="login-form" novalidate>
+                                <div class="form-group" role="group" aria-labelledby="email-label">
+                                    <div class="form-field">
+                                        <label for="loginEmail" id="email-label" class="form-label">
+                                            <span class="label-text">Email Address</span>
+                                            <span class="required-indicator" aria-hidden="true">*</span>
+                                            <span class="visually-hidden">required</span>
+                                        </label>
+
+                                        <div class="input-wrapper">
+                                            <input type="email" 
+                                                   id="loginEmail" 
+                                                   name="email" 
+                                                   required 
+                                                   autocomplete="email"
+                                                   aria-required="true"
+                                                   inputmode="email"
+                                                   placeholder="your.email@example.com" 
+                                                   class="form-input"
+                                                   aria-describedby="emailHelp emailError">
+                                        </div>
+                                        <div id="emailHelp" class="form-hint">Enter the email address associated with your access</div>
+                                        <div id="emailError" class="error-message" role="alert" aria-live="polite"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" role="group" aria-labelledby="code-label">
+                                    <div class="form-field">
+                                        <label for="accessCode" id="code-label" class="form-label">
+                                            <span class="label-text">Access Code</span>
+                                            <span class="required-indicator" aria-hidden="true">*</span>
+                                            <span class="visually-hidden">required</span>
+                                        </label>
+
+                                        <div class="input-wrapper">
+                                            <input type="text" 
+                                                   id="accessCode" 
+                                                   name="accessCode" 
+                                                   required 
+                                                   inputmode="numeric"
+                                                   pattern="\d{6}"
+                                                   aria-required="true"
+                                                   maxlength="6" 
+                                                   placeholder="123456" 
+                                                   class="form-input"
+                                                   aria-describedby="codeHelp codeError">
+                                        </div>
+                                        <div id="codeHelp" class="form-hint">Enter the 6-digit code you received</div>
+                                        <div id="codeError" class="error-message" role="alert" aria-live="polite"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="submit" 
+                                            class="btn btn-primary btn-block"
+                                            aria-label="Sign in to access documents">
+                                        <span class="btn-icon" aria-hidden="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M5 12h14"></path>
+                                                <path d="M12 5l7 7-7 7"></path>
+                                            </svg>
+                                        </span>
+                                        <span class="btn-text">Sign In</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="form-footer">
+                                    <p>Don't have an access code? <a href="link.html" class="text-link">Request one here</a>.</p>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Sign In</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </section>
 
         <!-- Document List Section (initially hidden) -->
-        <section id="documents-section" class="section" style="display: none;">
+        <section id="documents-section" class="section documents-section" aria-labelledby="documents-heading" hidden>
             <div class="documents-header">
-                <h1 class="section-title">Document Library</h1>
-                <button id="signOutBtn" class="btn btn-secondary">Sign Out</button>
+                <div class="documents-title">
+                    <h1 id="documents-heading" class="section-title">Document Library</h1>
+                    <p class="documents-count" id="documentsCount" aria-live="polite"></p>
+                </div>
+                <div class="documents-actions">
+                    <button id="signOutBtn" class="btn btn-secondary" aria-label="Sign out">
+                        <span class="btn-icon" aria-hidden="true">←</span>
+                        <span class="btn-text">Sign Out</span>
+                    </button>
+                </div>
             </div>
-            <div class="documents-container">
-                <table id="documentsTable" class="documents-table">
-                    <thead>
-                        <tr>
-                            <th>File Name</th>
-                            <th>Size</th>
-                            <th>Last Modified</th>
-                        </tr>
-                    </thead>
-                    <tbody id="documentsList">
-                        <!-- Documents will be inserted here by JavaScript -->
-                    </tbody>
-                </table>
-                <div id="emptyState" class="empty-state">
-                    No documents found in the files directory.
+            
+            <div class="documents-container" role="region" aria-labelledby="documents-heading" tabindex="0">
+                <div class="table-responsive">
+                    <table id="documentsTable" class="documents-table" aria-describedby="documents-instructions">
+                        <caption id="documents-instructions" class="visually-hidden">
+                            List of available documents with file names, sizes, and last modified dates.
+                            Use the download links to access individual documents.
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col" id="col-filename" class="sortable" data-sort="name" tabindex="0" aria-sort="none">
+                                    <span class="th-content">
+                                        <span class="th-text">File Name</span>
+                                        <span class="sort-indicator" aria-hidden="true"></span>
+                                    </span>
+                                </th>
+                                <th scope="col" id="col-size" class="sortable" data-sort="size" tabindex="0" aria-sort="none">
+                                    <span class="th-content">
+                                        <span class="th-text">Size</span>
+                                        <span class="sort-indicator" aria-hidden="true"></span>
+                                    </span>
+                                </th>
+                                <th scope="col" id="col-modified" class="sortable" data-sort="modified" tabindex="0" aria-sort="none">
+                                    <span class="th-content">
+                                        <span class="th-text">Last Modified</span>
+                                        <span class="sort-indicator" aria-hidden="true"></span>
+                                    </span>
+                                </th>
+                                <th scope="col" id="col-actions" class="actions-col">
+                                    <span class="visually-hidden">Actions</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="documentsList" aria-live="polite">
+                            <!-- Documents will be inserted here by JavaScript -->
+                            <tr class="no-documents">
+                                <td colspan="4" class="empty-message">
+                                    <span class="loading-indicator" aria-hidden="true"></span>
+                                    <span>Loading documents...</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div id="emptyState" class="empty-state" role="alert" aria-live="polite" hidden>
+                        <div class="empty-state-content">
+                            <span class="empty-state-icon" aria-hidden="true">📁</span>
+                            <h3>No Documents Found</h3>
+                            <p>There are currently no documents available in the files directory.</p>
+                            <button id="refreshDocuments" class="btn btn-secondary" aria-label="Refresh document list">
+                                <span class="btn-icon" aria-hidden="true">⟳</span>
+                                <span class="btn-text">Refresh</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="documents-footer" role="contentinfo">
+                    <p class="documents-info">
+                        <span id="documentsCountText">0 documents</span>
+                        <span class="separator" aria-hidden="true">•</span>
+                        <span id="storageInfo">0 MB used</span>
+                    </p>
                 </div>
             </div>
         </section>
@@ -83,6 +271,8 @@
 
 
 
+    <!-- Scripts -->
+    <script src="js/main.js" defer></script>
     <script>
         // Check authentication status on page load
         document.addEventListener('DOMContentLoaded', function() {
@@ -98,12 +288,23 @@
                 signOutBtn.addEventListener('click', handleSignOut);
             }
             
+            // Initialize refresh button
+            const refreshBtn = document.getElementById('refreshDocuments');
+            if (refreshBtn) {
+                refreshBtn.addEventListener('click', function() {
+                    // Refresh the document list
+                    if (typeof loadDocuments === 'function') {
+                        loadDocuments();
+                    }
+                });
+            }
+            
             // Initialize particles if the function exists
             if (typeof createParticles === 'function') {
                 createParticles();
             }
             
-            // Add scroll animation
+            // Add scroll animation with intersection observer
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -161,10 +362,10 @@
                     e.target.value = e.target.value.slice(0, 6);
                 }
                 
-                if (e.target.validity.valid) {
+                // Clear error when typing
+                if (codeError.textContent) {
                     codeError.textContent = '';
-                } else {
-                    showCodeError(codeInput, codeError);
+                    codeInput.classList.remove('invalid');
                 }
             });
             
@@ -178,19 +379,27 @@
                 // Validate inputs
                 let isValid = true;
                 
+                // Reset error states
+                emailError.textContent = '';
+                codeError.textContent = '';
+                emailInput.classList.remove('invalid');
+                codeInput.classList.remove('invalid');
+                
+                // Validate email
                 if (!email) {
                     showEmailError(emailInput, emailError, 'Email is required');
                     isValid = false;
-                } else if (!emailInput.validity.valid) {
-                    showEmailError(emailInput, emailError);
+                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    showEmailError(emailInput, emailError, 'Please enter a valid email address');
                     isValid = false;
                 }
                 
+                // Validate access code (exactly 6 digits)
                 if (!code) {
                     showCodeError(codeInput, codeError, 'Access code is required');
                     isValid = false;
-                } else if (code.length !== 6) {
-                    showCodeError(codeInput, codeError, 'Code must be 6 digits');
+                } else if (!/^\d{6}$/.test(code)) {
+                    showCodeError(codeInput, codeError, 'Code must be exactly 6 digits');
                     isValid = false;
                 }
                 
@@ -251,14 +460,17 @@
         // Show code validation error
         function showCodeError(input, errorElement, message = '') {
             if (!message) {
-                if (input.validity.valueMissing) {
+                if (!input.value.trim()) {
                     message = 'Access code is required';
-                } else if (input.validity.patternMismatch) {
-                    message = 'Code must be 6 digits';
+                } else if (!/^\d{6}$/.test(input.value)) {
+                    message = 'Code must be exactly 6 digits';
+                } else {
+                    message = 'Invalid access code format';
                 }
             }
             errorElement.textContent = message;
             input.classList.add('invalid');
+            input.focus();
         }
         
         // Show login error
@@ -303,14 +515,31 @@
         
         // Show login section and hide documents
         function showLoginSection() {
-            document.getElementById('login-section').style.display = 'block';
-            document.getElementById('documents-section').style.display = 'none';
+            const loginSection = document.getElementById('login-section');
+            const documentsSection = document.getElementById('documents-section');
+            
+            if (loginSection) loginSection.style.display = 'block';
+            if (documentsSection) documentsSection.style.display = 'none';
+            
+            // Ensure the header is visible
+            const header = document.querySelector('header');
+            if (header) header.style.display = 'block';
         }
         
-        // Show documents section and hide login
+        // Show documents section and hide login form
         function showDocumentsSection() {
-            document.getElementById('login-section').style.display = 'none';
-            document.getElementById('documents-section').style.display = 'block';
+            const loginForm = document.querySelector('#login-section .form-container');
+            const documentsSection = document.getElementById('documents-section');
+            
+            if (loginForm) loginForm.style.display = 'none';
+            if (documentsSection) {
+                documentsSection.style.display = 'block';
+                documentsSection.hidden = false;
+            }
+            
+            // Ensure the header is visible
+            const header = document.querySelector('header');
+            if (header) header.style.display = 'block';
         }
         
         // Load and display documents
@@ -398,6 +627,68 @@
             return icons[type] || '📄';
         }
         
+        // Handle copy to clipboard functionality
+        function setupCopyButtons() {
+            document.querySelectorAll('.copy-link-btn').forEach(button => {
+                button.addEventListener('click', async function() {
+                    const url = this.getAttribute('data-url');
+                    const tooltip = this.querySelector('.tooltip');
+                    
+                    try {
+                        // Try using the modern Clipboard API first
+                        await navigator.clipboard.writeText(url);
+                        
+                        // Update UI to show success state
+                        this.classList.add('copied');
+                        this.setAttribute('aria-label', 'Link copied to clipboard');
+                        
+                        // Update tooltip text
+                        if (tooltip) {
+                            const originalText = tooltip.textContent;
+                            tooltip.textContent = 'Copied!';
+                            
+                            // Reset after 2 seconds
+                            setTimeout(() => {
+                                this.classList.remove('copied');
+                                this.setAttribute('aria-label', 'Copy download link');
+                                tooltip.textContent = originalText;
+                            }, 2000);
+                        }
+                        
+                    } catch (err) {
+                        console.error('Failed to copy link: ', err);
+                        
+                        // Fallback for older browsers
+                        try {
+                            const textarea = document.createElement('textarea');
+                            textarea.value = url;
+                            textarea.style.position = 'fixed';
+                            document.body.appendChild(textarea);
+                            textarea.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(textarea);
+                            
+                            // Show success message for fallback
+                            const fallbackAnnouncement = document.createElement('div');
+                            fallbackAnnouncement.className = 'visually-hidden';
+                            fallbackAnnouncement.setAttribute('role', 'alert');
+                            fallbackAnnouncement.setAttribute('aria-live', 'assertive');
+                            fallbackAnnouncement.textContent = 'Link copied to clipboard';
+                            document.body.appendChild(fallbackAnnouncement);
+                            
+                            setTimeout(() => {
+                                document.body.removeChild(fallbackAnnouncement);
+                            }, 3000);
+                            
+                        } catch (fallbackErr) {
+                            console.error('Fallback copy failed: ', fallbackErr);
+                            alert('Failed to copy link. Please try again or copy it manually.');
+                        }
+                    }
+                });
+            });
+        }
+        
         // Display documents in the table
         function displayDocuments(documents) {
             const container = document.getElementById('documentsList');
@@ -412,6 +703,7 @@
                 const row = document.createElement('tr');
                 const fileExt = doc.name.split('.').pop().toLowerCase();
                 const fileIcon = getFileIcon(fileExt);
+                const fullUrl = new URL(doc.path, window.location.origin).href;
                 
                 row.innerHTML = `
                     <td>
@@ -422,9 +714,26 @@
                     </td>
                     <td>${formatFileSize(doc.size)}</td>
                     <td>${formatDate(doc.lastModified)}</td>
+                    <td class="actions">
+                        <button class="copy-link-btn" 
+                                title="Copy download link" 
+                                data-url="${fullUrl}"
+                                aria-label="Copy download link for ${doc.name}">
+                            <span class="copy-icon" aria-hidden="true">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </span>
+                            <span class="tooltip">Copy link</span>
+                        </button>
+                    </td>
                 `;
                 container.appendChild(row);
             });
+            
+            // Set up copy buttons after adding documents
+            setupCopyButtons();
         }
     </script>
 

@@ -1,40 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - System Information</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/about.css">
-    <link rel="stylesheet" href="css/legal.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="System information and technical details about Donald W. Smith Jr.'s portfolio website">
+    <meta name="author" content="Donald W. Smith Jr.">
+    <meta name="keywords" content="system information, technical details, website info, portfolio tech">
+    <meta name="theme-color" content="#ffffff">
+    
+    <title>System Information | Donald W. Smith Jr.</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="css/about.css" as="style">
+    <link rel="preload" href="images/DLogo.jpg" as="image">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css" media="all">
+    <link rel="stylesheet" href="css/about.css" media="all">
+    <link rel="stylesheet" href="css/legal.css" media="all">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
     <!-- Animated Background -->
     <div class="bg-particles" id="particles"></div>
 
+    <!-- Skip to Main Content Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <!-- Header -->
-    <header>
-        <div class="header-content">
-            <a href="index.html" class="logo">
-                <img src="images/DLogo.jpg" alt="Logo" class="logo-img">
+    <header class="site-header" role="banner">
+        <div class="header-content" itemscope itemtype="https://schema.org/Person">
+            <a href="index.html" class="logo" aria-label="Return to Home Page" title="Return to Home Page" itemprop="url">
+                <img src="images/DLogo.jpg" alt="Donald W. Smith Jr. - Professional Portfolio" class="logo-img" width="50" height="50" loading="lazy" itemprop="image">
             </a>
-            <nav>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primary-navigation">
+                Menu
+            </button>
+            
+            <!-- Primary Navigation -->
+            <nav id="primary-navigation" class="primary-navigation" aria-label="Primary">
                 <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html" class="active">About</a></li>
-                    <li><a href="privacy.html">Privacy</a></li>
-                    <li><a href="terms.html">Terms</a></li>
+                    <li role="none">
+                        <a href="index.html" 
+                           class="nav-link" 
+                           title="Navigate to Home Page" 
+                           aria-label="Home"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">🏠</span>
+                            <span class="nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="privacy.html" 
+                           class="nav-link" 
+                           title="View Privacy Policy" 
+                           aria-label="Privacy Policy"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">🔒</span>
+                            <span class="nav-text">Privacy</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="terms.html" 
+                           class="nav-link" 
+                           title="View Terms of Service" 
+                           aria-label="Terms of Service"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">📜</span>
+                            <span class="nav-text">Terms</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="about.html" 
+                           class="nav-link active" 
+                           aria-current="page" 
+                           title="Current Page: About"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">ℹ️</span>
+                            <span class="nav-text">About</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="about-container">
+    <main id="main-content" class="about-container" tabindex="-1" role="main" itemscope itemtype="https://schema.org/WebPage">
         <h1 class="page-title">System Information</h1>
-            <!-- Application Information Section -->
-            <section class="info-section">
-                <h2>Application Details</h2>
+        <!-- Application Information Section -->
+        <section class="info-section" aria-labelledby="app-details-heading">
+            <h2 id="app-details-heading">Application Details</h2>
                 <div class="info-grid">
                     <div class="info-card">
                         <h3>Version Information</h3>
@@ -188,19 +255,6 @@
             </div>
         </section>
     </main>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="footer-content">
-            <p>&copy; <span id="current-year"></span> Donald W. Smith Jr. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="privacy.html">Privacy Policy</a>
-                <span>•</span>
-                <a href="terms.html">Terms of Service</a>
-            </div>
-        </div>
-    </footer>
-
     <script>
         // Update current year
         document.getElementById('current-year').textContent = new Date().getFullYear();
@@ -628,5 +682,81 @@
             }, 1000);
         });
     </script>
+
+    <!-- Footer -->
+    <footer role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
+        <div class="footer-content">
+            <h2 class="visually-hidden">Contact & Legal Information</h2>
+            
+            <!-- Contact Section -->
+            <section class="footer-section" aria-labelledby="contact-heading">
+                <h3 id="contact-heading" class="footer-heading">
+                    <span class="emoji" aria-hidden="true">🚀</span>
+                    <span>Contact Options</span>
+                </h3>
+                <div class="footer-social" role="navigation" aria-label="Contact methods">
+                    <a href="https://linkedin.com/in/donaldwsmithjr" 
+                       class="project-card fade-in"
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Connect on LinkedIn">
+                        <span class="social-icon" aria-hidden="true">🔗</span>
+                        <span class="social-text">LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/DWSMITHJR" 
+                       class="project-card fade-in" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="View GitHub profile">
+                        <span class="social-icon" aria-hidden="true">🐙</span>
+                        <span class="social-text">GitHub</span>
+                    </a> 
+                    <a href="mailto:architect@donaldwsmithjr.com"
+                       class="project-card fade-in" 
+                       aria-label="Send email to Donald W. Smith Jr.">
+                        <span class="social-icon" aria-hidden="true">📧</span>
+                        <span class="social-text">Email</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Legal & Copyright -->
+            <div class="footer-legal" role="contentinfo">
+                <p class="copyright">
+                    &copy; <span itemprop="copyrightYear">2025</span> 
+                    <span itemprop="copyrightHolder" itemscope itemtype="https://schema.org/Person">
+                        <span itemprop="name">Donald W. Smith Jr.</span>
+                    </span>
+                    <span class="footer-separator" aria-hidden="true">|</span>
+                    <a href="privacy.html" class="footer-link">Privacy Policy</a>
+                    <span class="footer-separator" aria-hidden="true">|</span>
+                    <a href="terms.html" class="footer-link">Terms of Service</a>
+                </p>
+                <p class="tagline">
+                    Built with <span class="heart" aria-label="love">❤️</span> for innovation 
+                    <span class="footer-separator" aria-hidden="true">|</span>
+                    Solving the future, one success after another
+                </p>
+            </div>
+            
+            <!-- Structured Data for Organization -->
+            <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Donald W. Smith Jr. Portfolio",
+                "url": "https://donaldwsmithjr.com",
+                "logo": "https://donaldwsmithjr.com/images/DLogo.jpg",
+                "sameAs": [
+                    "https://linkedin.com/in/donaldwsmithjr",
+                    "https://github.com/DWSMITHJR"
+                ]
+            }
+            </script>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js" defer></script>
 </body>
 </html>

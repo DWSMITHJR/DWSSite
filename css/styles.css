@@ -543,6 +543,23 @@ footer::before {
     box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
 }
 
+/* Form Actions */
+.form-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.btn-block {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: auto;
+    min-width: 220px;
+    padding: 0.75rem 2rem;
+}
+
 .error-message {
     color: #ff6b6b;
     font-size: 0.875rem;

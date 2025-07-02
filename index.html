@@ -1,53 +1,180 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donald W. Smith Jr. - Portfolio</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Portfolio of Donald W. Smith Jr. - Professional portfolio showcasing work and projects">
+    <meta name="author" content="Donald W. Smith Jr.">
+    <meta name="keywords" content="portfolio, web development, software engineer, Donald Smith">
+    <meta name="theme-color" content="#ffffff">
+    
+    <title>Donald W. Smith Jr. | Portfolio</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="images/DLogo.jpg" as="image">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css" media="all">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
     <!-- Animated Background -->
     <div class="bg-particles" id="particles"></div>
 
+    <!-- Skip to Main Content Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <!-- Header -->
-    <header>
-        <div class="header-content">
-            <a href="#home" class="logo">
-                <img src="images/DLogo.jpg" alt="Logo" class="logo-img">
+    <header class="site-header" role="banner">
+        <div class="header-content" itemscope itemtype="https://schema.org/Person">
+            <a href="#home" class="logo" aria-label="Return to Top of Page" title="Return to Top of Page" itemprop="url">
+                <img src="images/DLogo.jpg" alt="Donald W. Smith Jr. - Professional Portfolio" class="logo-img" width="50" height="50" loading="lazy" itemprop="image">
             </a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#home" class="active">Home</a></li>
-                    <li><a href="#solutions">Solutions</a></li>
-                    <li><a href="#apps">Applications</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="link.html">Request Code</a></li>
-                    <li><a href="info.html">Documents</a></li>
-                    <li><a href="about.html">About</a></li>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primary-navigation">
+                Menu
+            </button>
+            
+            <!-- Primary Navigation -->
+            <nav id="primary-navigation" class="primary-navigation" aria-label="Primary">
+                <ul class="nav-links" role="menubar">
+                    <li role="none">
+                        <a href="#home" 
+                           class="nav-link active" 
+                           aria-current="page" 
+                           title="Current Section: Home"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">🏠</span>
+                            <span class="nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="#solutions" 
+                           class="nav-link" 
+                           title="View Solutions Section" 
+                           aria-label="Solutions"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">💡</span>
+                            <span class="nav-text">Solutions</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="#apps" 
+                           class="nav-link" 
+                           title="View Applications Section" 
+                           aria-label="Applications"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">📱</span>
+                            <span class="nav-text">Applications</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="#contact" 
+                           class="nav-link" 
+                           title="Contact Information" 
+                           aria-label="Contact"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">✉️</span>
+                            <span class="nav-text">Contact</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="link.html" 
+                           class="nav-link" 
+                           title="Request Access Code" 
+                           aria-label="Request Access Code"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">🔑</span>
+                            <span class="nav-text">Request Code</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="info.html" 
+                           class="nav-link" 
+                           title="View Documents" 
+                           aria-label="Documents"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">📄</span>
+                            <span class="nav-text">Documents</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="about.html" 
+                           class="nav-link" 
+                           title="About This Site" 
+                           aria-label="About"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">ℹ️</span>
+                            <span class="nav-text">About</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main>
+    <main id="main-content" tabindex="-1" role="main" itemscope itemtype="https://schema.org/WebPage">
         <!-- Hero Section -->
-        <section id="home" class="hero">
+        <section id="home" class="hero" role="region" aria-labelledby="hero-heading" itemscope itemtype="https://schema.org/Person">
             <div class="hero-content">
-                <h1><a href="mailto:architect@donaldwsmithjr.com" class="name-link">Donald W. Smith Jr.</a></h1>
-                <h2>Global Solutions Architect</h2>
-                <p>AI CodeGen development, mentorship including software engineering and process optimization</p>
+                <h1 id="hero-heading" itemprop="name">
+                    <a href="mailto:architect@donaldwsmithjr.com" class="name-link" itemprop="email">
+                        <span itemprop="givenName">Donald W.</span> <span itemprop="familyName">Smith Jr.</span>
+                    </a>
+                </h1>
+                <h2 itemprop="jobTitle">Global Solutions Architect</h2>
+                <p itemprop="description">
+                    <span itemprop="knowsAbout">AI CodeGen development</span>, 
+                    <span itemprop="knowsAbout">mentorship</span> including 
+                    <span itemprop="knowsAbout">software engineering</span> and 
+                    <span itemprop="knowsAbout">process optimization</span>
+                </p>
                 <p>Crafting innovative solutions with cutting-edge technology</p>
                 
-                <div class="social-links">
-                    <a href="https://linkedin.com/in/donaldwsmithjr" target="_blank" class="social-link">
-                        <span>🔗</span> LinkedIn
+                <div class="social-links" role="navigation" aria-label="Social media profiles">
+                    <a href="https://linkedin.com/in/donaldwsmithjr" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="social-link"
+                       aria-label="Connect on LinkedIn">
+                        <span class="social-icon" aria-hidden="true">🔗</span>
+                        <span class="social-text">LinkedIn</span>
                     </a>
-                    <a href="https://github.com/DWSMITHJR" target="_blank" class="social-link">
-                        <span>🐙</span> GitHub
+                    <a href="https://github.com/DWSMITHJR" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="social-link"
+                       aria-label="View GitHub profile">
+                        <span class="social-icon" aria-hidden="true">🐙</span>
+                        <span class="social-text">GitHub</span>
                     </a>
                 </div>
+                
+                <!-- Structured Data for Search Engines -->
+                <script type="application/ld+json">
+                {
+                    "@context": "https://schema.org",
+                    "@type": "Person",
+                    "name": "Donald W. Smith Jr.",
+                    "jobTitle": "Global Solutions Architect",
+                    "email": "mailto:architect@donaldwsmithjr.com",
+                    "sameAs": [
+                        "https://linkedin.com/in/donaldwsmithjr",
+                        "https://github.com/DWSMITHJR"
+                    ]
+                }
+                </script>
             </div>
         </section>
 
@@ -183,23 +310,80 @@
     </main>
 
     <!-- Footer -->
-    <footer id="contact">
+    <!-- Footer -->
+    <footer id="contact" role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
         <div class="footer-content">
-            <h3>🚀 Contact Options</h3>
-            <div class="footer-social">
-                <a href="https://linkedin.com/in/donaldwsmithjr" class="project-card fade-in"    target="_blank" title="LinkedIn">🔗 LinkedIn</a>
-                <a href="https://github.com/DWSMITHJR" class="project-card fade-in" target="_blank" title="GitHub">🐙 GitHub</a> 
-                <a href="mailto:&#97;&#114;&#99;&#104;&#105;&#116;&#101;&#99;&#116;&#64;&#100;&#111;&#110;&#97;&#108;&#100;&#119;&#115;&#109;&#105;&#116;&#104;&#106;&#114;&#46;&#99;&#111;&#109;"class="project-card fade-in" title="Email">📧 Email</a>
-            </div>
+            <h2 class="visually-hidden">Contact & Legal Information</h2>
+            
+            <!-- Contact Section -->
+            <section class="footer-section" aria-labelledby="contact-heading">
+                <h3 id="contact-heading" class="footer-heading">
+                    <span class="emoji" aria-hidden="true">🚀</span>
+                    <span>Contact Options</span>
+                </h3>
+                <div class="footer-social" role="navigation" aria-label="Contact methods">
+                    <a href="https://linkedin.com/in/donaldwsmithjr" 
+                       class="project-card fade-in"
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Connect on LinkedIn">
+                        <span class="social-icon" aria-hidden="true">🔗</span>
+                        <span class="social-text">LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/DWSMITHJR" 
+                       class="project-card fade-in" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="View GitHub profile">
+                        <span class="social-icon" aria-hidden="true">🐙</span>
+                        <span class="social-text">GitHub</span>
+                    </a> 
+                    <a href="mailto:architect@donaldwsmithjr.com"
+                       class="project-card fade-in" 
+                       aria-label="Send email to Donald W. Smith Jr.">
+                        <span class="social-icon" aria-hidden="true">📧</span>
+                        <span class="social-text">Email</span>
+                    </a>
+                </div>
+            </section>
 
-            <div class="footer-text">
-                <p>&copy; 2025 Donald W. Smith Jr. | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
-                <p>Built with passion for innovation | Solving the future, one success after another</p>
+            <!-- Legal & Copyright -->
+            <div class="footer-legal" role="contentinfo">
+                <p class="copyright">
+                    &copy; <span itemprop="copyrightYear">2025</span> 
+                    <span itemprop="copyrightHolder" itemscope itemtype="https://schema.org/Person">
+                        <span itemprop="name">Donald W. Smith Jr.</span>
+                    </span>
+                    <span class="footer-separator" aria-hidden="true">|</span>
+                    <a href="privacy.html" class="footer-link">Privacy Policy</a>
+                    <span class="footer-separator" aria-hidden="true">|</span>
+                    <a href="terms.html" class="footer-link">Terms of Service</a>
+                </p>
+                <p class="tagline">
+                    Built with <span class="heart" aria-label="love">❤️</span> for innovation 
+                    <span class="footer-separator" aria-hidden="true">|</span>
+                    Solving the future, one success after another
+                </p>
             </div>
+            
+            <!-- Structured Data for Organization -->
+            <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Donald W. Smith Jr. Portfolio",
+                "url": "https://donaldwsmithjr.com",
+                "logo": "https://donaldwsmithjr.com/images/DLogo.jpg",
+                "sameAs": [
+                    "https://linkedin.com/in/donaldwsmithjr",
+                    "https://github.com/DWSMITHJR"
+                ]
+            }
+            </script>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
-    </script>
+    <!-- JavaScript -->
+    <script src="js/main.js" defer></script>
 </body>
 </html>

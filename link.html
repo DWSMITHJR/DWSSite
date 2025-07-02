@@ -1,119 +1,537 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Code Generator - Donald W. Smith Jr.</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/code-generator.css">
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Request an access code to view documents in Donald W. Smith Jr.'s portfolio. Secure and private document access.">
+    <meta name="author" content="Donald W. Smith Jr.">
+    <meta name="keywords" content="access code, document access, secure documents, portfolio access, code generator">
+    <meta name="theme-color" content="#ffffff">
+    
+    <title>Request Access Code | Donald W. Smith Jr.</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="css/code-generator.css" as="style">
+    <link rel="preload" href="images/DLogo.jpg" as="image">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css" media="all">
+    <link rel="stylesheet" href="css/shared-forms.css" media="all">
+    <link rel="stylesheet" href="css/code-generator.css" media="all">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Request Access Code",
+        "description": "Secure form to request access to documents in Donald W. Smith Jr.'s portfolio",
+        "publisher": {
+            "@type": "Person",
+            "name": "Donald W. Smith Jr."
+        },
+        "potentialAction": {
+            "@type": "Action",
+            "name": "Request Access Code",
+            "target": "#accessCodeForm"
+        }
+    }
+    </script>
 </head>
-<body>
+<body class="code-generator-page">
+    <!-- Skip to main content link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <!-- Animated Background -->
-    <div class="bg-particles" id="particles"></div>
+    <div class="bg-particles" id="particles" role="presentation" aria-hidden="true"></div>
 
     <!-- Header -->
-    <header>
+    <header role="banner" itemscope itemtype="https://schema.org/WPHeader">
         <div class="header-content">
-            <a href="index.html" class="logo">
-                <img src="images/DLogo.jpg" alt="Logo" class="logo-img">
+            <a href="index.html" class="logo" aria-label="Return to Home Page" title="Return to Home Page" itemprop="url">
+                <img src="images/DLogo.jpg" alt="" class="logo-img" aria-hidden="true" width="50" height="50" loading="lazy">
+                <span class="visually-hidden" itemprop="name">Donald W. Smith Jr.</span>
             </a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#" class="disabled-link active" onclick="return false;" aria-disabled="true">Request Code</a></li>
-                    <li><a href="info.html">Documents</a></li>
-                    <li><a href="about.html">About</a></li>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="menu-toggle" 
+                    id="mobile-menu-toggle" 
+                    aria-expanded="false" 
+                    aria-controls="primary-navigation"
+                    aria-label="Toggle navigation menu">
+                <span class="menu-toggle-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Menu</span>
+            </button>
+            
+            <!-- Primary Navigation -->
+            <nav id="primary-navigation" aria-label="Primary navigation">
+                <ul class="nav-links" role="menubar">
+                    <li role="none">
+                        <a href="index.html" 
+                           class="nav-link" 
+                           role="menuitem"
+                           title="Navigate to Home Page">
+                            <span class="nav-icon" aria-hidden="true">🏠</span>
+                            <span class="nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="#" 
+                           class="nav-link active" 
+                           role="menuitem" 
+                           aria-current="page"
+                           title="Current Page: Request Access Code">
+                            <span class="nav-icon" aria-hidden="true">🔑</span>
+                            <span class="nav-text">Request Code</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="info.html" 
+                           class="nav-link" 
+                           role="menuitem"
+                           title="View Documents"
+                           aria-label="View Documents">
+                            <span class="nav-icon" aria-hidden="true">📂</span>
+                            <span class="nav-text">Documents</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="about.html" 
+                           class="nav-link" 
+                           role="menuitem"
+                           title="About This Site"
+                           aria-label="About">
+                            <span class="nav-icon" aria-hidden="true">ℹ️</span>
+                            <span class="nav-text">About</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main>
-        <!-- Email Hash Form Section -->
-        <section id="email-hash" class="section">
-            <center><h4 class="fade-in">This page requires a special access code</h4></center>
-            <h2 class="section-title fade-in">Access Code Generator</h2>
-            <div class="form-container fade-in">
-                <form id="emailForm" class="email-form">
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required 
-                               placeholder="Enter your email address" class="form-input">
-                        <div class="error-message" id="emailError"></div>
+    <main id="main-content" role="main" tabindex="-1" itemscope itemtype="https://schema.org/WebPageElement">
+        <!-- Access Code Generator Section -->
+        <section id="email-hash" class="access-code-section" aria-labelledby="access-code-heading" itemscope itemtype="https://schema.org/WebPageElement">
+            <div class="container">
+                <div class="access-code-container">
+                    <div class="section-header" role="region" aria-labelledby="access-code-heading access-code-subtitle">
+                        <div class="icon-container" aria-hidden="true">
+                            <span class="icon-lock">🔒</span>
+                        </div>
+                        <h2 id="access-code-heading" class="section-title fade-in" itemprop="headline">Access Code Generator</h2>
+                        <p id="access-code-subtitle" class="section-subtitle fade-in">Enter your email to receive a secure access code</p>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Generate Code</button>
-                    </div>
-                    <div class="form-group result-container" id="resultContainer" style="display: none;">
-                        <label>6-Digit Code:</label>
-                        <div class="result-wrapper">
-                            <div class="hash-result" id="hashResult"></div>
-                            <button class="copy-btn" id="copyBtn" title="Copy to clipboard">
-                                📋
-                            </button>
+                    
+                    <div class="form-container fade-in" role="region" aria-labelledby="access-form-heading">
+                        <div class="form-card" itemscope itemtype="https://schema.org/Form">
+                            <h3 id="access-form-heading" class="visually-hidden">Request Access Code Form</h3>
+                            
+                            <form id="emailForm" class="email-form" novalidate>
+                                <div class="form-group" role="group" aria-labelledby="email-label">
+                                    <div class="form-field">
+                                        <label for="email" id="email-label" class="form-label">
+                                            <span class="label-text">Email Address</span>
+                                            <span class="required-indicator" aria-hidden="true">*</span>
+                                            <span class="visually-hidden">required</span>
+                                        </label>
+
+                                        <div class="input-wrapper">
+                                            <input type="email" 
+                                                   id="email" 
+                                                   name="email" 
+                                                   required 
+                                                   aria-required="true"
+                                                   autocomplete="email"
+                                                   inputmode="email"
+                                                   placeholder="Enter your email address" 
+                                                   class="form-input"
+                                                   aria-describedby="email-hint emailError">
+                                        </div>
+                                        <div id="email-hint" class="form-hint"></div>
+                                        <div id="emailError" class="error-message" role="alert" aria-live="polite"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="submit" 
+                                            class="btn btn-primary btn-block"
+                                            aria-label="Generate access code">
+                                        <span class="btn-icon" aria-hidden="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                            </svg>
+                                        </span>
+                                        <span class="btn-text">Generate Access Code</span>
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            <!-- Result Container (initially hidden) -->
+                            <div class="result-container" 
+                                 id="resultContainer" 
+                                 role="region" 
+                                 aria-live="polite"
+                                 aria-label="Generated access code"
+                                 hidden>
+                                <div class="result-header">
+                                    <div class="result-icon" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                            <line x1="12" y1="2" x2="12" y2="22"></line>
+                                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                                        </svg>
+                                    </div>
+                                    <h4 class="result-title">Your Secure Access Code</h4>
+                                    <p class="result-subtitle">Use this 6-digit code to access the documents</p>
+                                </div>
+                                
+                                <div class="result-wrapper">
+                                    <div class="hash-result-wrapper">
+                                        <div class="hash-result" 
+                                             id="hashResult" 
+                                             role="status" 
+                                             aria-live="polite"
+                                             aria-atomic="true">
+                                            <!-- Code will be inserted here -->
+                                        </div>
+                                        <button type="button" 
+                                                class="copy-btn" 
+                                                id="copyBtn" 
+                                                aria-label="Copy code to clipboard"
+                                                title="Copy to clipboard"
+                                                data-copied="false">
+                                            <span class="btn-content">
+                                                <span class="copy-icon" aria-hidden="true">
+                                                    <svg class="copy-svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                                    </svg>
+                                                </span>
+                                                <span class="copy-text">Copy Code</span>
+                                            </span>
+                                            <span class="btn-content copied" aria-hidden="true">
+                                                <span class="copied-icon">
+                                                    <svg class="check-svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                                    </svg>
+                                                </span>
+                                                <span>Copied!</span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Removed Request New Code button as per user request -->
+                                </div>
+                            </div>
+                            
+                            <div class="form-footer" role="contentinfo">
+                                <div class="privacy-notice">
+                                    <p class="privacy-text">
+
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                            </svg>
+                                        Your email is only used to generate a unique access code and will not be stored or used for any other purpose. 
+                                        <a href="privacy.html" class="privacy-link">Learn more about our privacy policy</a>.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer id="contact">
+    <footer id="contact" class="site-footer" role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
         <div class="footer-content">
-            <div class="footer-social">
-                <a href="https://linkedin.com/in/donaldwsmithjr" target="_blank" aria-label="LinkedIn">
-                    <span>🔗</span>
-                </a>
-                <a href="https://github.com/DWSMITHJR" target="_blank" aria-label="GitHub">
-                    <span>🐙</span>
-                </a>
+            <div class="footer-legal" role="contentinfo">
+                <p class="copyright">
+                    &copy; <span itemprop="copyrightYear">2025</span> 
+                    <span itemprop="copyrightHolder" itemscope itemtype="https://schema.org/Person">
+                        <a href="mailto:architect@donaldwsmithjr.com" class="email-link">
+                            <span itemprop="name">Donald W. Smith Jr.</span>
+                        </a>
+                    </span>
+                    <span class="separator" aria-hidden="true">|</span>
+                    <a href="privacy.html" class="footer-link" title="View Privacy Policy">Privacy Policy</a>
+                    <span class="separator" aria-hidden="true">|</span>
+                    <a href="terms.html" class="footer-link" title="View Terms of Service">Terms of Service</a>
+                </p>
             </div>
-            <p class="footer-text"><a href="mailto:architect@donaldwsmithjr.com" aria-label="Email">
-    © 2025
-    <span>✉️</span>
-    Donald W. Smith Jr.
-</a> All rights reserved.</p>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <!-- Scripts -->
+    <script src="js/main.js" defer></script>
     <script>
-        // Function to copy text to clipboard
-        function copyToClipboard(text, button) {
-            navigator.clipboard.writeText(text).then(() => {
-                // Visual feedback
-                const originalText = button.textContent;
-                button.textContent = '✓';
-                button.classList.add('copied');
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.classList.remove('copied');
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy text: ', err);
-            });
-        }
-
-        // Add click event to copy button
+        // Wait for the DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
+            // Get DOM elements
+            const emailForm = document.getElementById('emailForm');
+            const emailInput = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            const resultContainer = document.getElementById('resultContainer');
+            const hashResult = document.getElementById('hashResult');
             const copyBtn = document.getElementById('copyBtn');
-            if (copyBtn) {
-                copyBtn.addEventListener('click', function() {
-                    const code = document.getElementById('hashResult').textContent.trim();
-                    if (code) {
-                        copyToClipboard(code, this);
+            const newCodeBtn = document.getElementById('newCodeBtn');
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const primaryNavigation = document.getElementById('primary-navigation');
+            
+            // Initialize mobile menu toggle
+            if (mobileMenuToggle && primaryNavigation) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    primaryNavigation.hidden = !primaryNavigation.hidden;
+                    
+                    // Update the menu icon
+                    const menuIcon = this.querySelector('.menu-toggle-icon');
+                    if (menuIcon) {
+                        menuIcon.classList.toggle('active');
+                    }
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    const isClickInside = primaryNavigation.contains(event.target) || 
+                                        mobileMenuToggle.contains(event.target);
+                    
+                    if (!isClickInside && !primaryNavigation.hidden) {
+                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                        primaryNavigation.hidden = true;
+                        const menuIcon = mobileMenuToggle.querySelector('.menu-toggle-icon');
+                        if (menuIcon) {
+                            menuIcon.classList.remove('active');
+                        }
                     }
                 });
             }
+            
+            // Form submission handler
+            if (emailForm) {
+                emailForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Reset previous errors
+                    emailError.textContent = '';
+                    emailInput.removeAttribute('aria-invalid');
+                    
+                    // Validate email
+                    const email = emailInput.value.trim();
+                    let isValid = true;
+                    
+                    if (!email) {
+                        emailError.textContent = 'Email is required';
+                        emailInput.setAttribute('aria-invalid', 'true');
+                        emailInput.focus();
+                        isValid = false;
+                    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                        emailError.textContent = 'Please enter a valid email address';
+                        emailInput.setAttribute('aria-invalid', 'true');
+                        emailInput.focus();
+                        isValid = false;
+                    }
+                    
+                    if (isValid) {
+                        // Show loading state
+                        const submitBtn = emailForm.querySelector('button[type="submit"]');
+                        const originalBtnText = submitBtn.innerHTML;
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = '<span class="btn-spinner" aria-hidden="true"></span> Generating...';
+                        
+                        // Simulate API call with timeout
+                        setTimeout(() => {
+                            // Generate a deterministic 6-digit code based on email
+                            function generateDeterministicCode(email) {
+                                // Simple hash function to convert string to number
+                                let hash = 0;
+                                for (let i = 0; i < email.length; i++) {
+                                    const char = email.charCodeAt(i);
+                                    hash = ((hash << 5) - hash) + char;
+                                    hash = hash & hash; // Convert to 32bit integer
+                                }
+                                // Ensure we get a positive 6-digit number
+                                return (Math.abs(hash) % 900000 + 100000).toString();
+                            }
+                        
+                            const code = generateDeterministicCode(email);
+                        
+                            // Update the UI with the generated code
+                            hashResult.textContent = code;
+                            resultContainer.hidden = false;
+                            
+                            // Reset form
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = originalBtnText;
+                            
+                            // Move focus to the result container for screen readers
+                            resultContainer.focus();
+                            
+                            // Announce the code to screen readers
+                            const announcement = document.createElement('div');
+                            announcement.className = 'visually-hidden';
+                            announcement.setAttribute('role', 'status');
+                            announcement.setAttribute('aria-live', 'polite');
+                            announcement.textContent = `Your access code ${code} has been generated.`;
+                            document.body.appendChild(announcement);
+                            
+                            // Remove the announcement after it's been read
+                            setTimeout(() => {
+                                document.body.removeChild(announcement);
+                            }, 5000);
+                            
+                        }, 1000); // Simulated network delay
+                    }
+                });
+            }
+            
+            // Enhanced copy to clipboard functionality with better feedback
+            if (copyBtn && hashResult) {
+                // Set initial state
+                copyBtn.setAttribute('aria-live', 'polite');
+                
+                copyBtn.addEventListener('click', async function() {
+                    const code = hashResult.textContent.trim();
+                    if (!code) return;
+                    
+                    // Prevent multiple rapid clicks
+                    if (this.getAttribute('data-copied') === 'true') return;
+                    
+                    try {
+                        // Try using the modern Clipboard API first
+                        await navigator.clipboard.writeText(code);
+                        
+                        // Update UI to show success state
+                        this.setAttribute('data-copied', 'true');
+                        this.setAttribute('aria-label', 'Code copied to clipboard');
+                        this.classList.add('copied');
+                        
+                        // Announce to screen readers
+                        const announcement = document.createElement('div');
+                        announcement.className = 'visually-hidden';
+                        announcement.setAttribute('role', 'status');
+                        announcement.setAttribute('aria-live', 'polite');
+                        announcement.textContent = 'Access code copied to clipboard';
+                        document.body.appendChild(announcement);
+                        
+                        // Reset after 2 seconds
+                        setTimeout(() => {
+                            this.setAttribute('data-copied', 'false');
+                            this.setAttribute('aria-label', 'Copy code to clipboard');
+                            this.classList.remove('copied');
+                            
+                            // Remove the announcement after it's been read
+                            if (announcement.parentNode) {
+                                document.body.removeChild(announcement);
+                            }
+                        }, 2000);
+                        
+                    } catch (err) {
+                        console.error('Failed to copy text: ', err);
+                        
+                        // Show error to user
+                        const announcement = document.createElement('div');
+                        announcement.className = 'visually-hidden';
+                        announcement.setAttribute('role', 'alert');
+                        announcement.setAttribute('aria-live', 'assertive');
+                        announcement.textContent = 'Failed to copy access code. Please try again or manually select and copy the code.';
+                        document.body.appendChild(announcement);
+                        
+                        // Remove the announcement after it's been read
+                        setTimeout(() => {
+                            document.body.removeChild(announcement);
+                        }, 3000);
+                        
+                        // Fallback for older browsers
+                        try {
+                            const textarea = document.createElement('textarea');
+                            textarea.value = code;
+                            textarea.style.position = 'fixed';  // Prevent scrolling to bottom
+                            document.body.appendChild(textarea);
+                            textarea.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(textarea);
+                            
+                            // Show success message for fallback
+                            const fallbackAnnouncement = document.createElement('div');
+                            fallbackAnnouncement.className = 'visually-hidden';
+                            fallbackAnnouncement.setAttribute('role', 'status');
+                            fallbackAnnouncement.setAttribute('aria-live', 'polite');
+                            fallbackAnnouncement.textContent = `Access code ${code} has been selected. Press Ctrl+C to copy.`;
+                            document.body.appendChild(fallbackAnnouncement);
+                            
+                            setTimeout(() => {
+                                document.body.removeChild(fallbackAnnouncement);
+                            }, 3000);
+                            
+                        } catch (fallbackErr) {
+                            console.error('Fallback copy failed: ', fallbackErr);
+                        }
+                    }
+                });
+            }
+            
+            // Initialize particles if the function exists
+            if (typeof createParticles === 'function') {
+                createParticles();
+            }
         });
+        
+        // Reset the form to its initial state
+        function resetForm() {
+            const emailForm = document.getElementById('emailForm');
+            const resultContainer = document.getElementById('resultContainer');
+            const hashResult = document.getElementById('hashResult');
+            
+            if (emailForm) {
+                emailForm.reset();
+            }
+            
+            if (resultContainer) {
+                resultContainer.hidden = true;
+            }
+            
+            if (hashResult) {
+                hashResult.textContent = '';
+            }
+            
+            // Clear any stored values
+            if (typeof sessionStorage !== 'undefined') {
+                sessionStorage.removeItem('accessCode');
+                sessionStorage.removeItem('email');
+            }
+            
+            if (typeof localStorage !== 'undefined') {
+                localStorage.removeItem('accessCode');
+                localStorage.removeItem('email');
+            }
+        }
+        
         // Initialize the email form when the DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            initEmailForm();
+            // Clear any existing codes and reset form
+            resetForm();
             
-            // Initialize particles
-            createParticles();
+            // Initialize particles if not already initialized
+            if (typeof createParticles === 'function') {
+                createParticles();
+            }
             
             // Add scroll animation
             const observer = new IntersectionObserver((entries) => {
@@ -125,6 +543,18 @@
             }, { threshold: 0.1 });
             
             document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+            
+            // Reset form when the page is shown (handles back/forward navigation)
+            window.addEventListener('pageshow', function(event) {
+                if (event.persisted) {
+                    resetForm();
+                }
+            });
+            
+            // Clear any stored data when the page is unloaded
+            window.addEventListener('unload', function() {
+                resetForm();
+            });
         });
     </script>
 
