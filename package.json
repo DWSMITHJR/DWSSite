@@ -16,5 +16,17 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DWSMITHJR/DWSSite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DWSMITHJR/DWSSite/issues"
+  },
+  "homepage": "https://github.com/DWSMITHJR/DWSSite#readme"
 }
