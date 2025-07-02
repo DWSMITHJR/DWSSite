@@ -295,12 +295,16 @@
             
             // Initialize mobile menu toggle
             if (mobileMenuToggle && primaryNavigation) {
-                mobileMenuToggle.addEventListener('click', function() {
+                // Set initial state
+                primaryNavigation.setAttribute('aria-hidden', 'true');
+                
+                mobileMenuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent event from bubbling to document
                     const isExpanded = this.getAttribute('aria-expanded') === 'true';
                     this.setAttribute('aria-expanded', !isExpanded);
-                    primaryNavigation.hidden = !primaryNavigation.hidden;
+                    primaryNavigation.setAttribute('aria-hidden', isExpanded);
                     
-                    // Update the menu icon
+                    // Toggle active class for menu icon
                     const menuIcon = this.querySelector('.menu-toggle-icon');
                     if (menuIcon) {
                         menuIcon.classList.toggle('active');
@@ -309,12 +313,11 @@
                 
                 // Close menu when clicking outside
                 document.addEventListener('click', function(event) {
-                    const isClickInside = primaryNavigation.contains(event.target) || 
-                                        mobileMenuToggle.contains(event.target);
-                    
-                    if (!isClickInside && !primaryNavigation.hidden) {
+                    if (!primaryNavigation.contains(event.target) && 
+                        !mobileMenuToggle.contains(event.target) && 
+                        mobileMenuToggle.getAttribute('aria-expanded') === 'true') {
                         mobileMenuToggle.setAttribute('aria-expanded', 'false');
-                        primaryNavigation.hidden = true;
+                        primaryNavigation.setAttribute('aria-hidden', 'true');
                         const menuIcon = mobileMenuToggle.querySelector('.menu-toggle-icon');
                         if (menuIcon) {
                             menuIcon.classList.remove('active');

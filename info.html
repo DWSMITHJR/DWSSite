@@ -58,7 +58,12 @@
             </a>
             
             <!-- Mobile Menu Toggle -->
-            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primary-navigation">
+            <button class="menu-toggle" 
+                    id="mobile-menu-toggle" 
+                    aria-expanded="false" 
+                    aria-controls="primary-navigation"
+                    aria-label="Toggle navigation menu">
+                <span class="menu-toggle-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Menu</span>
             </button>
             
@@ -723,6 +728,42 @@
             // Set up copy buttons after adding documents
             setupCopyButtons();
         }
+    </script>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const primaryNavigation = document.getElementById('primary-navigation');
+            
+            if (mobileMenuToggle && primaryNavigation) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    primaryNavigation.setAttribute('aria-hidden', isExpanded);
+                    
+                    // Toggle active class for menu icon
+                    const menuIcon = this.querySelector('.menu-toggle-icon');
+                    if (menuIcon) {
+                        menuIcon.classList.toggle('active');
+                    }
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!primaryNavigation.contains(event.target) && 
+                        !mobileMenuToggle.contains(event.target) && 
+                        mobileMenuToggle.getAttribute('aria-expanded') === 'true') {
+                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                        primaryNavigation.setAttribute('aria-hidden', 'true');
+                        const menuIcon = mobileMenuToggle.querySelector('.menu-toggle-icon');
+                        if (menuIcon) {
+                            menuIcon.classList.remove('active');
+                        }
+                    }
+                });
+            }
+        });
     </script>
 
     <!-- Footer -->
