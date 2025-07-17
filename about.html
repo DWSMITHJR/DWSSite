@@ -418,7 +418,7 @@
                 const loadTime = (pageLoadTime.loadEventEnd - pageLoadTime.navigationStart) / 1000;
                 const loadTimeDisplay = `${loadTime.toFixed(2)} seconds`;
                 document.getElementById('page-load-time').textContent = loadTimeDisplay;
-                logger.log('info', `Page loaded in ${loadTimeDisplay}`, 'diagnostics');
+                ApiService.logDiagnostic('info', `Page loaded in ${loadTimeDisplay}`, 'performance');
             }
             
             // Update last updated time
@@ -446,7 +446,11 @@
                     
                     // Only log memory usage every 30 seconds to avoid log spam
                     if (seconds % 30 === 0) {
-                        logger.log('debug', `Memory: ${usedMB}MB / ${totalMB}MB (${percentUsed}%)`, 'diagnostics');
+                        ApiService.logDiagnostic('debug', `Memory: ${usedMB}MB / ${totalMB}MB (${percentUsed}%)`, 'performance', {
+                            memoryUsedMB: parseFloat(usedMB),
+                            memoryTotalMB: parseFloat(totalMB),
+                            memoryUsagePercent: parseFloat(percentUsed)
+                        });
                     }
                 }
                 
@@ -460,7 +464,7 @@
                             rtt: conn.rtt ? `${conn.rtt}ms` : 'Unknown',
                             saveData: conn.saveData ? 'Enabled' : 'Disabled'
                         };
-                        logger.log('debug', `Connection: ${JSON.stringify(connectionInfo)}`, 'diagnostics');
+                        ApiService.logDiagnostic('debug', 'Connection information', 'network', connectionInfo);
                     }
                 }
                 
@@ -472,11 +476,14 @@
                     const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
                     
                     if (randomStatus === 'error') {
-                        logger.log('error', `Cloud service ${randomService} reported an error`, 'cloud');
+                        ApiService.logDiagnostic('error', `Cloud service ${randomService} reported an error`, 'cloud', { service: randomService });
                     } else if (randomStatus === 'timeout') {
-                        logger.log('warn', `Timeout connecting to ${randomService} service`, 'cloud');
+                        ApiService.logDiagnostic('warn', `Timeout connecting to ${randomService} service`, 'cloud', { service: randomService });
                     } else {
-                        logger.log('info', `Cloud service ${randomService} ${randomStatus}`, 'cloud');
+                        ApiService.logDiagnostic('info', `Cloud service ${randomService} ${randomStatus}`, 'cloud', { 
+                            service: randomService,
+                            status: randomStatus 
+                        });
                     }
                 }
             };
@@ -488,9 +495,9 @@
             setInterval(updateMetrics, 1000);
             
             // Log initial app info
-            logger.log('info', 'Application information initialized', 'runtime');
-            logger.log('debug', `Build date: ${buildDate.toISOString()}`, 'runtime');
-            logger.log('info', 'Performance monitoring started', 'diagnostics');
+            ApiService.logDiagnostic('info', 'Application information initialized', 'runtime');
+            ApiService.logDiagnostic('debug', `Build date: ${buildDate.toISOString()}`, 'runtime');
+            ApiService.logDiagnostic('info', 'Performance monitoring started', 'performance');
         }
 
         // Diagnostic Panel Functionality
@@ -657,9 +664,6 @@
             }
         }
 
-        // Initialize the diagnostic logger
-        const logger = new DiagnosticLogger();
-
         // Initialize all updates
         document.addEventListener('DOMContentLoaded', () => {
             // Core information updates
@@ -757,6 +761,9 @@
     </footer>
 
     <!-- JavaScript -->
+    <script src="js/config.js" defer></script>
+    <script src="js/api.js" defer></script>
+    <script src="js/tracking.js" defer></script>
     <script src="js/main.js" defer></script>
 </body>
 </html>
