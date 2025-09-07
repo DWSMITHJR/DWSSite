@@ -21,6 +21,7 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css" media="all">
+    <link rel="stylesheet" href="css/components/documents.css" media="all">
     <link rel="stylesheet" href="css/shared-forms.css" media="all">
     <link rel="stylesheet" href="css/documents.css" media="all">
     
@@ -201,59 +202,46 @@
                 </div>
             </div>
             <div class="documents-container" role="region" aria-labelledby="documents-heading" tabindex="0">
-                <div class="table-responsive">
-                    <table id="documentsTable" class="documents-table" aria-describedby="documents-instructions">
-                        <caption id="documents-instructions" class="visually-hidden">
-                            List of available documents with file names, sizes, and last modified dates.
-                            Use the download links to access individual documents.
-                        </caption>
-                        <thead>
-                            <tr>
-                                <th scope="col" id="col-filename" class="sortable" data-sort="name" tabindex="0" aria-sort="none">
-                                    <span class="th-content">
-                                        <span class="th-text">File Name</span>
-                                        <span class="sort-indicator" aria-hidden="true"></span>
-                                    </span>
-                                </th>
-                                <th scope="col" id="col-size" class="sortable" data-sort="size" tabindex="0" aria-sort="none">
-                                    <span class="th-content">
-                                        <span class="th-text">Size</span>
-                                        <span class="sort-indicator" aria-hidden="true"></span>
-                                    </span>
-                                </th>
-                                <th scope="col" id="col-modified" class="sortable" data-sort="modified" tabindex="0" aria-sort="none">
-                                    <span class="th-content">
-                                        <span class="th-text">Last Modified</span>
-                                        <span class="sort-indicator" aria-hidden="true"></span>
-                                    </span>
-                                </th>
-                                <th scope="col" id="col-actions" class="actions-col">
-                                    <span class="visually-hidden">Actions</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="documentsList" aria-live="polite">
-                            <!-- Documents will be inserted here by JavaScript -->
-                            <tr class="no-documents">
-                                <td colspan="4" class="empty-message">
-                                    <span class="loading-indicator" aria-hidden="true"></span>
-                                    <span>Loading documents...</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <div id="emptyState" class="empty-state" role="alert" aria-live="polite" hidden>
-                        <div class="empty-state-content">
-                            <span class="empty-state-icon" aria-hidden="true">📁</span>
-                            <h3>No Documents Found</h3>
-                            <p>There are currently no documents available in the files directory.</p>
-                            <button id="refreshDocuments" class="btn btn-secondary" aria-label="Refresh document list">
-                                <span class="btn-icon" aria-hidden="true">⟳</span>
-                                <span class="btn-text">Refresh</span>
-                            </button>
+                <!-- Search and Filter Bar -->
+                <div class="documents-toolbar">
+                    <div class="search-container">
+                        <input type="text" id="searchDocuments" class="search-input" placeholder="Search documents..." aria-label="Search documents">
+                        <span class="search-icon" aria-hidden="true">🔍</span>
+                    </div>
+                    <div class="filter-container">
+                        <select id="filterDocuments" class="filter-select" aria-label="Filter by document type">
+                            <option value="all">All Types</option>
+                            <option value="pdf">PDF</option>
+                            <option value="doc">Word</option>
+                            <option value="xls">Excel</option>
+                            <option value="image">Images</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Documents Grid -->
+                <div id="documentsGrid" class="documents-grid" aria-live="polite">
+                    <!-- Documents will be inserted here by JavaScript -->
+                    <div class="document-card loading">
+                        <div class="document-loading">
+                            <div class="loading-spinner"></div>
+                            <p>Loading documents...</p>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state" role="alert" aria-live="polite" hidden>
+                    <div class="empty-state-content">
+                        <span class="empty-state-icon" aria-hidden="true">📁</span>
+                        <h3>No Documents Found</h3>
+                        <p>There are currently no documents available in the files directory.</p>
+                        <button id="refreshDocuments" class="btn btn-primary" aria-label="Refresh document list">
+                            <span class="btn-icon" aria-hidden="true">⟳</span>
+                            <span class="btn-text">Refresh</span>
+                        </button>
+                    </div>
+                </div>
                 </div>
                 
 
@@ -403,76 +391,114 @@
                 renderDocuments(documents);
             }
 
-            // Render documents in the UI
+            // Render documents in the UI with modern card layout
             function renderDocuments(docs) {
-                if (!documentsList) return;
+                const documentsGrid = document.getElementById('documentsGrid');
+                if (!documentsGrid) return;
                 
-                documentsList.innerHTML = '';
+                // Clear existing content
+                documentsGrid.innerHTML = '';
                 
-                if (docs.length === 0) {
-                    documentsList.innerHTML = `
-                        <tr>
-                            <td colspan="5" class="no-documents">
-                                <div class="empty-state">
-                                    <span class="icon">📁</span>
-                                    <h3>No documents found</h3>
-                                    <p>Upload your first document to get started</p>
-                                </div>
-                            </td>
-                        </tr>`;
+                if (!docs || docs.length === 0) {
+                    document.getElementById('emptyState').hidden = false;
                     return;
                 }
                 
+                // Hide empty state if there are documents
+                document.getElementById('emptyState').hidden = true;
+                
+                // Create document cards
                 docs.forEach(doc => {
-                    const row = document.createElement('tr');
-                    row.dataset.id = doc.id;
-                    row.innerHTML = `
-                        <td class="file-icon">
-                            <span class="file-icon" data-type="${doc.fileType}">
-                                ${getFileIcon(doc.fileType)}
-                            </span>
-                        </td>
-                        <td class="file-info">
-                            <div class="file-name">${escapeHtml(doc.title)}</div>
-                            <div class="file-meta">
-                                <span class="file-type">${doc.fileType.toUpperCase()}</span>
-                                <span class="file-size">${doc.fileSize}</span>
-                                <span class="file-date" data-date="${doc.uploadDate}">
-                                    Uploaded ${formatDate(doc.uploadDate)}
-                                </span>
+                    const card = document.createElement('div');
+                    card.className = 'document-card';
+                    card.dataset.id = doc.id;
+                    card.dataset.type = doc.fileType ? doc.fileType.toLowerCase() : 'file';
+                    
+                    // Format file size if it's a number
+                    let fileSize = doc.fileSize || 'N/A';
+                    if (typeof doc.size === 'number') {
+                        fileSize = formatFileSize(doc.size);
+                    }
+                    
+                    // Format upload date
+                    const uploadDate = doc.uploadDate || new Date().toISOString();
+                    
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <div class="file-icon" data-type="${doc.fileType || 'file'}">
+                                ${getFileIcon(doc.fileType || 'file')}
                             </div>
-                        </td>
-                        <td class="file-description">${escapeHtml(doc.description)}</td>
-                        <td class="file-actions">
-                            <button class="btn-icon" title="Download" data-action="download" data-id="${doc.id}">
-                                <span class="icon">⬇️</span>
-                            </button>
-                        </td>`;
-                    documentsList.appendChild(row);
+                            <div class="file-actions">
+                                <button class="btn-icon" title="Download" data-action="download" data-id="${doc.id}" aria-label="Download ${escapeHtml(doc.title || 'file')}">
+                                    <svg class="icon" viewBox="0 0 24 24" width="20" height="20">
+                                        <path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="file-name" title="${escapeHtml(doc.title || doc.fileName || 'Untitled')}">
+                                ${escapeHtml(doc.title || doc.fileName || 'Untitled')}
+                            </h3>
+                            <p class="file-description">
+                                ${escapeHtml(doc.description || doc.path || 'No description available')}
+                            </p>
+                            <div class="file-meta">
+                                <span class="file-type">${(doc.fileType || 'FILE').toUpperCase()}</span>
+                                <span class="file-size">${fileSize}</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <span class="file-date" data-date="${uploadDate}">
+                                <svg class="icon" viewBox="0 0 24 24" width="16" height="16" style="margin-right: 4px;">
+                                    <path fill="currentColor" d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                                </svg>
+                                ${formatDate(uploadDate)}
+                            </span>
+                        </div>`;
+                    
+                    documentsGrid.appendChild(card);
                 });
                 
                 // Add event listeners to action buttons
-                documentsList.querySelectorAll('[data-action]').forEach(btn => {
+                documentsGrid.querySelectorAll('[data-action]').forEach(btn => {
                     btn.addEventListener('click', handleDocumentAction);
                 });
+                
+                // Initialize search and filter functionality
+                initializeSearchAndFilter();
             }
 
             // Handle document download
             function handleDocumentAction(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
                 const action = e.currentTarget.dataset.action;
-                const docId = e.currentTarget.dataset.id;
+                const docId = e.currentTarget.closest('.document-card')?.dataset.id || e.currentTarget.dataset.id;
+                
+                if (!docId) return;
+                
                 const doc = documents.find(d => d.id === docId);
+                if (!doc) return;
                 
-                if (!doc || action !== 'download') return;
-                
-                // Verify user is authenticated before allowing download
-                const authData = getAuthData();
-                if (!authData || !verifyDocumentAccess(authData.email, authData.code)) {
-                    showNotification('Authentication required to download documents', 'error');
-                    return;
+                if (action === 'download') {
+                    // Add visual feedback
+                    const btn = e.currentTarget;
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = `
+                        <svg class="icon" viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M10,17L5,12L6.41,10.58L10,14.17L17.59,6.58L19,8L10,17Z"/>
+                        </svg>
+                        <span class="btn-text">Downloading...</span>`;
+                    
+                    downloadDocument(doc).finally(() => {
+                        // Revert button state after a short delay
+                        setTimeout(() => {
+                            btn.innerHTML = originalHTML;
+                        }, 2000);
+                    });
                 }
-                
-                downloadDocument(doc);
             }
 
             // Download a document
@@ -530,27 +556,38 @@
 
             // Get file icon based on file type
             function getFileIcon(fileType) {
-                const icons = {
-                    'pdf': '📄',
-                    'doc': '📝',
-                    'docx': '📝',
-                    'xls': '📊',
-                    'xlsx': '📊',
-                    'ppt': '📑',
-                    'pptx': '📑',
-                    'jpg': '🖼️',
-                    'jpeg': '🖼️',
-                    'png': '🖼️',
-                    'gif': '🖼️',
-                    'txt': '📄',
-                    'zip': '🗜️',
-                    'rar': '🗜️',
-                    'mp3': '🎵',
-                    'mp4': '🎬',
-                    'mov': '🎬'
-                };
+                const type = fileType.toLowerCase();
+                // Return SVG icons for better quality and theming
+                if (type.includes('pdf')) return `
+                    <svg class="file-icon-svg" viewBox="0 0 24 24">
+                        <path fill="#e74c3c" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M13,9V3.5L18.5,9H13Z"/>
+                    </svg>`;
+                if (type.includes('word') || type.includes('doc')) return `
+                    <svg class="file-icon-svg" viewBox="0 0 24 24">
+                        <path fill="#2b579a" d="M6,2H14L20,8V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V4A2,2 0 0,1 6,2M13,3.5V9H18.5L13,3.5M17,11H13V13H15V19H13V21H17V19H15V13H17V11Z"/>
+                    </svg>`;
+                if (type.includes('excel') || type.includes('xls')) return `
+                    <svg class="file-icon-svg" viewBox="0 0 24 24">
+                        <path fill="#217346" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.8,20H14L12,16.6L10,20H8.2L11.1,15.5L8.2,11H10L12,14.4L14,11H15.8L12.9,15.5L15.8,20M13,9V3.5L18.5,9H13Z"/>
+                    </svg>`;
+                if (type.includes('powerpoint') || type.includes('ppt')) return `
+                    <svg class="file-icon-svg" viewBox="0 0 24 24">
+                        <path fill="#d24726" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.2,20H13.8V12.2H15.2V20M13,11H10V9.5H13V11M13.8,9H10V7.2H13.8V9M18,20H16.2V16.5H18V20M18,15.2H16.2V13.4H18V15.2M13,9V3.5L18.5,9H13Z"/>
+                    </svg>`;
+                if (type.match(/(jpg|jpeg|png|gif|bmp|tiff|webp|svg)$/i)) return `
+                    <svg class="file-icon-svg" viewBox="0 0 24 24">
+                        <path fill="#9c27b0" d="M8.5,13.5L11,16.5L14.5,12L19,18H5M21,19V5C21,3.89 20.1,3 19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19Z"/>
+                    </svg>`;
+                if (type.match(/(zip|rar|7z|tar|gz|bz2|xz)$/i)) return `
+                    <svg class="file-icon-svg" viewBox="0 0 24 24">
+                        <path fill="#f39c12" d="M14,13H19V15H14V13M14,9H19V11H14V9M14,17H19V19H14V17M11,13V15H6V13H11M11,9V11H6V9H11M11,17V19H6V17H11M12,3C16.42,3 20,4.79 20,7V17C20,19.21 16.42,21 12,21C7.58,21 4,19.21 4,17V7C4,4.79 7.58,3 12,3M12,5C8.13,5 6,6.5 6,7C6,7.5 8.13,9 12,9C15.87,9 18,7.5 18,7C18,6.5 15.87,5 12,5Z"/>
+                    </svg>`;
                 
-                return icons[fileType.toLowerCase()] || '📄';
+                // Default file icon
+                return `
+                    <svg class="file-icon-svg" viewBox="0 0 24 24">
+                        <path fill="#7f8c8d" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M18,15.2H16.2V13.4H18V15.2M13,9V3.5L18.5,9H13Z"/>
+                    </svg>`;
             }
 
             // Format date for display
@@ -705,27 +742,77 @@
             // Format file size
             function formatFileSize(bytes) {
                 if (bytes === 0) return '0 Bytes';
+                if (typeof bytes !== 'number') return bytes || 'N/A';
                 const k = 1024;
                 const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                const i = Math.min(Math.floor(Math.log(bytes) / Math.log(k)), sizes.length - 1);
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
             }
 
-            // Search documents
-            function searchDocuments(query) {
-                if (!query.trim()) {
-                    renderDocuments(documents);
-                    return;
+            // Initialize search and filter functionality
+            function initializeSearchAndFilter() {
+                const searchInput = document.getElementById('searchDocuments');
+                const filterSelect = document.getElementById('filterDocuments');
+                
+                if (searchInput) {
+                    let searchTimeout;
+                    searchInput.addEventListener('input', (e) => {
+                        clearTimeout(searchTimeout);
+                        searchTimeout = setTimeout(() => {
+                            searchAndFilter(searchInput.value, filterSelect?.value || 'all');
+                        }, 300);
+                    });
                 }
                 
-                const searchTerm = query.toLowerCase();
-                const filtered = documents.filter(doc => 
-                    doc.title.toLowerCase().includes(searchTerm) || 
-                    doc.description.toLowerCase().includes(searchTerm) ||
-                    doc.fileType.toLowerCase().includes(searchTerm)
-                );
+                if (filterSelect) {
+                    filterSelect.addEventListener('change', (e) => {
+                        searchAndFilter(
+                            document.getElementById('searchDocuments')?.value || '',
+                            e.target.value
+                        );
+                    });
+                }
+            }
+            
+            // Search and filter documents
+            function searchAndFilter(searchQuery = '', fileType = 'all') {
+                let filtered = [...documents];
                 
-                renderDocuments(filtered);
+                // Apply search filter
+                if (searchQuery && searchQuery.trim() !== '') {
+                    const searchTerm = searchQuery.toLowerCase();
+                    filtered = filtered.filter(doc => 
+                        doc.title.toLowerCase().includes(searchTerm) || 
+                        (doc.description && doc.description.toLowerCase().includes(searchTerm))
+                    );
+                }
+                
+                // Apply file type filter
+                if (fileType !== 'all') {
+                    filtered = filtered.filter(doc => {
+                        const type = doc.fileType.toLowerCase();
+                        if (fileType === 'image') {
+                            return type.match(/(jpg|jpeg|png|gif|bmp|tiff|webp|svg)$/i);
+                        }
+                        return type.includes(fileType);
+                    });
+                }
+                
+                // Update UI
+                const cards = document.querySelectorAll('.document-card');
+                const visibleIds = new Set(filtered.map(doc => doc.id));
+                
+                cards.forEach(card => {
+                    if (visibleIds.has(card.dataset.id)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide empty state
+                const visibleCount = filtered.length;
+                document.getElementById('emptyState').hidden = visibleCount > 0;
             }
 
             // Sort documents
