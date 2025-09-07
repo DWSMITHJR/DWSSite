@@ -1,4 +1,4 @@
-# DWSSite
+# refDWSSite
 
 This is the frontend for Donald W. Smith Jr.'s personal website, which communicates with a separate API server for all backend functionality.
 

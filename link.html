@@ -184,7 +184,7 @@
                                  role="region" 
                                  aria-live="polite"
                                  aria-label="Generated access code"
-                                 hidden>
+                                 style="display: none;">
                                 <div class="result-header">
                                     <div class="result-icon" aria-hidden="true">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -278,294 +278,150 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="js/config.js" defer></script>
-    <script src="js/api.js" defer></script>
-    <script src="js/tracking.js" defer></script>
-    <script src="js/main.js" defer></script>
+    <script src="js/utils/auth.js"></script>
     <script>
-        // Wait for the DOM to be fully loaded
+        // These functions are now available globally from auth.js
+        
         document.addEventListener('DOMContentLoaded', function() {
-            // Get DOM elements
             const emailForm = document.getElementById('emailForm');
             const emailInput = document.getElementById('email');
             const emailError = document.getElementById('emailError');
             const resultContainer = document.getElementById('resultContainer');
             const hashResult = document.getElementById('hashResult');
             const copyBtn = document.getElementById('copyBtn');
-            const newCodeBtn = document.getElementById('newCodeBtn');
-            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-            const primaryNavigation = document.getElementById('primary-navigation');
-            
-            // Initialize mobile menu toggle
-            if (mobileMenuToggle && primaryNavigation) {
-                mobileMenuToggle.addEventListener('click', function() {
-                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
-                    this.setAttribute('aria-expanded', !isExpanded);
-                    primaryNavigation.hidden = !primaryNavigation.hidden;
-                    
-                    // Update the menu icon
-                    const menuIcon = this.querySelector('.menu-toggle-icon');
-                    if (menuIcon) {
-                        menuIcon.classList.toggle('active');
-                    }
-                });
+            const resetBtn = document.getElementById('resetBtn');
+
+            // Initialize the form
+            function initForm() {
+                console.log('Initializing form...');
                 
-                // Close menu when clicking outside
-                document.addEventListener('click', function(event) {
-                    const isClickInside = primaryNavigation.contains(event.target) || 
-                                        mobileMenuToggle.contains(event.target);
-                    
-                    if (!isClickInside && !primaryNavigation.hidden) {
-                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
-                        primaryNavigation.hidden = true;
-                        const menuIcon = mobileMenuToggle.querySelector('.menu-toggle-icon');
-                        if (menuIcon) {
-                            menuIcon.classList.remove('active');
-                        }
-                    }
-                });
-            }
-            
-            // Form submission handler
-            if (emailForm) {
-                emailForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    // Reset previous errors
-                    emailError.textContent = '';
-                    emailInput.removeAttribute('aria-invalid');
-                    
-                    // Validate email
-                    const email = emailInput.value.trim();
-                    let isValid = true;
-                    
-                    if (!email) {
-                        emailError.textContent = 'Email is required';
-                        emailInput.setAttribute('aria-invalid', 'true');
-                        emailInput.focus();
-                        isValid = false;
-                    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                        emailError.textContent = 'Please enter a valid email address';
-                        emailInput.setAttribute('aria-invalid', 'true');
-                        emailInput.focus();
-                        isValid = false;
-                    }
-                    
-                    if (isValid) {
-                        // Show loading state
-                        const submitBtn = emailForm.querySelector('button[type="submit"]');
-                        const originalBtnText = submitBtn.innerHTML;
-                        submitBtn.disabled = true;
-                        submitBtn.innerHTML = '<span class="btn-spinner" aria-hidden="true"></span> Generating...';
-                        
-                        // Simulate API call with timeout
-                        setTimeout(() => {
-                            // Generate a deterministic 6-digit code based on email
-                            function generateDeterministicCode(email) {
-                                // Simple hash function to convert string to number
-                                let hash = 0;
-                                for (let i = 0; i < email.length; i++) {
-                                    const char = email.charCodeAt(i);
-                                    hash = ((hash << 5) - hash) + char;
-                                    hash = hash & hash; // Convert to 32bit integer
-                                }
-                                // Ensure we get a positive 6-digit number
-                                return (Math.abs(hash) % 900000 + 100000).toString();
-                            }
-                        
-                            const code = generateDeterministicCode(email);
-                        
-                            // Update the UI with the generated code
-                            hashResult.textContent = code;
-                            resultContainer.hidden = false;
-                            
-                            // Reset form
-                            submitBtn.disabled = false;
-                            submitBtn.innerHTML = originalBtnText;
-                            
-                            // Move focus to the result container for screen readers
-                            resultContainer.focus();
-                            
-                            // Announce the code to screen readers
-                            const announcement = document.createElement('div');
-                            announcement.className = 'visually-hidden';
-                            announcement.setAttribute('role', 'status');
-                            announcement.setAttribute('aria-live', 'polite');
-                            announcement.textContent = `Your access code ${code} has been generated.`;
-                            document.body.appendChild(announcement);
-                            
-                            // Remove the announcement after it's been read
-                            setTimeout(() => {
-                                document.body.removeChild(announcement);
-                            }, 5000);
-                            
-                        }, 1000); // Simulated network delay
-                    }
-                });
-            }
-            
-            // Enhanced copy to clipboard functionality with better feedback
-            if (copyBtn && hashResult) {
-                // Set initial state
-                copyBtn.setAttribute('aria-live', 'polite');
-                
-                copyBtn.addEventListener('click', async function() {
-                    const code = hashResult.textContent.trim();
-                    if (!code) return;
-                    
-                    // Prevent multiple rapid clicks
-                    if (this.getAttribute('data-copied') === 'true') return;
-                    
-                    try {
-                        // Try using the modern Clipboard API first
-                        await navigator.clipboard.writeText(code);
-                        
-                        // Update UI to show success state
-                        this.setAttribute('data-copied', 'true');
-                        this.setAttribute('aria-label', 'Code copied to clipboard');
-                        this.classList.add('copied');
-                        
-                        // Announce to screen readers
-                        const announcement = document.createElement('div');
-                        announcement.className = 'visually-hidden';
-                        announcement.setAttribute('role', 'status');
-                        announcement.setAttribute('aria-live', 'polite');
-                        announcement.textContent = 'Access code copied to clipboard';
-                        document.body.appendChild(announcement);
-                        
-                        // Reset after 2 seconds
-                        setTimeout(() => {
-                            this.setAttribute('data-copied', 'false');
-                            this.setAttribute('aria-label', 'Copy code to clipboard');
-                            this.classList.remove('copied');
-                            
-                            // Remove the announcement after it's been read
-                            if (announcement.parentNode) {
-                                document.body.removeChild(announcement);
-                            }
-                        }, 2000);
-                        
-                    } catch (err) {
-                        console.error('Failed to copy text: ', err);
-                        
-                        // Show error to user
-                        const announcement = document.createElement('div');
-                        announcement.className = 'visually-hidden';
-                        announcement.setAttribute('role', 'alert');
-                        announcement.setAttribute('aria-live', 'assertive');
-                        announcement.textContent = 'Failed to copy access code. Please try again or manually select and copy the code.';
-                        document.body.appendChild(announcement);
-                        
-                        // Remove the announcement after it's been read
-                        setTimeout(() => {
-                            document.body.removeChild(announcement);
-                        }, 3000);
-                        
-                        // Fallback for older browsers
-                        try {
-                            const textarea = document.createElement('textarea');
-                            textarea.value = code;
-                            textarea.style.position = 'fixed';  // Prevent scrolling to bottom
-                            document.body.appendChild(textarea);
-                            textarea.select();
-                            document.execCommand('copy');
-                            document.body.removeChild(textarea);
-                            
-                            // Show success message for fallback
-                            const fallbackAnnouncement = document.createElement('div');
-                            fallbackAnnouncement.className = 'visually-hidden';
-                            fallbackAnnouncement.setAttribute('role', 'status');
-                            fallbackAnnouncement.setAttribute('aria-live', 'polite');
-                            fallbackAnnouncement.textContent = `Access code ${code} has been selected. Press Ctrl+C to copy.`;
-                            document.body.appendChild(fallbackAnnouncement);
-                            
-                            setTimeout(() => {
-                                document.body.removeChild(fallbackAnnouncement);
-                            }, 3000);
-                            
-                        } catch (fallbackErr) {
-                            console.error('Fallback copy failed: ', fallbackErr);
-                        }
-                    }
-                });
-            }
-            
-            // Initialize particles if the function exists
-            if (typeof createParticles === 'function') {
-                createParticles();
-            }
-        });
-        
-        // Reset the form to its initial state
-        function resetForm() {
-            const emailForm = document.getElementById('emailForm');
-            const resultContainer = document.getElementById('resultContainer');
-            const hashResult = document.getElementById('hashResult');
-            
-            if (emailForm) {
-                emailForm.reset();
-            }
-            
-            if (resultContainer) {
-                resultContainer.hidden = true;
-            }
-            
-            if (hashResult) {
-                hashResult.textContent = '';
-            }
-            
-            // Clear any stored values
-            if (typeof sessionStorage !== 'undefined') {
-                sessionStorage.removeItem('accessCode');
-                sessionStorage.removeItem('email');
-            }
-            
-            if (typeof localStorage !== 'undefined') {
-                localStorage.removeItem('accessCode');
-                localStorage.removeItem('email');
-            }
-        }
-        
-        // Initialize the email form when the DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // Clear any existing codes and reset form
-            resetForm();
-            
-            // Initialize particles if not already initialized
-            if (typeof createParticles === 'function') {
-                createParticles();
-            }
-            
-            // Add scroll animation
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-            
-            // Reset form when the page is shown (handles back/forward navigation)
-            window.addEventListener('pageshow', function(event) {
-                if (event.persisted) {
-                    resetForm();
+                // Check if auth.js functions are available
+                if (typeof generateAccessCode !== 'function' || 
+                    typeof saveAuthData !== 'function' || 
+                    typeof isValidEmail !== 'function') {
+                    console.error('Required auth.js functions are not available');
+                    alert('Error: Required scripts not loaded. Please open this page through a web server.');
+                    return;
                 }
-            });
+                
+                // Clear any existing results
+                resultContainer.style.display = 'none';
+                emailForm.reset();
+                
+                // Set up form submission
+                emailForm.addEventListener('submit', handleFormSubmit);
+                
+                // Set up copy button
+                if (copyBtn) {
+                    copyBtn.addEventListener('click', copyToClipboard);
+                }
+                
+                console.log('Form initialization complete');
+            }
+
+            // Handle form submission
+            async function handleFormSubmit(e) {
+                e.preventDefault();
+                console.log('Form submitted');
+                
+                const email = emailInput.value.trim();
+                console.log('Email entered:', email);
+                
+                // Validate email
+                if (!email) {
+                    console.log('No email provided');
+                    showError(emailInput, emailError, 'Please enter your email address');
+                    return;
+                }
+                
+                if (!isValidEmail(email)) {
+                    console.log('Invalid email format');
+                    showError(emailInput, emailError, 'Please enter a valid email address');
+                    return;
+                }
+                
+                console.log('Generating access code for email:', email);
+                
+                try {
+                    // Generate and display the access code
+                    const accessCode = generateAccessCode(email);
+                    console.log('Generated access code:', accessCode);
+                    
+                    // Update the UI
+                    hashResult.textContent = accessCode;
+                    
+                    // Store the authentication data
+                    saveAuthData(email, accessCode);
+                    console.log('Auth data saved to localStorage');
+                    
+                    // Show the result
+                    resultContainer.style.display = 'flex';
+                    resultContainer.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Show success message
+                    showSuccess('Access code generated successfully!');
+                    
+                } catch (error) {
+                    console.error('Error generating access code:', error);
+                    showError(emailInput, emailError, 'An error occurred. Please try again.');
+                }
+            }
             
-            // Clear any stored data when the page is unloaded
-            window.addEventListener('unload', function() {
-                resetForm();
-            });
+            // Copy code to clipboard
+            async function copyToClipboard() {
+                if (!hashResult.textContent) return;
+                
+                try {
+                    await navigator.clipboard.writeText(hashResult.textContent);
+                    
+                    // Update button state
+                    const copyIcon = copyBtn.querySelector('.copy-icon');
+                    const copyText = copyBtn.querySelector('.copy-text');
+                    
+                    copyBtn.classList.add('copied');
+                    copyText.textContent = 'Copied!';
+                    
+                    // Revert after 2 seconds
+                    setTimeout(() => {
+                        copyBtn.classList.remove('copied');
+                        copyText.textContent = 'Copy Code';
+                    }, 2000);
+                    
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    showError(null, null, 'Failed to copy code');
+                }
+            }
+            
+            // Show error message
+            function showError(input, errorElement, message) {
+                console.log('Showing error:', message, {input, errorElement});
+                if (errorElement) {
+                    errorElement.textContent = message;
+                    errorElement.style.display = 'block';
+                    console.log('Error element updated:', errorElement);
+                }
+                if (input) {
+                    input.classList.add('error');
+                    input.focus();
+                    console.log('Input marked as error:', input);
+                }
+            }
+            
+            // Show success message
+            function showSuccess(message) {
+                console.log('Success:', message);
+                // You could add a toast notification here
+            }
+            
+            // Initialize the form when the DOM is fully loaded
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initForm);
+            } else {
+                initForm();
+            }
         });
     </script>
-
-<script defer
-  src="https://unpkg.com/verifalia-widget@1.13.0/dist/verifalia-widget.js"
-  data-verifalia-appkey="28d2c7b76549471f8ff2bdd1fe071d90"
-  integrity="sha512-lSDPMmyZ2UdFJe668Pqz6kpbWtycj+edgzRTBdbAhXCTtWY+Shz0Qhgpo4R5wzQwjTUqm5h/4DV0ALATSob5ow=="
-  crossorigin="anonymous"></script>
 
 </body>
 </html>

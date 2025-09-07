@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Test Page</title>
+    <script>
+        // This script will help us test the CORS issue
+        window.onload = function() {
+            const testButton = document.getElementById('testButton');
+            const resultDiv = document.getElementById('result');
+            
+            testButton.addEventListener('click', async () => {
+                try {
+                    const response = await fetch('js/utils/auth.js');
+                    if (response.ok) {
+                        resultDiv.textContent = 'Success! auth.js loaded successfully.';
+                        resultDiv.style.color = 'green';
+                    } else {
+                        resultDiv.textContent = `Error: ${response.status} ${response.statusText}`;
+                        resultDiv.style.color = 'red';
+                    }
+                } catch (error) {
+                    resultDiv.textContent = `Error: ${error.message}`;
+                    resultDiv.style.color = 'red';
+                }
+            });
+        };
+    </script>
+</head>
+<body>
+    <h1>CORS Test Page</h1>
+    <p>Click the button below to test loading auth.js:</p>
+    <button id="testButton">Test Loading auth.js</button>
+    <div id="result" style="margin-top: 20px; font-weight: bold;"></div>
+    
+    <h2>How to fix CORS issue:</h2>
+    <ol>
+        <li>Install Node.js from <a href="https://nodejs.org/" target="_blank">https://nodejs.org/</a> (LTS version)</li>
+        <li>Open a command prompt in your project folder</li>
+        <li>Run: <code>npx http-server -p 8080</code></li>
+        <li>Open your browser and go to: <a href="http://localhost:8080/link.html" target="_blank">http://localhost:8080/link.html</a></li>
+    </ol>
+    
+    <h3>Alternative Solution (if you have Python installed):</h3>
+    <ol>
+        <li>Open a command prompt in your project folder</li>
+        <li>Run: <code>python -m http.server 8000</code></li>
+        <li>Open your browser and go to: <a href="http://localhost:8000/link.html" target="_blank">http://localhost:8000/link.html</a></li>
+    </ol>
+</body>
+</html>

@@ -11,9 +11,8 @@
     
     <title>Document Library | Donald W. Smith Jr.</title>
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/favicon.png">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <!-- Favicon (base64 encoded to prevent 404) -->
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AkEEjIXDlQhNQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAGUlEQVQ4y2NgGAWjYAQBExMTEwPJgAEAHp4B8ZtDqo0AAAAASUVORK5CYII=">
     
     <!-- Preload Critical Resources -->
     <link rel="preload" href="css/styles.css" as="style">
@@ -58,8 +57,13 @@
             </a>
             
             <!-- Mobile Menu Toggle -->
-            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primary-navigation">
-                Menu
+            <button class="menu-toggle" 
+                    id="mobile-menu-toggle" 
+                    aria-expanded="false" 
+                    aria-controls="primary-navigation"
+                    aria-label="Toggle navigation menu">
+                <span class="menu-toggle-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Menu</span>
             </button>
             
             <!-- Primary Navigation -->
@@ -186,14 +190,9 @@
                 </div>
             </div>
         </section>
-
         <!-- Document List Section (initially hidden) -->
         <section id="documents-section" class="section documents-section" aria-labelledby="documents-heading" hidden>
             <div class="documents-header">
-                <div class="documents-title">
-                    <h1 id="documents-heading" class="section-title">Document Library</h1>
-                    <p class="documents-count" id="documentsCount" aria-live="polite"></p>
-                </div>
                 <div class="documents-actions">
                     <button id="signOutBtn" class="btn btn-secondary" aria-label="Sign out">
                         <span class="btn-icon" aria-hidden="true">←</span>
@@ -201,7 +200,6 @@
                     </button>
                 </div>
             </div>
-            
             <div class="documents-container" role="region" aria-labelledby="documents-heading" tabindex="0">
                 <div class="table-responsive">
                     <table id="documentsTable" class="documents-table" aria-describedby="documents-instructions">
@@ -258,486 +256,558 @@
                     </div>
                 </div>
                 
-                <div class="documents-footer" role="contentinfo">
-                    <p class="documents-info">
-                        <span id="documentsCountText">0 documents</span>
-                        <span class="separator" aria-hidden="true">•</span>
-                        <span id="storageInfo">0 MB used</span>
-                    </p>
-                </div>
+
             </div>
         </section>
     </main>
 
-
-
     <!-- Scripts -->
-    <script src="js/config.js" defer></script>
-    <script src="js/api.js" defer></script>
-    <script src="js/tracking.js" defer></script>
-    <script src="js/main.js" defer></script>
+    <script src="js/utils/auth.js"></script>
     <script>
-        // Check authentication status on page load
+        // Check if user is already authenticated on page load
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is already authenticated
-            checkAuthStatus();
+            // Check if auth.js functions are available
+            const requiredFunctions = [
+                'getAuthData', 'clearAuthData', 'isValidEmail', 
+                'verifyDocumentAccess', 'getUserDocuments', 
+                'initializeSampleDocuments', 'saveUserDocuments'
+            ];
             
-            // Initialize the login form
-            initLoginForm();
+            const missingFunctions = requiredFunctions.filter(fn => typeof window[fn] !== 'function');
             
-            // Initialize sign out button
+            if (missingFunctions.length > 0) {
+                console.error('Missing required functions:', missingFunctions);
+                alert('Error: Required scripts not loaded properly. Please open this page through a web server.');
+                return;
+            }
+            const loginSection = document.getElementById('login-section');
+            const documentsSection = document.getElementById('documents-section');
+            const loginForm = document.getElementById('loginForm');
+            const emailInput = document.getElementById('loginEmail');
+            const codeInput = document.getElementById('accessCode'); // Updated ID to match HTML
+            const requestCodeBtn = document.getElementById('requestCodeBtn');
+            const loginBtn = document.getElementById('loginBtn');
             const signOutBtn = document.getElementById('signOutBtn');
-            if (signOutBtn) {
-                signOutBtn.addEventListener('click', handleSignOut);
-            }
+            const documentsList = document.getElementById('documentsList');
+            const documentCount = document.getElementById('documentCount');
+            const lastUpdated = document.getElementById('lastUpdated');
+            const uploadForm = document.getElementById('uploadForm');
+            const fileInput = document.getElementById('fileInput');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const searchInput = document.getElementById('searchDocuments');
+            const sortSelect = document.getElementById('sortDocuments');
+            const filterSelect = document.getElementById('filterDocuments');
             
-            // Initialize refresh button
-            const refreshBtn = document.getElementById('refreshDocuments');
-            if (refreshBtn) {
-                refreshBtn.addEventListener('click', function() {
-                    // Refresh the document list
-                    if (typeof loadDocuments === 'function') {
-                        loadDocuments();
-                    }
-                });
-            }
-            
-            // Initialize particles if the function exists
-            if (typeof createParticles === 'function') {
-                createParticles();
-            }
-            
-            // Add scroll animation with intersection observer
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-        });
-        
-        // Check if user is already authenticated
-        async function checkAuthStatus() {
-            try {
-                const response = await fetch('/api/documents', { method: 'HEAD' });
-                if (response.ok) {
-                    // User is authenticated, show documents
-                    showDocumentsSection();
+            let currentUser = null;
+            let documents = [];
+
+            // Check authentication status on page load
+            function checkAuth() {
+                const authData = getAuthData();
+                if (authData) {
+                    currentUser = authData.email;
                     loadDocuments();
+                    showDocumentsSection();
                 } else {
-                    // Not authenticated, show login form
                     showLoginSection();
                 }
-            } catch (error) {
-                console.error('Error checking auth status:', error);
-                showLoginSection();
             }
-        }
-        
-        // Initialize login form
-        function initLoginForm() {
-            const form = document.getElementById('loginForm');
-            const emailInput = document.getElementById('loginEmail');
-            const codeInput = document.getElementById('accessCode');
-            const emailError = document.getElementById('emailError');
-            const codeError = document.getElementById('codeError');
-            
-            if (!form) return;
-            
-            // Validate email on input
-            emailInput.addEventListener('input', () => {
-                if (emailInput.validity.valid) {
-                    emailError.textContent = '';
-                } else {
-                    showEmailError(emailInput, emailError);
-                }
-            });
-            
-            // Format access code input (only numbers, max 6 digits)
-            codeInput.addEventListener('input', (e) => {
-                // Only allow numbers
-                e.target.value = e.target.value.replace(/[^0-9]/g, '');
-                // Limit to 6 digits
-                if (e.target.value.length > 6) {
-                    e.target.value = e.target.value.slice(0, 6);
+
+            // Show login section
+            function showLoginSection() {
+                if (loginSection) loginSection.hidden = false;
+                if (documentsSection) documentsSection.hidden = true;
+                if (loginForm) loginForm.reset();
+            }
+
+            // Show documents section
+            function showDocumentsSection() {
+                if (loginSection) loginSection.hidden = true;
+                if (documentsSection) documentsSection.hidden = false;
+                updateDocumentCount();
+                updateLastUpdated();
+            }
+
+            // Load documents from files directory
+            function loadDocuments() {
+                if (!currentUser) return;
+                
+                // List of files in the files directory
+                const files = [
+                    { 
+                        id: 'cover-letter',
+                        title: 'Donald Smith Cover Letter',
+                        fileType: 'docx',
+                        fileSize: '46 KB',
+                        uploadDate: new Date().toISOString(),
+                        description: 'Professional cover letter',
+                        path: 'files/Donald Smith Cover Letter.docx'
+                    },
+                    { 
+                        id: 'resume-ats',
+                        title: 'Donald Smith Resume (ATS)',
+                        fileType: 'docx',
+                        fileSize: '53 KB',
+                        uploadDate: new Date().toISOString(),
+                        description: 'Resume optimized for ATS systems',
+                        path: 'files/Donald Smith Resume ATS.docx'
+                    },
+                    { 
+                        id: 'resume-detail',
+                        title: 'Donald Smith Resume (Detailed)',
+                        fileType: 'docx',
+                        fileSize: '58 KB',
+                        uploadDate: new Date().toISOString(),
+                        description: 'Comprehensive resume with full work history',
+                        path: 'files/Donald Smith Resume Detail.docx'
+                    },
+                    { 
+                        id: 'resume-hr',
+                        title: 'Donald Smith Resume (HR)',
+                        fileType: 'docx',
+                        fileSize: '46 KB',
+                        uploadDate: new Date().toISOString(),
+                        description: 'Resume tailored for human resources',
+                        path: 'files/Donald Smith Resume HR.docx'
+                    },
+                    { 
+                        id: 'resume-short',
+                        title: 'Donald Smith Resume (Short)',
+                        fileType: 'docx',
+                        fileSize: '53 KB',
+                        uploadDate: new Date().toISOString(),
+                        description: 'Concise one-page resume',
+                        path: 'files/Donald Smith Resume Short.docx'
+                    },
+                    { 
+                        id: 'resume-summary',
+                        title: 'Donald Smith Resume (Summary)',
+                        fileType: 'docx',
+                        fileSize: '56 KB',
+                        uploadDate: new Date().toISOString(),
+                        description: 'Resume with professional summary',
+                        path: 'files/Donald Smith Resume Summary.docx'
+                    },
+                    { 
+                        id: 'elevator-speech',
+                        title: 'Donald Smith Elevator Speech',
+                        fileType: 'docx',
+                        fileSize: '13 KB',
+                        uploadDate: new Date().toISOString(),
+                        description: 'Professional introduction and value proposition',
+                        path: 'files/Donald Smith elevator speech.docx'
+                    }
+                ];
+                
+                documents = files;
+                renderDocuments(documents);
+            }
+
+            // Render documents in the UI
+            function renderDocuments(docs) {
+                if (!documentsList) return;
+                
+                documentsList.innerHTML = '';
+                
+                if (docs.length === 0) {
+                    documentsList.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="no-documents">
+                                <div class="empty-state">
+                                    <span class="icon">📁</span>
+                                    <h3>No documents found</h3>
+                                    <p>Upload your first document to get started</p>
+                                </div>
+                            </td>
+                        </tr>`;
+                    return;
                 }
                 
-                // Clear error when typing
-                if (codeError.textContent) {
-                    codeError.textContent = '';
-                    codeInput.classList.remove('invalid');
+                docs.forEach(doc => {
+                    const row = document.createElement('tr');
+                    row.dataset.id = doc.id;
+                    row.innerHTML = `
+                        <td class="file-icon">
+                            <span class="file-icon" data-type="${doc.fileType}">
+                                ${getFileIcon(doc.fileType)}
+                            </span>
+                        </td>
+                        <td class="file-info">
+                            <div class="file-name">${escapeHtml(doc.title)}</div>
+                            <div class="file-meta">
+                                <span class="file-type">${doc.fileType.toUpperCase()}</span>
+                                <span class="file-size">${doc.fileSize}</span>
+                                <span class="file-date" data-date="${doc.uploadDate}">
+                                    Uploaded ${formatDate(doc.uploadDate)}
+                                </span>
+                            </div>
+                        </td>
+                        <td class="file-description">${escapeHtml(doc.description)}</td>
+                        <td class="file-actions">
+                            <button class="btn-icon" title="Download" data-action="download" data-id="${doc.id}">
+                                <span class="icon">⬇️</span>
+                            </button>
+                        </td>`;
+                    documentsList.appendChild(row);
+                });
+                
+                // Add event listeners to action buttons
+                documentsList.querySelectorAll('[data-action]').forEach(btn => {
+                    btn.addEventListener('click', handleDocumentAction);
+                });
+            }
+
+            // Handle document download
+            function handleDocumentAction(e) {
+                const action = e.currentTarget.dataset.action;
+                const docId = e.currentTarget.dataset.id;
+                const doc = documents.find(d => d.id === docId);
+                
+                if (!doc || action !== 'download') return;
+                
+                // Verify user is authenticated before allowing download
+                const authData = getAuthData();
+                if (!authData || !verifyDocumentAccess(authData.email, authData.code)) {
+                    showNotification('Authentication required to download documents', 'error');
+                    return;
                 }
-            });
-            
-            // Handle form submission
-            form.addEventListener('submit', async (e) => {
+                
+                downloadDocument(doc);
+            }
+
+            // Download a document
+            function downloadDocument(doc) {
+                if (!doc || !doc.path) {
+                    showNotification('Error: Invalid document', 'error');
+                    return;
+                }
+                
+                // Create a temporary link element
+                const link = document.createElement('a');
+                link.href = doc.path;
+                link.download = doc.title + '.' + doc.fileType;
+                
+                // Append to the document
+                document.body.appendChild(link);
+                
+                // Trigger the download
+                link.click();
+                
+                // Clean up
+                document.body.removeChild(link);
+                
+                // Show success message
+                showNotification(`Downloading ${doc.title}...`, 'success');
+                
+                // Log the download
+                console.log('Downloading document:', doc.title, 'from', doc.path);
+                console.log('Downloading document:', doc);
+            }
+
+            // Verify document access for download
+            function verifyDocumentAccess(email, code) {
+                // This is a wrapper around the auth.js function for convenience
+                const auth = getAuthData();
+                if (!auth || auth.email !== email) return false;
+                
+                return code === generateAccessCode(email);
+            }
+
+            // Update document count
+            function updateDocumentCount() {
+                if (documentCount) {
+                    const count = documents.length;
+                    documentCount.textContent = `${count} ${count === 1 ? 'document' : 'documents'}`;
+                }
+            }
+
+            // Update last updated time
+            function updateLastUpdated() {
+                if (lastUpdated) {
+                    lastUpdated.textContent = `Last updated: ${formatDate(new Date().toISOString())}`;
+                }
+            }
+
+            // Get file icon based on file type
+            function getFileIcon(fileType) {
+                const icons = {
+                    'pdf': '📄',
+                    'doc': '📝',
+                    'docx': '📝',
+                    'xls': '📊',
+                    'xlsx': '📊',
+                    'ppt': '📑',
+                    'pptx': '📑',
+                    'jpg': '🖼️',
+                    'jpeg': '🖼️',
+                    'png': '🖼️',
+                    'gif': '🖼️',
+                    'txt': '📄',
+                    'zip': '🗜️',
+                    'rar': '🗜️',
+                    'mp3': '🎵',
+                    'mp4': '🎬',
+                    'mov': '🎬'
+                };
+                
+                return icons[fileType.toLowerCase()] || '📄';
+            }
+
+            // Format date for display
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString(undefined, options);
+            }
+
+            // Escape HTML to prevent XSS
+            function escapeHtml(unsafe) {
+                if (!unsafe) return '';
+                return unsafe
+                    .toString()
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+
+            // Show notification
+            function showNotification(message, type = 'info') {
+                // In a real app, you might want to implement a proper notification system
+                alert(`${type.toUpperCase()}: ${message}`);
+            }
+
+            // Handle login form submission
+            async function handleLogin(e) {
                 e.preventDefault();
                 
                 const email = emailInput.value.trim();
                 const code = codeInput.value.trim();
                 
                 // Validate inputs
-                let isValid = true;
+                if (!email || !code) {
+                    showNotification('Please fill in all fields', 'error');
+                    return;
+                }
                 
-                // Reset error states
-                emailError.textContent = '';
-                codeError.textContent = '';
-                emailInput.classList.remove('invalid');
-                codeInput.classList.remove('invalid');
+                if (!isValidEmail(email)) {
+                    showNotification('Please enter a valid email address', 'error');
+                    emailInput.focus();
+                    return;
+                }
                 
-                // Validate email
+                // Verify the code matches the generated one
+                const generatedCode = generateAccessCode(email);
+                
+                if (code === generatedCode) {
+                    // Save auth data
+                    saveAuthData(email, code);
+                    currentUser = email;
+                    
+                    // Initialize user's documents if they don't exist
+                    const userDocs = getUserDocuments(email);
+                    if (!userDocs || userDocs.length === 0) {
+                        initializeSampleDocuments(email);
+                    }
+                    
+                    showDocumentsSection();
+                    loadDocuments();
+                    showNotification('Login successful!', 'success');
+                } else {
+                    showNotification('Invalid access code', 'error');
+                    codeInput.focus();
+                }
+            }
+
+            // Handle logout
+            function handleLogout(e) {
+                if (e) e.preventDefault();
+                clearAuthData();
+                currentUser = null;
+                documents = [];
+                // Force a full page reload to clear any state
+                window.location.replace('link.html');
+            }
+
+            // Handle request access code
+            function handleRequestCode() {
+                const email = emailInput.value.trim();
+                
                 if (!email) {
-                    showEmailError(emailInput, emailError, 'Email is required');
-                    isValid = false;
-                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    showEmailError(emailInput, emailError, 'Please enter a valid email address');
-                    isValid = false;
+                    showNotification('Please enter your email address', 'error');
+                    emailInput.focus();
+                    return;
                 }
                 
-                // Validate access code (exactly 6 digits)
-                if (!code) {
-                    showCodeError(codeInput, codeError, 'Access code is required');
-                    isValid = false;
-                } else if (!/^\d{6}$/.test(code)) {
-                    showCodeError(codeInput, codeError, 'Code must be exactly 6 digits');
-                    isValid = false;
+                if (!isValidEmail(email)) {
+                    showNotification('Please enter a valid email address', 'error');
+                    emailInput.focus();
+                    return;
                 }
                 
-                if (!isValid) return;
+                // Generate and display the access code
+                const accessCode = generateAccessCode(email);
                 
-                // Show loading state
-                const submitBtn = form.querySelector('button[type="submit"]');
-                const originalBtnText = submitBtn.textContent;
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Verifying...';
+                // In a real app, you would send this code to the user's email
+                // For this example, we'll just show it in an alert
+                alert(`Your access code is: ${accessCode}\n\n(Note: In a real app, this would be sent to your email)`);
                 
-                try {
-                    // Send verification request
-                    const response = await fetch('/api/verify', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ email, code })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (response.ok) {
-                        // Verification successful, show documents
-                        showDocumentsSection();
-                        loadDocuments();
-                    } else {
-                        // Show error message
-                        showLoginError(emailInput, codeInput, data.error || 'Verification failed');
-                    }
-                } catch (error) {
-                    console.error('Verification error:', error);
-                    showLoginError(emailInput, codeInput, 'Network error. Please try again.');
-                } finally {
-                    // Reset button state
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = originalBtnText;
-                }
-            });
-        }
-        
-        // Show email validation error
-        function showEmailError(input, errorElement, message = '') {
-            if (!message) {
-                if (input.validity.valueMissing) {
-                    message = 'Email is required';
-                } else if (input.validity.typeMismatch) {
-                    message = 'Please enter a valid email address';
-                } else if (input.validity.tooShort) {
-                    message = `Email should be at least ${input.minLength} characters`;
-                }
+                // Enable the code input and login button
+                if (codeInput) codeInput.disabled = false;
+                if (loginBtn) loginBtn.disabled = false;
+                if (codeInput) codeInput.focus();
             }
-            errorElement.textContent = message;
-            input.classList.add('invalid');
-        }
-        
-        // Show code validation error
-        function showCodeError(input, errorElement, message = '') {
-            if (!message) {
-                if (!input.value.trim()) {
-                    message = 'Access code is required';
-                } else if (!/^\d{6}$/.test(input.value)) {
-                    message = 'Code must be exactly 6 digits';
-                } else {
-                    message = 'Invalid access code format';
+
+            // Handle file upload
+            function handleFileUpload(e) {
+                e.preventDefault();
+                
+                if (!currentUser) {
+                    showNotification('Please log in to upload files', 'error');
+                    return;
                 }
+                
+                const file = fileInput?.files?.[0];
+                if (!file) {
+                    showNotification('Please select a file to upload', 'error');
+                    return;
+                }
+                
+                // Create a new document object
+                const newDoc = {
+                    id: 'doc' + Date.now(),
+                    title: file.name.replace(/\.[^/.]+$/, ''), // Remove file extension
+                    description: 'Uploaded file',
+                    fileName: file.name,
+                    fileType: file.name.split('.').pop().toLowerCase(),
+                    fileSize: formatFileSize(file.size),
+                    uploadDate: new Date().toISOString(),
+                    lastModified: new Date(file.lastModified).toISOString()
+                };
+                
+                // Add to documents array
+                documents.unshift(newDoc);
+                
+                // Save to localStorage
+                saveUserDocuments(currentUser, documents);
+                
+                // Update UI
+                renderDocuments(documents);
+                updateDocumentCount();
+                updateLastUpdated();
+                
+                // Reset the form
+                if (uploadForm) uploadForm.reset();
+                
+                showNotification('File uploaded successfully', 'success');
             }
-            errorElement.textContent = message;
-            input.classList.add('invalid');
-            input.focus();
-        }
-        
-        // Show login error
-        function showLoginError(emailInput, codeInput, message) {
-            // Clear previous errors
-            document.getElementById('emailError').textContent = '';
-            document.getElementById('codeError').textContent = '';
-            
-            // Show error message in a toast or alert
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-toast';
-            errorDiv.textContent = message;
-            
-            // Style the error toast
-            errorDiv.style.position = 'fixed';
-            errorDiv.style.top = '20px';
-            errorDiv.style.left = '50%';
-            errorDiv.style.transform = 'translateX(-50%)';
-            errorDiv.style.backgroundColor = '#ff6b6b';
-            errorDiv.style.color = 'white';
-            errorDiv.style.padding = '10px 20px';
-            errorDiv.style.borderRadius = '4px';
-            errorDiv.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
-            errorDiv.style.zIndex = '1000';
-            
-            document.body.appendChild(errorDiv);
-            
-            // Remove error after 5 seconds
-            setTimeout(() => {
-                errorDiv.style.opacity = '0';
-                errorDiv.style.transition = 'opacity 0.5s';
-                setTimeout(() => errorDiv.remove(), 500);
-            }, 5000);
-            
-            // Focus on the first invalid input
-            if (emailInput.validity.valid) {
-                codeInput.focus();
-            } else {
-                emailInput.focus();
+
+            // Format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
             }
-        }
-        
-        // Show login section and hide documents
-        function showLoginSection() {
-            const loginSection = document.getElementById('login-section');
-            const documentsSection = document.getElementById('documents-section');
-            
-            if (loginSection) loginSection.style.display = 'block';
-            if (documentsSection) documentsSection.style.display = 'none';
-            
-            // Ensure the header is visible
-            const header = document.querySelector('header');
-            if (header) header.style.display = 'block';
-        }
-        
-        // Show documents section and hide login form
-        function showDocumentsSection() {
-            const loginForm = document.querySelector('#login-section .form-container');
-            const documentsSection = document.getElementById('documents-section');
-            
-            if (loginForm) loginForm.style.display = 'none';
-            if (documentsSection) {
-                documentsSection.style.display = 'block';
-                documentsSection.hidden = false;
+
+            // Search documents
+            function searchDocuments(query) {
+                if (!query.trim()) {
+                    renderDocuments(documents);
+                    return;
+                }
+                
+                const searchTerm = query.toLowerCase();
+                const filtered = documents.filter(doc => 
+                    doc.title.toLowerCase().includes(searchTerm) || 
+                    doc.description.toLowerCase().includes(searchTerm) ||
+                    doc.fileType.toLowerCase().includes(searchTerm)
+                );
+                
+                renderDocuments(filtered);
+            }
+
+            // Sort documents
+            function sortDocuments(criteria) {
+                const sorted = [...documents];
+                
+                switch (criteria) {
+                    case 'name-asc':
+                        sorted.sort((a, b) => a.title.localeCompare(b.title));
+                        break;
+                    case 'name-desc':
+                        sorted.sort((a, b) => b.title.localeCompare(a.title));
+                        break;
+                    case 'date-asc':
+                        sorted.sort((a, b) => new Date(a.uploadDate) - new Date(b.uploadDate));
+                        break;
+                    case 'date-desc':
+                        sorted.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
+                        break;
+                    case 'size-asc':
+                        sorted.sort((a, b) => parseFloat(a.fileSize) - parseFloat(b.fileSize));
+                        break;
+                    case 'size-desc':
+                        sorted.sort((a, b) => parseFloat(b.fileSize) - parseFloat(a.fileSize));
+                        break;
+                }
+                
+                renderDocuments(sorted);
+            }
+
+            // Filter documents by type
+            function filterDocuments(type) {
+                if (!type) {
+                    renderDocuments(documents);
+                    return;
+                }
+                
+                const filtered = documents.filter(doc => 
+                    doc.fileType.toLowerCase() === type.toLowerCase()
+                );
+                
+                renderDocuments(filtered);
+            }
+
+            // Event listeners
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
             }
             
-            // Ensure the header is visible
-            const header = document.querySelector('header');
-            if (header) header.style.display = 'block';
-        }
-        
-        // Load and display documents
-        async function loadDocuments() {
-            const container = document.getElementById('documentsList');
-            const emptyState = document.getElementById('emptyState');
-            
-            // Show loading state
-            container.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 20px;">Loading documents...</td></tr>';
-            emptyState.style.display = 'none';
-            
-            try {
-                const response = await fetch('/api/documents');
-                
-                if (!response.ok) {
-                    if (response.status === 401) {
-                        // Session expired, show login form
-                        showLoginSection();
-                        return;
-                    }
-                    throw new Error('Failed to load documents');
-                }
-                
-                const documents = await response.json();
-                
-                if (documents.length === 0) {
-                    emptyState.style.display = 'block';
-                    container.innerHTML = '';
-                } else {
-                    displayDocuments(documents);
-                }
-            } catch (error) {
-                console.error('Error loading documents:', error);
-                container.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #ff6b6b; padding: 20px;">Error loading documents. Please try again later.</td></tr>';
+            if (requestCodeBtn) {
+                requestCodeBtn.addEventListener('click', handleRequestCode);
             }
-        }
-        
-        // Handle sign out
-        async function handleSignOut() {
-            try {
-                const response = await fetch('/api/signout', { method: 'POST' });
-                if (response.ok) {
-                    showLoginSection();
-                    // Reset form
-                    document.getElementById('loginForm').reset();
-                } else {
-                    throw new Error('Failed to sign out');
-                }
-            } catch (error) {
-                console.error('Sign out error:', error);
-                alert('Failed to sign out. Please try again.');
+            
+            if (signOutBtn) {
+                signOutBtn.addEventListener('click', handleLogout);
             }
-        }
-        
-        // Format file size
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-        
-        // Format date
-        function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString(undefined, options);
-        }
-        
-        // Get file icon based on file extension
-        function getFileIcon(type) {
-            const icons = {
-                'docx': '📄',
-                'doc': '📄',
-                'pdf': '📑',
-                'xlsx': '📊',
-                'xls': '📊',
-                'pptx': '📝',
-                'ppt': '📝',
-                'txt': '📝',
-                'zip': '🗜️',
-                'rar': '🗜️',
-                '7z': '🗜️'
-            };
-            return icons[type] || '📄';
-        }
-        
-        // Handle copy to clipboard functionality
-        function setupCopyButtons() {
-            document.querySelectorAll('.copy-link-btn').forEach(button => {
-                button.addEventListener('click', async function() {
-                    const url = this.getAttribute('data-url');
-                    const tooltip = this.querySelector('.tooltip');
-                    
-                    try {
-                        // Try using the modern Clipboard API first
-                        await navigator.clipboard.writeText(url);
-                        
-                        // Update UI to show success state
-                        this.classList.add('copied');
-                        this.setAttribute('aria-label', 'Link copied to clipboard');
-                        
-                        // Update tooltip text
-                        if (tooltip) {
-                            const originalText = tooltip.textContent;
-                            tooltip.textContent = 'Copied!';
-                            
-                            // Reset after 2 seconds
-                            setTimeout(() => {
-                                this.classList.remove('copied');
-                                this.setAttribute('aria-label', 'Copy download link');
-                                tooltip.textContent = originalText;
-                            }, 2000);
-                        }
-                        
-                    } catch (err) {
-                        console.error('Failed to copy link: ', err);
-                        
-                        // Fallback for older browsers
-                        try {
-                            const textarea = document.createElement('textarea');
-                            textarea.value = url;
-                            textarea.style.position = 'fixed';
-                            document.body.appendChild(textarea);
-                            textarea.select();
-                            document.execCommand('copy');
-                            document.body.removeChild(textarea);
-                            
-                            // Show success message for fallback
-                            const fallbackAnnouncement = document.createElement('div');
-                            fallbackAnnouncement.className = 'visually-hidden';
-                            fallbackAnnouncement.setAttribute('role', 'alert');
-                            fallbackAnnouncement.setAttribute('aria-live', 'assertive');
-                            fallbackAnnouncement.textContent = 'Link copied to clipboard';
-                            document.body.appendChild(fallbackAnnouncement);
-                            
-                            setTimeout(() => {
-                                document.body.removeChild(fallbackAnnouncement);
-                            }, 3000);
-                            
-                        } catch (fallbackErr) {
-                            console.error('Fallback copy failed: ', fallbackErr);
-                            alert('Failed to copy link. Please try again or copy it manually.');
-                        }
-                    }
+            
+            if (uploadForm) {
+                uploadForm.addEventListener('submit', handleFileUpload);
+            }
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    searchDocuments(e.target.value);
                 });
-            });
-        }
-        
-        // Display documents in the table
-        function displayDocuments(documents) {
-            const container = document.getElementById('documentsList');
-            container.innerHTML = '';
-            
-            if (documents.length === 0) {
-                document.getElementById('emptyState').style.display = 'block';
-                return;
             }
             
-            documents.forEach(doc => {
-                const row = document.createElement('tr');
-                const fileExt = doc.name.split('.').pop().toLowerCase();
-                const fileIcon = getFileIcon(fileExt);
-                const fullUrl = new URL(doc.path, window.location.origin).href;
-                
-                row.innerHTML = `
-                    <td>
-                        <a href="${doc.path}" class="document-link" target="_blank" download>
-                            <span class="document-icon">${fileIcon}</span>
-                            ${doc.name}
-                        </a>
-                    </td>
-                    <td>${formatFileSize(doc.size)}</td>
-                    <td>${formatDate(doc.lastModified)}</td>
-                    <td class="actions">
-                        <button class="copy-link-btn" 
-                                title="Copy download link" 
-                                data-url="${fullUrl}"
-                                aria-label="Copy download link for ${doc.name}">
-                            <span class="copy-icon" aria-hidden="true">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                </svg>
-                            </span>
-                            <span class="tooltip">Copy link</span>
-                        </button>
-                    </td>
-                `;
-                container.appendChild(row);
-            });
+            if (sortSelect) {
+                sortSelect.addEventListener('change', (e) => {
+                    sortDocuments(e.target.value);
+                });
+            }
             
-            // Set up copy buttons after adding documents
-            setupCopyButtons();
-        }
+            if (filterSelect) {
+                filterSelect.addEventListener('change', (e) => {
+                    filterDocuments(e.target.value);
+                });
+            }
+            
+            // Initialize the app
+            checkAuth();
+        });
     </script>
 
     <!-- Footer -->

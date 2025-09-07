@@ -1,4 +1,8 @@
 /* Code Generator Styles */
+.hidden {
+    display: none !important;
+}
+
 .result-container {
     display: flex;
     flex-direction: column;
