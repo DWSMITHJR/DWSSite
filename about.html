@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" itemscope itemtype="http://schema.org/WebPage">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -7,7 +7,8 @@
     <meta name="description" content="System and browser information page showing detailed technical specifications of your device and browser.">
     <meta name="author" content="Donald W. Smith Jr.">
     <meta name="keywords" content="system information, browser details, device specs, technical information">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#1e40af">
+    <meta name="color-scheme" content="light dark">
     
     <title>System Information | Donald W. Smith Jr.</title>
     
@@ -15,14 +16,16 @@
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AkEEjIXDlQhNQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAGUlEQVQ4y2NgGAWjYAQBExMTEwPJgAEAHp4B8ZtDqo0AAAAASUVORK5CYII=">
     
     <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/base/reset.css" as="style">
+    <link rel="preload" href="css/base/variables.css" as="style">
     <link rel="preload" href="css/styles.css" as="style">
     <link rel="preload" href="css/about.css" as="style">
-    <link rel="preload" href="images/DLogo.jpg" as="image">
+    <link rel="preload" href="images/DLogo.jpg" as="image" imagesrcset="images/DLogo.jpg 1x, images/DLogo@2x.jpg 2x">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="css/styles.css" media="all">
     <link rel="stylesheet" href="css/base/reset.css" media="all">
     <link rel="stylesheet" href="css/base/variables.css" media="all">
+    <link rel="stylesheet" href="css/styles.css" media="all">
     <link rel="stylesheet" href="css/about.css" media="all">
     
     <!-- Preconnect to external domains -->
@@ -44,32 +47,80 @@
     </script>
     
     <!-- Critical CSS inlined for faster rendering -->
-    <style>
+        <style>
+        /* Critical CSS - Inlined for faster rendering */
         .loading-indicator {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.95);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1000;
             color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            text-align: center;
+            padding: 2rem;
         }
+        
         .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
+            width: 3rem;
+            height: 3rem;
+            border: 0.35rem solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            border-top-color: #4fc3f7;
+            border-top-color: #60a5fa;
             animation: spin 1s ease-in-out infinite;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            will-change: transform;
         }
+        
+        .loading-indicator p {
+            margin: 0.5rem 0 0;
+            font-size: 1.1rem;
+            color: #e2e8f0;
+        }
+        
+        .error-message {
+            background: rgba(220, 38, 38, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            max-width: 32rem;
+        }
+        
+        .error-message p {
+            margin: 0 0 0.5rem;
+            line-height: 1.5;
+        }
+        
+        .error-message p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .error-message small {
+            opacity: 0.8;
+            font-size: 0.875em;
+        }
+        
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+        
+        /* Screen reader only utility class */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
     </style>
 </head>
@@ -135,13 +186,14 @@
         <p>Loading system information...</p>
     </div>
 
-    <div class="about-container">
+    <div class="about-container" role="main" id="main-content" tabindex="-1">
         <header class="page-header">
             <h1 class="page-title">System Information</h1>
             <p class="page-subtitle">Your browser and system details</p>
+            <p class="sr-only">This page displays technical information about your current device and browser.</p>
         </header>
 
-        <main id="main-content" class="content" tabindex="-1" role="main">
+        <div class="content">
             <!-- System Information -->
             <section class="info-section" aria-labelledby="system-info-heading">
                 <h2 id="system-info-heading">System Information</h2>
@@ -179,7 +231,7 @@
                     </div>
                 </div>
             </section>
-        </main>
+        </div>
 
         <!-- Footer -->
         <footer id="contact" class="site-footer" role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
@@ -207,12 +259,38 @@
         // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
             // Set current year and last updated
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-            document.getElementById('last-updated').textContent = new Date().toLocaleString();
+            const currentYear = document.getElementById('current-year');
+            const lastUpdated = document.getElementById('last-updated');
             
-            // Initialize system info
-            detectSystemInfo();
-            detectBrowserInfo();
+            if (currentYear) {
+                currentYear.textContent = new Date().getFullYear();
+            }
+            
+            if (lastUpdated) {
+                lastUpdated.textContent = new Date().toLocaleString(undefined, {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+            
+            // Initialize system info with error handling
+            try {
+                detectSystemInfo();
+                detectBrowserInfo();
+            } catch (error) {
+                console.error('Error initializing system info:', error);
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) {
+                    loadingIndicator.innerHTML = `
+                        <div class="error-message">
+                            <p>Unable to load system information. Please refresh the page or try again later.</p>
+                            <p><small>Error: ${error.message}</small></p>
+                        </div>`;
+                }
+            }
             
             // Hide loading indicator
             setTimeout(() => {
@@ -226,116 +304,192 @@
             }, 500);
         });
 
-        // System information detection
-        function detectSystemInfo() {
-            const userAgent = navigator.userAgent;
-            
-            // Detect OS
-            let os = 'Unknown OS';
-            if (userAgent.indexOf('Win') !== -1) os = 'Windows';
-            else if (userAgent.indexOf('Mac') !== -1) os = 'macOS';
-            else if (userAgent.indexOf('Linux') !== -1) os = 'Linux';
-            else if (userAgent.indexOf('Android') !== -1) os = 'Android';
-            else if (userAgent.indexOf('like Mac') !== -1) os = 'iOS';
-            
-            document.getElementById('os-name').textContent = os;
-            document.getElementById('os-platform').textContent = navigator.platform;
-            document.getElementById('cpu-cores').textContent = navigator.hardwareConcurrency || 'Unknown';
-            
-            // Device memory (not supported in all browsers)
-            if ('deviceMemory' in navigator) {
-                document.getElementById('device-memory').textContent = `${navigator.deviceMemory} GB`;
-            } else {
-                document.getElementById('device-memory').textContent = 'Not available';
+        /**
+         * Updates the content of an element if it exists
+         * @param {string} id - The ID of the element to update
+         * @param {string} content - The content to set
+         * @param {string} [fallback='Not available'] - Fallback content if element not found
+         */
+        function safeUpdateElement(id, content, fallback = 'Not available') {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = content || fallback;
             }
-            
-            // Screen information
-            document.getElementById('screen-resolution').textContent = 
-                `${window.screen.width} × ${window.screen.height}`;
-            document.getElementById('pixel-ratio').textContent = window.devicePixelRatio || '1';
         }
 
-        // Browser information detection
-        function detectBrowserInfo() {
-            const userAgent = navigator.userAgent;
-            let browser = 'Unknown';
-            let version = 'Unknown';
-            
-            // Detect browser and version
-            if (userAgent.indexOf('Firefox') > -1) {
-                browser = 'Firefox';
-                version = userAgent.match(/Firefox\/(\d+\.?\d*)/)[1];
-            } else if (userAgent.indexOf('SamsungBrowser') > -1) {
-                browser = 'Samsung Browser';
-                version = userAgent.match(/SamsungBrowser\/(\d+\.?\d*)/)[1];
-            } else if (userAgent.indexOf('OPR') > -1) {
-                browser = 'Opera';
-                version = userAgent.match(/OPR\/(\d+\.?\d*)/)[1];
-            } else if (userAgent.indexOf('Edg') > -1) {
-                browser = 'Microsoft Edge';
-                version = userAgent.match(/Edg\/(\d+\.?\d*)/)[1];
-            } else if (userAgent.indexOf('Chrome') > -1) {
-                browser = 'Chrome';
-                version = userAgent.match(/Chrome\/(\d+\.?\d*)/)[1];
-            } else if (userAgent.indexOf('Safari') > -1) {
-                browser = 'Safari';
-                const versionMatch = userAgent.match(/Version\/(\d+\.?\d*)/);
-                version = versionMatch ? versionMatch[1] : 'Unknown';
-            } else if (userAgent.indexOf('Trident') > -1) {
-                browser = 'Internet Explorer';
-                version = userAgent.match(/rv:(\d+\.?\d*)/)[1];
-            }
-            
-            document.getElementById('browser-name').textContent = browser;
-            document.getElementById('browser-version').textContent = version;
-            document.getElementById('user-agent').textContent = userAgent;
-            
-            // Cookies
-            document.getElementById('cookies-enabled').textContent = 
-                navigator.cookieEnabled ? 'Enabled' : 'Disabled';
-            
-            // Network status
-            const updateOnlineStatus = () => {
-                const statusElement = document.getElementById('online-status');
-                if (navigator.onLine) {
-                    statusElement.textContent = 'Online';
-                    statusElement.className = 'value online';
-                } else {
-                    statusElement.textContent = 'Offline';
-                    statusElement.className = 'value offline';
-                }
-            };
-            
-            // Connection type
-            const updateConnectionInfo = () => {
-                const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-                const connectionElement = document.getElementById('connection-type');
+        // System information detection
+        function detectSystemInfo() {
+            try {
+                const userAgent = navigator.userAgent;
+                let os = 'Unknown OS';
                 
-                if (connection) {
-                    const type = connection.effectiveType || connection.type || 'Unknown';
-                    connectionElement.textContent = 
-                        `${type.charAt(0).toUpperCase() + type.slice(1)}`;
+                // Detect operating system
+                if (userAgent.includes('Win')) os = 'Windows';
+                else if (userAgent.includes('Mac')) os = 'macOS';
+                else if (userAgent.includes('Linux')) os = 'Linux';
+                else if (userAgent.includes('Android')) os = 'Android';
+                else if (userAgent.includes('like Mac')) os = 'iOS';
+
+                // Update UI with system information
+                safeUpdateElement('os-name', os);
+                safeUpdateElement('os-platform', navigator.platform);
+                
+                // Get CPU cores with fallback
+                const cpuCores = navigator.hardwareConcurrency ? 
+                    `${navigator.hardwareConcurrency} cores` : 'Not available';
+                safeUpdateElement('cpu-cores', cpuCores);
+                
+                // Get device memory with fallback
+                const deviceMemory = navigator.deviceMemory ? 
+                    `${navigator.deviceMemory} GB` : 'Not available';
+                safeUpdateElement('device-memory', deviceMemory);
+                
+                // Get screen resolution and pixel ratio
+                safeUpdateElement('screen-resolution', 
+                    `${window.screen.width} × ${window.screen.height} (${window.screen.colorDepth}-bit)`);
+                safeUpdateElement('pixel-ratio', 
+                    `${window.devicePixelRatio || 1}${window.devicePixelRatio > 1 ? ' (HiDPI/Retina)' : ''}`);
                     
-                    // Add more connection details if available
-                    if (connection.downlink) {
-                        connectionElement.textContent += ` (${connection.downlink} Mbps)`;
-                    }
-                } else {
-                    connectionElement.textContent = 'Unknown';
-                }
-            };
-            
-            // Set up event listeners
-            window.addEventListener('online', updateOnlineStatus);
-            window.addEventListener('offline', updateOnlineStatus);
-            
-            if ('connection' in navigator) {
-                navigator.connection.addEventListener('change', updateConnectionInfo);
+            } catch (error) {
+                console.error('Error detecting system info:', error);
+                throw error; // Re-throw to be caught by the parent try-catch
             }
-            
-            // Initial updates
-            updateOnlineStatus();
-            updateConnectionInfo();
+        }
+
+        /**
+         * Detects and displays browser information
+         */
+        function detectBrowserInfo() {
+            try {
+                const userAgent = navigator.userAgent;
+                let browser = 'Unknown';
+                let version = 'Unknown';
+                
+                // Detect browser and version
+                if (userAgent.includes('Firefox/')) {
+                    browser = 'Mozilla Firefox';
+                    version = userAgent.match(/Firefox\/(\d+\.?\d*)/)[1];
+                } else if (userAgent.includes('Edg/')) {
+                    browser = 'Microsoft Edge (Chromium)';
+                    version = userAgent.match(/Edg\/(\d+\.?\d*)/)[1];
+                } else if (userAgent.includes('OPR/') || userAgent.includes('Opera/')) {
+                    browser = 'Opera';
+                    version = userAgent.match(/(?:OPR|Opera)\/(\d+\.?\d*)/)[1];
+                } else if (userAgent.includes('Chrome/') && !userAgent.includes('Edg/')) {
+                    browser = 'Google Chrome';
+                    version = userAgent.match(/Chrome\/(\d+\.?\d*)/)[1];
+                } else if (userAgent.includes('Safari/')) {
+                    browser = 'Apple Safari';
+                    const versionMatch = userAgent.match(/Version\/(\d+\.?\d*)/);
+                    version = versionMatch ? versionMatch[1] : 'Unknown';
+                } else if (userAgent.includes('Trident/') || userAgent.includes('MSIE')) {
+                    browser = 'Internet Explorer';
+                    const msie = userAgent.match(/(?:MSIE |rv:)(\d+\.?\d*)/);
+                    version = msie ? msie[1] : 'Unknown';
+                }
+                
+                // Update browser info
+                safeUpdateElement('browser-name', browser);
+                safeUpdateElement('browser-version', version);
+                safeUpdateElement('user-agent', userAgent);
+                
+                // Online/offline status with better detection
+                const updateOnlineStatus = () => {
+                    const statusElement = document.getElementById('online-status');
+                    if (!statusElement) return;
+                    
+                    const isOnline = navigator.onLine;
+                    statusElement.textContent = isOnline ? 'Online' : 'Offline';
+                    statusElement.className = `value ${isOnline ? 'online' : 'offline'}`;
+                    
+                    // Additional offline detection
+                    if (!isOnline) {
+                        statusElement.setAttribute('aria-live', 'assertive');
+                    }
+                };
+                
+                // Enhanced connection information
+                const updateConnectionInfo = () => {
+                    const connectionElement = document.getElementById('connection-type');
+                    if (!connectionElement) return;
+                    
+                    let connectionInfo = 'Unknown';
+                    
+                    // Standard connection API
+                    if ('connection' in navigator) {
+                        const connection = navigator.connection || 
+                                         navigator.mozConnection || 
+                                         navigator.webkitConnection;
+                        
+                        if (connection) {
+                            const type = connection.type || connection.effectiveType || 'Unknown';
+                            const effectiveType = connection.effectiveType || '';
+                            const downlink = connection.downlink ? 
+                                ` (${connection.downlink} Mbps)` : '';
+                            const rtt = connection.rtt ? 
+                                `, RTT: ${connection.rtt}ms` : '';
+                            
+                            connectionInfo = `${type}${effectiveType ? ` (${effectiveType})` : ''}${downlink}${rtt}`;
+                            
+                            // Save connection info for potential debugging
+                            connectionElement.dataset.connectionType = type;
+                            connectionElement.dataset.effectiveType = effectiveType;
+                            if (connection.downlink) {
+                                connectionElement.dataset.downlink = connection.downlink;
+                            }
+                            if (connection.rtt) {
+                                connectionElement.dataset.rtt = connection.rtt;
+                            }
+                        }
+                    }
+                    
+                    connectionElement.textContent = connectionInfo;
+                };
+                
+                // Cookies and storage information
+                const updateStorageInfo = () => {
+                    const cookiesElement = document.getElementById('cookies-enabled');
+                    if (cookiesElement) {
+                        cookiesElement.textContent = navigator.cookieEnabled ? 'Enabled' : 'Disabled';
+                    }
+                    
+                    // Additional storage information if available
+                    if ('storage' in navigator && 'estimate' in navigator.storage) {
+                        navigator.storage.estimate().then(estimate => {
+                            const storageElement = document.getElementById('storage-info');
+                            if (storageElement) {
+                                const used = estimate.usage ? 
+                                    (estimate.usage / 1024 / 1024).toFixed(2) + ' MB' : 'Unknown';
+                                const quota = estimate.quota ? 
+                                    (estimate.quota / 1024 / 1024).toFixed(2) + ' MB' : 'Unknown';
+                                storageElement.textContent = `${used} / ${quota}`;
+                            }
+                        }).catch(console.error);
+                    }
+                };
+                
+                // Add event listeners
+                window.addEventListener('online', updateOnlineStatus);
+                window.addEventListener('offline', updateOnlineStatus);
+                
+                if ('connection' in navigator) {
+                    const connection = navigator.connection || 
+                                     navigator.mozConnection || 
+                                     navigator.webkitConnection;
+                    if (connection) {
+                        connection.addEventListener('change', updateConnectionInfo);
+                    }
+                }
+                
+                // Initial updates
+                updateOnlineStatus();
+                updateConnectionInfo();
+                updateStorageInfo();
+                
+            } catch (error) {
+                console.error('Error detecting browser info:', error);
+                throw error; // Re-throw to be caught by the parent try-catch
+            }
         }
     </script>
 </body>
