@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="System information and technical details about Donald W. Smith Jr.'s portfolio website">
+    <meta name="description" content="System and browser information page showing detailed technical specifications of your device and browser.">
     <meta name="author" content="Donald W. Smith Jr.">
-    <meta name="keywords" content="system information, technical details, website info, portfolio tech">
+    <meta name="keywords" content="system information, browser details, device specs, technical information">
     <meta name="theme-color" content="#ffffff">
     
     <title>System Information | Donald W. Smith Jr.</title>
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/favicon.png">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <!-- Favicon (base64 encoded to prevent 404) -->
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AkEEjIXDlQhNQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAGUlEQVQ4y2NgGAWjYAQBExMTEwPJgAEAHp4B8ZtDqo0AAAAASUVORK5CYII=">
     
     <!-- Preload Critical Resources -->
     <link rel="preload" href="css/styles.css" as="style">
@@ -21,50 +20,60 @@
     <link rel="preload" href="images/DLogo.jpg" as="image">
     
     <!-- CSS -->
-    <style>
-        /* Basic visibility styles for debugging */
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-        .info-section {
-            margin-bottom: 30px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        h1, h2, h3 {
-            color: #2c3e50;
-        }
-        .info-card {
-            background: #f9f9f9;
-            padding: 15px;
-            margin: 10px 0;
-            border-left: 4px solid #3498db;
-        }
-        .value {
-            font-weight: bold;
-            color: #2980b9;
-        }
-        /* Hide loading indicator by default */
-        .loading-indicator {
-            display: none !important;
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css" media="all">
+    <link rel="stylesheet" href="css/base/reset.css" media="all">
+    <link rel="stylesheet" href="css/base/variables.css" media="all">
+    <link rel="stylesheet" href="css/about.css" media="all">
     
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "System Information",
+        "description": "Detailed technical specifications of your device and browser",
+        "author": {
+            "@type": "Person",
+            "name": "Donald W. Smith Jr."
+        }
+    }
+    </script>
+    
+    <!-- Critical CSS inlined for faster rendering -->
+    <style>
+        .loading-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: #fff;
+        }
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: #4fc3f7;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <!-- Environment Badge -->
-    <div id="environment-badge" class="environment-badge">
-        <span id="environment-text">Environment</span>
-    </div>
-    
     <!-- Animated Background -->
     <div class="bg-particles" id="particles"></div>
 
@@ -78,45 +87,39 @@
                 <img src="images/DLogo.jpg" alt="Donald W. Smith Jr. - Professional Portfolio" class="logo-img" width="50" height="50" loading="lazy" itemprop="image">
             </a>
             
+            <!-- Mobile Menu Toggle -->
+            <button class="menu-toggle" 
+                    id="mobile-menu-toggle" 
+                    aria-expanded="false" 
+                    aria-controls="primary-navigation"
+                    aria-label="Toggle navigation menu">
+                <span class="menu-toggle-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Menu</span>
+            </button>
+            
             <!-- Primary Navigation -->
             <nav id="primary-navigation" class="primary-navigation" aria-label="Primary">
-                <ul class="nav-links">
+                <ul class="nav-links" role="menubar">
                     <li role="none">
-                        <a href="index.html" 
-                           class="nav-link" 
-                           title="Navigate to Home Page" 
-                           aria-label="Home"
-                           role="menuitem">
+                        <a href="index.html" class="nav-link" title="Navigate to Home Page" aria-label="Home" role="menuitem">
                             <span class="nav-icon" aria-hidden="true">🏠</span>
                             <span class="nav-text">Home</span>
                         </a>
                     </li>
                     <li role="none">
-                        <a href="privacy.html" 
-                           class="nav-link" 
-                           title="View Privacy Policy" 
-                           aria-label="Privacy Policy"
-                           role="menuitem">
-                            <span class="nav-icon" aria-hidden="true">🔒</span>
-                            <span class="nav-text">Privacy</span>
+                        <a href="link.html" class="nav-link" title="Request Access Code" aria-label="Request Access Code" role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">🔑</span>
+                            <span class="nav-text">Request Code</span>
                         </a>
                     </li>
                     <li role="none">
-                        <a href="terms.html" 
-                           class="nav-link" 
-                           title="View Terms of Service" 
-                           aria-label="Terms of Service"
-                           role="menuitem">
-                            <span class="nav-icon" aria-hidden="true">📜</span>
-                            <span class="nav-text">Terms</span>
+                        <a href="info.html" class="nav-link" title="Document Library" aria-label="Document Library" role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">📂</span>
+                            <span class="nav-text">Documents</span>
                         </a>
                     </li>
                     <li role="none">
-                        <a href="about.html" 
-                           class="nav-link active" 
-                           aria-current="page" 
-                           title="Current Page: About"
-                           role="menuitem">
+                        <a href="about.html" class="nav-link active" aria-current="page" title="Current Page: System Information" role="menuitem">
                             <span class="nav-icon" aria-hidden="true">ℹ️</span>
                             <span class="nav-text">About</span>
                         </a>
@@ -126,944 +129,214 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main id="main-content" class="about-container" tabindex="-1" role="main" itemscope itemtype="https://schema.org/WebPage">
-        <h1 class="page-title">System Information</h1>
-        <!-- Application Information Section -->
-        <section class="info-section" aria-labelledby="app-details-heading">
-            <h2 id="app-details-heading">Application Details</h2>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <h3>Version Information</h3>
-                        <p>App Version: <span id="app-version" class="value">1.0.0</span></p>
-                        <p>Build Date: <span id="build-date" class="value">2025-07-01</span></p>
-                        <p>Environment: <span id="app-environment" class="value">Production</span></p>
-                        <p>Last Updated: <span id="last-updated" class="value">Just now</span></p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Performance</h3>
-                        <p>Page Load Time: <span id="page-load-time" class="value">0.00s</span></p>
-                        <p>Uptime: <span id="app-uptime" class="value">0h 0m 0s</span></p>
-                        <p>Memory Usage: <span id="memory-usage" class="value">Calculating...</span></p>
-                        <p>CPU Cores: <span id="cpu-cores" class="value">4</span></p>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- System Information Section -->
-            <section class="info-section">
-                <h2>System Information</h2>
+    <!-- Loading Indicator -->
+    <div id="loading-indicator" class="loading-indicator" role="status" aria-live="polite">
+        <div class="loading-spinner" aria-hidden="true"></div>
+        <p>Loading system information...</p>
+    </div>
+
+    <div class="about-container">
+        <header class="page-header">
+            <h1 class="page-title">System Information</h1>
+            <p class="page-subtitle">Your browser and system details</p>
+        </header>
+
+        <main id="main-content" class="content" tabindex="-1" role="main">
+            <!-- System Information -->
+            <section class="info-section" aria-labelledby="system-info-heading">
+                <h2 id="system-info-heading">System Information</h2>
                 <div class="info-grid">
                     <div class="info-card">
                         <h3>Operating System</h3>
-                        <p><span id="os-name" class="value">Detecting...</span></p>
-                        <p>Platform: <span id="os-platform" class="value">-</span></p>
-                        <p>Architecture: <span id="os-arch" class="value">-</span></p>
+                        <p><span class="label">OS:</span> <span id="os-name" class="value">Detecting...</span></p>
+                        <p><span class="label">Platform:</span> <span id="os-platform" class="value">Detecting...</span></p>
+                        <p><span class="label">CPU Cores:</span> <span id="cpu-cores" class="value">Detecting...</span></p>
                     </div>
                     <div class="info-card">
-                        <h3>CPU Cores</h3>
-                        <p>Available: <span id="cpu-cores" class="value">-</span></p>
-                        <p>Threads: <span id="cpu-threads" class="value">-</span></p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Memory</h3>
-                        <p>Total: <span id="mem-total" class="value">-</span></p>
-                        <p>Free: <span id="mem-free" class="value">-</span></p>
-                        <p>Used: <span id="mem-used" class="value">-</span></p>
+                        <h3>Device</h3>
+                        <p><span class="label">Memory:</span> <span id="device-memory" class="value">Detecting...</span></p>
+                        <p><span class="label">Screen Resolution:</span> <span id="screen-resolution" class="value">Detecting...</span></p>
+                        <p><span class="label">Pixel Ratio:</span> <span id="pixel-ratio" class="value">Detecting...</span></p>
                     </div>
                 </div>
             </section>
 
-            <!-- Server Information Section -->
-            <section class="info-section">
-                <h2>Server Information</h2>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <h3>Host</h3>
-                        <p>Hostname: <span id="server-hostname" class="value">-</span></p>
-                        <p>Port: <span id="server-port" class="value">-</span></p>
-                        <p>Protocol: <span id="server-protocol" class="value">-</span></p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Request</h3>
-                        <p>Method: <span id="request-method" class="value">-</span></p>
-                        <p>URL: <span id="request-url" class="value">-</span></p>
-                        <p>Path: <span id="request-path" class="value">-</span></p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Response</h3>
-                        <p>Status: <span id="response-status" class="value">-</span></p>
-                        <p>Content Type: <span id="content-type" class="value">-</span></p>
-                        <p>Server: <span id="server-software" class="value">-</span></p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- User Session Section -->
-            <section class="info-section">
-                <h2>System Authentication & Session</h2>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <h3>System Authentication</h3>
-                        <p>Status: <span id="auth-status" class="value">Unauthenticated</span></p>
-                        <p>User: <span id="auth-user" class="value">Guest</span></p>
-                        <p>Role: <span id="auth-role" class="value">Public</span></p>
-                        <p>Last Login: <span id="last-login" class="value">-</span></p>
-                        <p>Auth Provider: <span id="auth-provider" class="value">None</span></p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Session Information</h3>
-                        <p>Session ID: <span id="session-id" class="value">-</span></p>
-                        <p>Session Start: <span id="session-start" class="value">-</span></p>
-                        <p>Last Active: <span id="last-active" class="value">-</span></p>
-                        <p>Session Timeout: <span id="session-timeout" class="value">-</span></p>
-                    </div>
-                    <div class="info-card">
-                        <h3>System Status</h3>
-                        <p>Cookies: <span id="cookies-status" class="value">-</span></p>
-                        <p>Local Storage: <span id="local-storage" class="value">-</span></p>
-                        <p>Session Storage: <span id="session-storage" class="value">-</span></p>
-                        <p>Secure Context: <span id="secure-context" class="value">-</span></p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Browser Capabilities Section -->
-            <section class="info-section">
-                <h2>Browser Capabilities</h2>
+            <!-- Browser Information -->
+            <section class="info-section" aria-labelledby="browser-info-heading">
+                <h2 id="browser-info-heading">Browser Information</h2>
                 <div class="info-grid">
                     <div class="info-card">
                         <h3>Browser</h3>
-                        <p>Name: <span id="browser-name" class="value">-</span></p>
-                        <p>Version: <span id="browser-version" class="value">-</span></p>
-                        <p>User Agent: <span id="user-agent" class="value">-</span></p>
+                        <p><span class="label">Name:</span> <span id="browser-name" class="value">Detecting...</span></p>
+                        <p><span class="label">Version:</span> <span id="browser-version" class="value">Detecting...</span></p>
+                        <p><span class="label">User Agent:</span> <span id="user-agent" class="value">Detecting...</span></p>
                     </div>
                     <div class="info-card">
-                        <h3>Display</h3>
-                        <p>Resolution: <span id="screen-resolution" class="value">-</span></p>
-                        <p>Color Depth: <span id="color-depth" class="value">-</span></p>
-                        <p>Pixel Ratio: <span id="pixel-ratio" class="value">-</span></p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Features</h3>
-                        <div class="capabilities">
-                            <span id="js" class="capability-tag">JavaScript</span>
-                            <span id="cookies" class="capability-tag">Cookies</span>
-                            <span id="webgl" class="capability-tag">WebGL</span>
-                            <span id="workers" class="capability-tag">Web Workers</span>
-                            <span id="geolocation" class="capability-tag">Geolocation</span>
-                            <span id="notifications" class="capability-tag">Notifications</span>
-                            <span id="touch" class="capability-tag">Touch</span>
-                            <span id="online" class="capability-tag">Online</span>
-                        </div>
+                        <h3>Network</h3>
+                        <p><span class="label">Status:</span> <span id="online-status" class="value">Detecting...</span></p>
+                        <p><span class="label">Connection:</span> <span id="connection-type" class="value">Detecting...</span></p>
+                        <p><span class="label">Cookies:</span> <span id="cookies-enabled" class="value">Detecting...</span></p>
                     </div>
                 </div>
             </section>
-        </div>
+        </main>
 
-        <!-- Diagnostic Panel Section -->
-        <section class="info-section">
-            <h2>Diagnostic Console</h2>
-            <div class="diagnostic-panel">
-                <div class="diagnostic-tabs">
-                    <button class="tab-button active" data-tab="runtime">Runtime</button>
-                    <button class="tab-button" data-tab="trace">Trace</button>
-                    <button class="tab-button" data-tab="diagnostics">Diagnostics</button>
-                    <button class="tab-button" data-tab="cloud">Cloud</button>
-                    <div class="diagnostic-controls">
-                        <button id="clear-logs" class="control-button" title="Clear logs">🗑️</button>
-                        <button id="copy-logs" class="control-button" title="Copy to clipboard">📋</button>
-                        <button id="refresh-logs" class="control-button" title="Refresh">🔄</button>
-                    </div>
-                </div>
-                <div class="diagnostic-content">
-                    <div id="runtime-log" class="log-content active"></div>
-                    <div id="trace-log" class="log-content"></div>
-                    <div id="diagnostics-log" class="log-content"></div>
-                    <div id="cloud-log" class="log-content"></div>
+        <!-- Footer -->
+        <footer id="contact" class="site-footer" role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
+            <div class="footer-content">
+                <div class="footer-legal" role="contentinfo">
+                    <p class="copyright">
+                        &copy; <span itemprop="copyrightYear" id="current-year"></span> 
+                        <span itemprop="copyrightHolder" itemscope itemtype="https://schema.org/Person">
+                            <a href="mailto:architect@donaldwsmithjr.com" class="email-link">
+                                <span itemprop="name">Donald W. Smith Jr.</span>
+                            </a>
+                        </span>
+                        <span class="separator" aria-hidden="true">|</span>
+                        <a href="privacy.html" class="footer-link" title="View Privacy Policy">Privacy Policy</a>
+                        <span class="separator" aria-hidden="true">|</span>
+                        <a href="terms.html" class="footer-link" title="View Terms of Service">Terms of Service</a>
+                    </p>
+                    <p class="last-updated">Last updated: <span id="last-updated"></span></p>
                 </div>
             </div>
-        </section>
-    </main>
-    
-    <!-- Loading Indicator -->
-    <div id="loading-indicator" class="loading-indicator">
-        <div class="loading-spinner"></div>
-        <p>Loading system information...</p>
+        </footer>
     </div>
-    
-    <!-- Inline Environment Detection -->
+
     <script>
-        // Simple initialization that won't block rendering
+        // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
+            // Set current year and last updated
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            document.getElementById('last-updated').textContent = new Date().toLocaleString();
+            
+            // Initialize system info
+            detectSystemInfo();
+            detectBrowserInfo();
+            
             // Hide loading indicator
-            const loadingIndicator = document.getElementById('loading-indicator');
-            if (loadingIndicator) {
-                loadingIndicator.style.display = 'none';
-            }
-
-            // Simple environment detection
-            try {
-                const isLocal = window.location.hostname === 'localhost' || 
-                              window.location.hostname === '127.0.0.1' ||
-                              window.location.protocol === 'file:';
-                
-                const envText = document.getElementById('environment-text');
-                if (envText) {
-                    envText.textContent = isLocal ? 'Development' : 'Production';
+            setTimeout(() => {
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) {
+                    loadingIndicator.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingIndicator.style.display = 'none';
+                    }, 300);
                 }
-            } catch (e) {
-                console.log('Environment detection skipped');
-            }
-
-            // Update current year
-            try {
-                const yearElement = document.getElementById('current-year');
-                if (yearElement) {
-                    yearElement.textContent = new Date().getFullYear();
-                }
-            } catch (e) {
-                console.log('Year update skipped');
-            }
-
-            // Update basic system info
-            try {
-                const nav = window.navigator || {};
-                
-                // Helper to safely set text
-                const setText = (id, text) => {
-                    const el = document.getElementById(id);
-                    if (el) el.textContent = text || 'N/A';
-                };
-
-                // Set basic system info
-                setText('os-name', nav.platform);
-                setText('os-platform', nav.platform);
-                setText('os-arch', nav.cpuClass || 'N/A');
-                
-                // Set CPU info if available
-                if (nav.hardwareConcurrency) {
-                    setText('cpu-cores', nav.hardwareConcurrency);
-                    setText('cpu-threads', nav.hardwareConcurrency * 2);
-                }
-
-                // Set memory info if available
-                if (nav.deviceMemory) {
-                    setText('mem-total', `${nav.deviceMemory} GB`);
-                }
-
-                // Set server info
-                setText('server-hostname', window.location.hostname);
-                setText('server-port', window.location.port || '80');
-                setText('server-protocol', window.location.protocol);
-                setText('request-url', window.location.href);
-                setText('request-path', window.location.pathname);
-                setText('response-status', '200 OK');
-                setText('content-type', document.contentType || 'text/html');
-
-            } catch (e) {
-                console.log('System info update skipped:', e);
-            }
-        });
-    </script>
-    
-    <style>
-        /* Loading Indicator Styles */
-        .loading-indicator {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.9);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
-        
-        .loading-spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top: 4px solid #3498db;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 16px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .error-message {
-            text-align: center;
-            max-width: 80%;
-            padding: 20px;
-            background: #fff3f3;
-            border: 1px solid #ffcdd2;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .error-message button {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 12px;
-        }
-        
-        .error-message button:hover {
-            background: #2980b9;
-        }
-        
-        /* Environment-specific styles */
-        .env-development .environment-badge {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            background: #e74c3c;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 3px;
-            font-size: 12px;
-            font-weight: bold;
-            z-index: 1000;
-        }
-        
-        .env-production .environment-badge {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            background: #2ecc71;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 3px;
-            font-size: 12px;
-            font-weight: bold;
-            z-index: 1000;
-        }
-    </style>
-    
-    <script>
-        // Update current year (non-blocking)
-        requestIdleCallback(() => {
-            const yearElement = document.getElementById('current-year');
-            if (yearElement) {
-                yearElement.textContent = new Date().getFullYear();
-            }
+            }, 500);
         });
 
-        // Set environment badge (non-blocking)
-        requestIdleCallback(() => {
-            const isDev = window.location.hostname === 'localhost' || 
-                         window.location.hostname === '127.0.0.1' || 
-                         window.location.port === '3000' ||
-                         window.location.port === '8080' ||
-                         window.location.search.includes('dev=true');
-            
-            const envBadge = document.getElementById('environment-badge');
-            const envText = document.getElementById('environment-text');
-            
-            if (envBadge && envText) {
-                if (isDev) {
-                    document.body.classList.add('env-development');
-                    envText.textContent = 'Development';
-                } else {
-                    document.body.classList.add('env-production');
-                    envText.textContent = 'Production';
-                }
-            }
-        });
-        
-        // System Information
-        function updateSystemInfo() {
-            // OS Info
-            const osInfo = {
-                name: navigator.platform,
-                platform: navigator.platform,
-                arch: navigator.cpuClass || 'Unknown',
-                cores: navigator.hardwareConcurrency || 'Unknown'
-            };
-
-            document.getElementById('os-name').textContent = osInfo.name;
-            document.getElementById('os-platform').textContent = osInfo.platform;
-            document.getElementById('os-arch').textContent = osInfo.arch;
-            document.getElementById('cpu-cores').textContent = osInfo.cores;
-            document.getElementById('cpu-threads').textContent = osInfo.cores * 2 || 'Unknown';
-
-            // Memory - Note: This is limited in browsers due to security
-            if (navigator.deviceMemory) {
-                const totalMemoryGB = navigator.deviceMemory;
-                document.getElementById('mem-total').textContent = `${totalMemoryGB} GB`;
-                document.getElementById('mem-free').textContent = 'Restricted by browser';
-                document.getElementById('mem-used').textContent = 'Restricted by browser';
-            } else {
-                document.getElementById('mem-total').textContent = 'Restricted by browser';
-                document.getElementById('mem-free').textContent = 'N/A';
-                document.getElementById('mem-used').textContent = 'N/A';
-            }
-        }
-
-        // Server Information
-        function updateServerInfo() {
-            document.getElementById('server-hostname').textContent = window.location.hostname;
-            document.getElementById('server-port').textContent = window.location.port || '80/443';
-            document.getElementById('server-protocol').textContent = window.location.protocol.replace(':', '').toUpperCase();
-            
-            // These would typically come from server-side in a real application
-            document.getElementById('request-method').textContent = 'GET';
-            document.getElementById('request-url').textContent = window.location.href;
-            document.getElementById('request-path').textContent = window.location.pathname;
-            
-            // Simulate server response info
-            document.getElementById('response-status').textContent = '200 OK';
-            document.getElementById('content-type').textContent = document.contentType || 'text/html';
-            document.getElementById('server-software').textContent = navigator.userAgent.split(' ').find(part => part.includes('/')) || 'Unknown';
-        }
-
-        // User Session
-        function updateUserSession() {
-            const now = new Date();
-            
-            // Generate a simple session ID (in a real app, this would come from the server)
-            const sessionId = 'sess_' + Math.random().toString(36).substr(2, 9);
-            document.getElementById('session-id').textContent = sessionId;
-            
-            // Set session start time
-            document.getElementById('session-start').textContent = now.toLocaleString();
-            document.getElementById('last-active').textContent = now.toLocaleTimeString();
-            
-            // Check secure context
-            document.getElementById('secure-context').textContent = window.isSecureContext ? 'Yes' : 'No';
-            
-            // Check storage availability
-            document.getElementById('cookies-status').textContent = navigator.cookieEnabled ? 'Enabled' : 'Disabled';
-            document.getElementById('local-storage').textContent = typeof(Storage) !== 'undefined' ? 'Available' : 'Not Available';
-            document.getElementById('session-storage').textContent = typeof(sessionStorage) !== 'undefined' ? 'Available' : 'Not Available';
-            
-            // Set session timeout (30 minutes from now)
-            const timeout = new Date(now.getTime() + 30 * 60 * 1000);
-            document.getElementById('session-timeout').textContent = timeout.toLocaleTimeString();
-            
-            // Update last active time every minute
-            setInterval(() => {
-                document.getElementById('last-active').textContent = new Date().toLocaleTimeString();
-            }, 60000);
-        }
-
-        // Browser Capabilities
-        function updateBrowserCapabilities() {
-            // Browser info
+        // System information detection
+        function detectSystemInfo() {
             const userAgent = navigator.userAgent;
-            let browserName = 'Unknown';
-            let browserVersion = 'Unknown';
             
-            // Detect browser
-            if (userAgent.indexOf('Firefox') > -1) {
-                browserName = 'Mozilla Firefox';
-                browserVersion = userAgent.match(/Firefox\/(\d+\.?\d*)/)[1];
-            } else if (userAgent.indexOf('SamsungBrowser') > -1) {
-                browserName = 'Samsung Browser';
-                browserVersion = userAgent.match(/SamsungBrowser\/(\d+\.?\d*)/)[1];
-            } else if (userAgent.indexOf('Opera') > -1 || userAgent.indexOf('OPR') > -1) {
-                browserName = 'Opera';
-                browserVersion = (userAgent.match(/(?:Opera|OPR)\/(\d+\.?\d*)/) || [])[1] || 'Unknown';
-            } else if (userAgent.indexOf('Trident') > -1) {
-                browserName = 'Internet Explorer';
-                browserVersion = userAgent.match(/Trident\/\d+\.\d+; rv:(\d+\.?\d*)/)[1];
-            } else if (userAgent.indexOf('Edge') > -1) {
-                browserName = 'Microsoft Edge';
-                browserVersion = userAgent.match(/Edge\/(\d+\.?\d*)/)[1];
-            } else if (userAgent.indexOf('Chrome') > -1) {
-                browserName = 'Google Chrome';
-                browserVersion = userAgent.match(/Chrome\/(\d+\.?\d*)/)[1];
-            } else if (userAgent.indexOf('Safari') > -1) {
-                browserName = 'Safari';
-                browserVersion = userAgent.match(/Version\/(\d+\.?\d*)/)[1];
+            // Detect OS
+            let os = 'Unknown OS';
+            if (userAgent.indexOf('Win') !== -1) os = 'Windows';
+            else if (userAgent.indexOf('Mac') !== -1) os = 'macOS';
+            else if (userAgent.indexOf('Linux') !== -1) os = 'Linux';
+            else if (userAgent.indexOf('Android') !== -1) os = 'Android';
+            else if (userAgent.indexOf('like Mac') !== -1) os = 'iOS';
+            
+            document.getElementById('os-name').textContent = os;
+            document.getElementById('os-platform').textContent = navigator.platform;
+            document.getElementById('cpu-cores').textContent = navigator.hardwareConcurrency || 'Unknown';
+            
+            // Device memory (not supported in all browsers)
+            if ('deviceMemory' in navigator) {
+                document.getElementById('device-memory').textContent = `${navigator.deviceMemory} GB`;
+            } else {
+                document.getElementById('device-memory').textContent = 'Not available';
             }
             
-            document.getElementById('browser-name').textContent = browserName;
-            document.getElementById('browser-version').textContent = browserVersion;
+            // Screen information
+            document.getElementById('screen-resolution').textContent = 
+                `${window.screen.width} × ${window.screen.height}`;
+            document.getElementById('pixel-ratio').textContent = window.devicePixelRatio || '1';
+        }
+
+        // Browser information detection
+        function detectBrowserInfo() {
+            const userAgent = navigator.userAgent;
+            let browser = 'Unknown';
+            let version = 'Unknown';
+            
+            // Detect browser and version
+            if (userAgent.indexOf('Firefox') > -1) {
+                browser = 'Firefox';
+                version = userAgent.match(/Firefox\/(\d+\.?\d*)/)[1];
+            } else if (userAgent.indexOf('SamsungBrowser') > -1) {
+                browser = 'Samsung Browser';
+                version = userAgent.match(/SamsungBrowser\/(\d+\.?\d*)/)[1];
+            } else if (userAgent.indexOf('OPR') > -1) {
+                browser = 'Opera';
+                version = userAgent.match(/OPR\/(\d+\.?\d*)/)[1];
+            } else if (userAgent.indexOf('Edg') > -1) {
+                browser = 'Microsoft Edge';
+                version = userAgent.match(/Edg\/(\d+\.?\d*)/)[1];
+            } else if (userAgent.indexOf('Chrome') > -1) {
+                browser = 'Chrome';
+                version = userAgent.match(/Chrome\/(\d+\.?\d*)/)[1];
+            } else if (userAgent.indexOf('Safari') > -1) {
+                browser = 'Safari';
+                const versionMatch = userAgent.match(/Version\/(\d+\.?\d*)/);
+                version = versionMatch ? versionMatch[1] : 'Unknown';
+            } else if (userAgent.indexOf('Trident') > -1) {
+                browser = 'Internet Explorer';
+                version = userAgent.match(/rv:(\d+\.?\d*)/)[1];
+            }
+            
+            document.getElementById('browser-name').textContent = browser;
+            document.getElementById('browser-version').textContent = version;
             document.getElementById('user-agent').textContent = userAgent;
             
-            // Display info
-            document.getElementById('screen-resolution').textContent = `${window.screen.width} × ${window.screen.height} pixels`;
-            document.getElementById('color-depth').textContent = `${screen.colorDepth}-bit`;
-            document.getElementById('pixel-ratio').textContent = window.devicePixelRatio || 1;
+            // Cookies
+            document.getElementById('cookies-enabled').textContent = 
+                navigator.cookieEnabled ? 'Enabled' : 'Disabled';
             
-            // Feature detection
-            const features = {
-                'js': true,
-                'cookies': navigator.cookieEnabled,
-                'webgl': (() => {
-                    try {
-                        return !!window.WebGLRenderingContext && 
-                               (document.createElement('canvas').getContext('webgl') || 
-                                document.createElement('canvas').getContext('experimental-webgl'));
-                    } catch (e) {
-                        return false;
-                    }
-                })(),
-                'workers': !!window.Worker,
-                'geolocation': 'geolocation' in navigator,
-                'notifications': 'Notification' in window,
-                'touch': 'ontouchstart' in window || navigator.maxTouchPoints > 0,
-                'online': navigator.onLine
-            };
-            
-            // Update feature indicators
-            Object.entries(features).forEach(([id, supported]) => {
-                const element = document.getElementById(id);
-                if (element) {
-                    if (supported) {
-                        element.classList.add('capability-tag');
-                    } else {
-                        element.classList.add('capability-tag', 'disabled');
-                        element.innerHTML = `${element.textContent} <span style="color: #f87171; margin-left: 4px;">✗</span>`;
-                    }
-                }
-            });
-        }
-
-        // Application Information
-        function updateAppInfo() {
-            // Set build date (would typically come from build process)
-            const buildDate = new Date();
-            document.getElementById('build-date').textContent = buildDate.toISOString().split('T')[0];
-            
-            // Track page load time
-            const pageLoadTime = window.performance.timing;
-            if (pageLoadTime.loadEventEnd > 0) {
-                const loadTime = (pageLoadTime.loadEventEnd - pageLoadTime.navigationStart) / 1000;
-                const loadTimeDisplay = `${loadTime.toFixed(2)} seconds`;
-                document.getElementById('page-load-time').textContent = loadTimeDisplay;
-                ApiService.logDiagnostic('info', `Page loaded in ${loadTimeDisplay}`, 'performance');
-            }
-            
-            // Update last updated time
-            document.getElementById('last-updated').textContent = 'Just now';
-            
-            // Start uptime counter and performance monitoring
-            let seconds = 0;
-            let lastCpuUsage = 0;
-            
-            const updateMetrics = () => {
-                // Update uptime
-                seconds++;
-                const hours = Math.floor(seconds / 3600);
-                const minutes = Math.floor((seconds % 3600) / 60);
-                const secs = seconds % 60;
-                const uptimeStr = `${hours}h ${minutes}m ${secs}s`;
-                document.getElementById('app-uptime').textContent = uptimeStr;
-                
-                // Log memory usage if available
-                if (window.performance && performance.memory) {
-                    const mem = performance.memory;
-                    const usedMB = (mem.usedJSHeapSize / (1024 * 1024)).toFixed(2);
-                    const totalMB = (mem.totalJSHeapSize / (1024 * 1024)).toFixed(2);
-                    const percentUsed = ((mem.usedJSHeapSize / mem.totalJSHeapSize) * 100).toFixed(1);
-                    
-                    // Only log memory usage every 30 seconds to avoid log spam
-                    if (seconds % 30 === 0) {
-                        ApiService.logDiagnostic('debug', `Memory: ${usedMB}MB / ${totalMB}MB (${percentUsed}%)`, 'performance', {
-                            memoryUsedMB: parseFloat(usedMB),
-                            memoryTotalMB: parseFloat(totalMB),
-                            memoryUsagePercent: parseFloat(percentUsed)
-                        });
-                    }
-                }
-                
-                // Log connection info if available
-                if (navigator.connection) {
-                    const conn = navigator.connection;
-                    if (seconds % 30 === 0) { // Log every 30 seconds
-                        const connectionInfo = {
-                            effectiveType: conn.effectiveType,
-                            downlink: conn.downlink ? `${conn.downlink} Mbps` : 'Unknown',
-                            rtt: conn.rtt ? `${conn.rtt}ms` : 'Unknown',
-                            saveData: conn.saveData ? 'Enabled' : 'Disabled'
-                        };
-                        ApiService.logDiagnostic('debug', 'Connection information', 'network', connectionInfo);
-                    }
-                }
-                
-                // Simulate some cloud events occasionally
-                if (seconds % 45 === 0) {
-                    const cloudServices = ['auth', 'storage', 'database', 'functions'];
-                    const randomService = cloudServices[Math.floor(Math.random() * cloudServices.length)];
-                    const statuses = ['connected', 'disconnected', 'error', 'timeout'];
-                    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-                    
-                    if (randomStatus === 'error') {
-                        ApiService.logDiagnostic('error', `Cloud service ${randomService} reported an error`, 'cloud', { service: randomService });
-                    } else if (randomStatus === 'timeout') {
-                        ApiService.logDiagnostic('warn', `Timeout connecting to ${randomService} service`, 'cloud', { service: randomService });
-                    } else {
-                        ApiService.logDiagnostic('info', `Cloud service ${randomService} ${randomStatus}`, 'cloud', { 
-                            service: randomService,
-                            status: randomStatus 
-                        });
-                    }
-                }
-            };
-            
-            // Initial metrics update
-            updateMetrics();
-            
-            // Set up interval for periodic updates
-            setInterval(updateMetrics, 1000);
-            
-            // Log initial app info
-            ApiService.logDiagnostic('info', 'Application information initialized', 'runtime');
-            ApiService.logDiagnostic('debug', `Build date: ${buildDate.toISOString()}`, 'runtime');
-            ApiService.logDiagnostic('info', 'Performance monitoring started', 'performance');
-        }
-
-        // Diagnostic Panel Functionality
-        class DiagnosticLogger {
-            constructor() {
-                this.logs = {
-                    runtime: [],
-                    trace: [],
-                    diagnostics: [],
-                    cloud: []
-                };
-                this.initializeEventListeners();
-                this.initializeDiagnosticInfo();
-                this.setupConsoleOverrides();
-            }
-
-            log(level, message, tab = 'runtime') {
-                const timestamp = new Date().toISOString();
-                const logEntry = { timestamp, level, message };
-                
-                if (this.logs[tab]) {
-                    this.logs[tab].push(logEntry);
-                    this.updateLogDisplay(tab);
-                }
-                
-                // Also log to browser console
-                const originalConsole = console[level] || console.log;
-                originalConsole.apply(console, [`[${tab.toUpperCase()}]`, message]);
-            }
-
-            updateLogDisplay(tab) {
-                const logElement = document.getElementById(`${tab}-log`);
-                if (!logElement) return;
-
-                logElement.innerHTML = this.logs[tab]
-                    .map(entry => `
-                        <div class="log-entry log-${entry.level}">
-                            <span class="log-time">${new Date(entry.timestamp).toLocaleTimeString()}</span>
-                            <span class="log-level">${entry.level.toUpperCase()}</span>
-                            <span class="log-message">${entry.message}</span>
-                        </div>`
-                    )
-                    .join('');
-                
-                // Auto-scroll to bottom
-                logElement.scrollTop = logElement.scrollHeight;
-            }
-
-            clearLogs(tab = null) {
-                if (tab) {
-                    this.logs[tab] = [];
-                    this.updateLogDisplay(tab);
+            // Network status
+            const updateOnlineStatus = () => {
+                const statusElement = document.getElementById('online-status');
+                if (navigator.onLine) {
+                    statusElement.textContent = 'Online';
+                    statusElement.className = 'value online';
                 } else {
-                    Object.keys(this.logs).forEach(t => {
-                        this.logs[t] = [];
-                        this.updateLogDisplay(t);
-                    });
+                    statusElement.textContent = 'Offline';
+                    statusElement.className = 'value offline';
                 }
-                this.log('info', 'Logs cleared', tab || 'all');
-            }
-
-            copyLogsToClipboard(tab) {
-                const logText = this.logs[tab]
-                    .map(entry => `[${new Date(entry.timestamp).toISOString()}] [${entry.level}] ${entry.message}`)
-                    .join('\n');
-                
-                navigator.clipboard.writeText(logText).then(() => {
-                    this.log('info', 'Logs copied to clipboard', tab);
-                }).catch(err => {
-                    this.log('error', `Failed to copy logs: ${err.message}`, tab);
-                });
-            }
-
-            initializeEventListeners() {
-                // Tab switching
-                document.querySelectorAll('.tab-button').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const tab = e.target.dataset.tab;
-                        
-                        // Update active tab
-                        document.querySelectorAll('.tab-button').forEach(btn => {
-                            btn.classList.remove('active');
-                        });
-                        e.target.classList.add('active');
-                        
-                        // Show corresponding content
-                        document.querySelectorAll('.log-content').forEach(content => {
-                            content.classList.remove('active');
-                        });
-                        document.getElementById(`${tab}-log`).classList.add('active');
-                    });
-                });
-
-                // Control buttons
-                document.getElementById('clear-logs')?.addEventListener('click', () => {
-                    const activeTab = document.querySelector('.tab-button.active')?.dataset.tab;
-                    if (activeTab) this.clearLogs(activeTab);
-                });
-
-                document.getElementById('copy-logs')?.addEventListener('click', () => {
-                    const activeTab = document.querySelector('.tab-button.active')?.dataset.tab;
-                    if (activeTab) this.copyLogsToClipboard(activeTab);
-                });
-
-                document.getElementById('refresh-logs')?.addEventListener('click', () => {
-                    const activeTab = document.querySelector('.tab-button.active')?.dataset.tab;
-                    if (activeTab) this.updateLogDisplay(activeTab);
-                });
-            }
-
-            setupConsoleOverrides() {
-                // Override console methods to capture logs
-                const originalConsole = {
-                    log: console.log,
-                    info: console.info,
-                    warn: console.warn,
-                    error: console.error
-                };
-
-                ['log', 'info', 'warn', 'error'].forEach(level => {
-                    console[level] = (...args) => {
-                        // Call original console method
-                        originalConsole[level].apply(console, args);
-                        
-                        // Format message
-                        const message = args
-                            .map(arg => 
-                                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
-                            )
-                            .join(' ');
-                        
-                        // Log to our panel
-                        this.log(level, message, 'runtime');
-                    };
-                });
-            }
-
-            initializeDiagnosticInfo() {
-                // Initial system info
-                this.log('info', 'Initializing diagnostic console...', 'runtime');
-                this.log('info', `User Agent: ${navigator.userAgent}`, 'diagnostics');
-                this.log('info', `Platform: ${navigator.platform}`, 'diagnostics');
-                this.log('info', `Language: ${navigator.language}`, 'diagnostics');
-                this.log('info', `Online: ${navigator.onLine}`, 'diagnostics');
-                this.log('info', `Cookies: ${navigator.cookieEnabled}`, 'diagnostics');
-                this.log('info', `Screen: ${window.screen.width}x${window.screen.height}`, 'diagnostics');
-                this.log('info', `Color Depth: ${screen.colorDepth}`, 'diagnostics');
-                
-                // Test cloud connection
-                this.testCloudConnection();
-                
-                // Start trace logging
-                this.startTraceLogging();
-            }
+            };
             
-            testCloudConnection() {
-                this.log('info', 'Testing cloud connectivity...', 'cloud');
+            // Connection type
+            const updateConnectionInfo = () => {
+                const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                const connectionElement = document.getElementById('connection-type');
                 
-                // Test with a small request to a reliable endpoint
-                const testUrls = [
-                    'https://httpbin.org/get',
-                    'https://www.google.com/favicon.ico'
-                ];
-                
-                testUrls.forEach(url => {
-                    fetch(url, { method: 'HEAD', cache: 'no-store' })
-                        .then(() => {
-                            this.log('success', `Connected to ${new URL(url).hostname}`, 'cloud');
-                        })
-                        .catch(err => {
-                            this.log('error', `Failed to connect to ${url}: ${err.message}`, 'cloud');
-                        });
-                });
-            }
-            
-            startTraceLogging() {
-                // Log performance metrics
-                if (window.performance) {
-                    const perf = window.performance;
-                    const timing = perf.timing;
+                if (connection) {
+                    const type = connection.effectiveType || connection.type || 'Unknown';
+                    connectionElement.textContent = 
+                        `${type.charAt(0).toUpperCase() + type.slice(1)}`;
                     
-                    if (timing) {
-                        const loadTime = timing.loadEventEnd - timing.navigationStart;
-                        this.log('info', `Page loaded in ${loadTime}ms`, 'trace');
-                        
-                        // Log resource timing
-                        const resources = perf.getEntriesByType('resource');
-                        resources.forEach(resource => {
-                            this.log('info', 
-                                `${resource.name} loaded in ${resource.duration.toFixed(2)}ms`,
-                                'trace'
-                            );
-                        });
+                    // Add more connection details if available
+                    if (connection.downlink) {
+                        connectionElement.textContent += ` (${connection.downlink} Mbps)`;
                     }
+                } else {
+                    connectionElement.textContent = 'Unknown';
                 }
-                
-                // Log memory usage if available
-                if (performance.memory) {
-                    const formatMemory = (bytes) => {
-                        return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
-                    };
-                    
-                    this.log('info', 
-                        `Memory: ${formatMemory(performance.memory.usedJSHeapSize)} used, ` +
-                        `${formatMemory(performance.memory.totalJSHeapSize)} total`,
-                        'trace'
-                    );
-                }
-                
-                // Log network status changes
-                window.addEventListener('online', () => {
-                    this.log('info', 'Network: Online', 'trace');
-                });
-                
-                window.addEventListener('offline', () => {
-                    this.log('warn', 'Network: Offline', 'trace');
-                });
-                
-                // Log page visibility changes
-                document.addEventListener('visibilitychange', () => {
-                    this.log('info', 
-                        `Page ${document.visibilityState}`,
-                        'trace'
-                    );
-                });
+            };
+            
+            // Set up event listeners
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            
+            if ('connection' in navigator) {
+                navigator.connection.addEventListener('change', updateConnectionInfo);
             }
+            
+            // Initial updates
+            updateOnlineStatus();
+            updateConnectionInfo();
         }
-
-        // Initialize diagnostic logger
-        const logger = new DiagnosticLogger();
-        
-        // Example usage of the logger
-        logger.log('info', 'Diagnostic console initialized', 'runtime');
-        
-        // Initialize all updates when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            // Core information updates
-            updateSystemInfo();
-            
-            // Log system info
-            logger.log('info', 'System information updated', 'diagnostics');
-            logger.log('info', `Browser: ${navigator.userAgent}`, 'diagnostics');
-            logger.log('info', `Screen: ${window.screen.width}x${window.screen.height}`, 'diagnostics');
-            updateServerInfo();
-            updateUserSession();
-            updateBrowserCapabilities();
-            updateAppInfo();
-            
-            // Update time every second
-            setInterval(() => {
-                const now = new Date();
-                document.getElementById('local-time').textContent = now.toLocaleString();
-                document.getElementById('user-online').textContent = navigator.onLine ? 'Yes' : 'No';
-                
-                // Update last updated time every minute
-                if (now.getSeconds() === 0) {
-                    document.getElementById('last-updated').textContent = `Last updated at ${now.toLocaleTimeString()}`;
-                }
-            }, 1000);
-        });
     </script>
-
-    <!-- Footer -->
-    <footer role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
-        <div class="footer-content">
-            <h2 class="visually-hidden">Contact & Legal Information</h2>
-            
-            <!-- Contact Section -->
-            <section class="footer-section" aria-labelledby="contact-heading">
-                <h3 id="contact-heading" class="footer-heading">
-                    <span class="emoji" aria-hidden="true">🚀</span>
-                    <span>Contact Options</span>
-                </h3>
-                <div class="footer-social" role="navigation" aria-label="Contact methods">
-                    <a href="https://linkedin.com/in/donaldwsmithjr" 
-                       class="project-card fade-in"
-                       target="_blank" 
-                       rel="noopener noreferrer"
-                       aria-label="Connect on LinkedIn">
-                        <span class="social-icon" aria-hidden="true">🔗</span>
-                        <span class="social-text">LinkedIn</span>
-                    </a>
-                    <a href="https://github.com/DWSMITHJR" 
-                       class="project-card fade-in" 
-                       target="_blank" 
-                       rel="noopener noreferrer"
-                       aria-label="View GitHub profile">
-                        <span class="social-icon" aria-hidden="true">🐙</span>
-                        <span class="social-text">GitHub</span>
-                    </a> 
-                    <a href="mailto:architect@donaldwsmithjr.com"
-                       class="project-card fade-in" 
-                       aria-label="Send email to Donald W. Smith Jr.">
-                        <span class="social-icon" aria-hidden="true">📧</span>
-                        <span class="social-text">Email</span>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Legal & Copyright -->
-            <div class="footer-legal" role="contentinfo">
-                <p class="copyright">
-                    &copy; <span itemprop="copyrightYear">2025</span> 
-                    <span itemprop="copyrightHolder" itemscope itemtype="https://schema.org/Person">
-                        <span itemprop="name">Donald W. Smith Jr.</span>
-                    </span>
-                    <span class="footer-separator" aria-hidden="true">|</span>
-                    <a href="privacy.html" class="footer-link">Privacy Policy</a>
-                    <span class="footer-separator" aria-hidden="true">|</span>
-                    <a href="terms.html" class="footer-link">Terms of Service</a>
-                </p>
-                <p class="tagline">
-                    Built with <span class="heart" aria-label="love">❤️</span> for innovation 
-                    <span class="footer-separator" aria-hidden="true">|</span>
-                    Solving the future, one success after another
-                </p>
-            </div>
-            
-            <!-- Structured Data for Organization -->
-            <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                "name": "Donald W. Smith Jr. Portfolio",
-                "url": "https://donaldwsmithjr.com",
-                "logo": "https://donaldwsmithjr.com/images/DLogo.jpg",
-                "sameAs": [
-                    "https://linkedin.com/in/donaldwsmithjr",
-                    "https://github.com/DWSMITHJR"
-                ]
-            }
-            </script>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
-    <script src="js/config.js" defer></script>
-    <script src="js/api.js" defer></script>
-    <script src="js/tracking.js" defer></script>
-    <script src="js/main.js" defer></script>
 </body>
 </html>
