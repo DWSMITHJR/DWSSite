@@ -298,8 +298,16 @@
                 // Check if auth.js functions are available
                 if (typeof generateAccessCode !== 'function' || 
                     typeof saveAuthData !== 'function' || 
-                    typeof isValidEmail !== 'function') {
-                    console.error('Required auth.js functions are not available');
+                    typeof isValidEmail !== 'function' ||
+                    typeof logEvent !== 'function') {
+                    const errorMsg = 'Required auth.js functions are not available';
+                    console.error(errorMsg);
+                    logEvent(LOG_LEVEL.ERROR, errorMsg, { 
+                        hasGenerateAccessCode: typeof generateAccessCode === 'function',
+                        hasSaveAuthData: typeof saveAuthData === 'function',
+                        hasIsValidEmail: typeof isValidEmail === 'function',
+                        hasLogEvent: typeof logEvent === 'function'
+                    });
                     alert('Error: Required scripts not loaded. Please open this page through a web server.');
                     return;
                 }
@@ -317,6 +325,10 @@
                 }
                 
                 console.log('Form initialization complete');
+                logEvent(LOG_LEVEL.INFO, 'Access code form initialized', {
+                    userAgent: navigator.userAgent,
+                    timestamp: new Date().toISOString()
+                });
             }
 
             // Handle form submission
@@ -327,15 +339,26 @@
                 const email = emailInput.value.trim();
                 console.log('Email entered:', email);
                 
+                // Log the access code request attempt
+                logEvent(LOG_LEVEL.ACCESS, 'Access code requested', { 
+                    email,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+                
                 // Validate email
                 if (!email) {
-                    console.log('No email provided');
+                    const errorMsg = 'No email provided';
+                    console.log(errorMsg);
+                    logEvent(LOG_LEVEL.WARN, errorMsg);
                     showError(emailInput, emailError, 'Please enter your email address');
                     return;
                 }
                 
                 if (!isValidEmail(email)) {
-                    console.log('Invalid email format');
+                    const errorMsg = 'Invalid email format';
+                    console.log(errorMsg);
+                    logEvent(LOG_LEVEL.WARN, errorMsg, { email });
                     showError(emailInput, emailError, 'Please enter a valid email address');
                     return;
                 }
@@ -351,8 +374,17 @@
                     hashResult.textContent = accessCode;
                     
                     // Store the authentication data
-                    saveAuthData(email, accessCode);
-                    console.log('Auth data saved to localStorage');
+                    const saveResult = saveAuthData(email, accessCode);
+                    if (saveResult) {
+                        console.log('Auth data saved to localStorage');
+                        logEvent(LOG_LEVEL.ACCESS, 'Access code generated and saved', {
+                            email,
+                            code: accessCode,
+                            timestamp: new Date().toISOString()
+                        });
+                    } else {
+                        throw new Error('Failed to save auth data');
+                    }
                     
                     // Show the result
                     resultContainer.style.display = 'flex';
@@ -363,6 +395,12 @@
                     
                 } catch (error) {
                     console.error('Error generating access code:', error);
+                    logEvent(LOG_LEVEL.ERROR, 'Error generating access code', {
+                        email,
+                        error: error.message,
+                        stack: error.stack,
+                        timestamp: new Date().toISOString()
+                    });
                     showError(emailInput, emailError, 'An error occurred. Please try again.');
                 }
             }
@@ -381,6 +419,12 @@
                     copyBtn.classList.add('copied');
                     copyText.textContent = 'Copied!';
                     
+                    // Log the copy action
+                    logEvent(LOG_LEVEL.ACCESS, 'Access code copied to clipboard', {
+                        code: hashResult.textContent,
+                        timestamp: new Date().toISOString()
+                    });
+                    
                     // Revert after 2 seconds
                     setTimeout(() => {
                         copyBtn.classList.remove('copied');
@@ -389,6 +433,10 @@
                     
                 } catch (err) {
                     console.error('Failed to copy text: ', err);
+                    logEvent(LOG_LEVEL.ERROR, 'Failed to copy access code', {
+                        error: err.message,
+                        timestamp: new Date().toISOString()
+                    });
                     showError(null, null, 'Failed to copy code');
                 }
             }

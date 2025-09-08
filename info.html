@@ -502,32 +502,64 @@
             }
 
             // Download a document
-            function downloadDocument(doc) {
-                if (!doc || !doc.path) {
-                    showNotification('Error: Invalid document', 'error');
+            async function downloadDocument(doc) {
+                if (!doc || !doc.fileName) {
+                    const errorMsg = 'Invalid document data';
+                    console.error(errorMsg, doc);
+                    logEvent(LOG_LEVEL.ERROR, errorMsg, { doc });
                     return;
                 }
                 
-                // Create a temporary link element
-                const link = document.createElement('a');
-                link.href = doc.path;
-                link.download = doc.title + '.' + doc.fileType;
-                
-                // Append to the document
-                document.body.appendChild(link);
-                
-                // Trigger the download
-                link.click();
-                
-                // Clean up
-                document.body.removeChild(link);
-                
-                // Show success message
-                showNotification(`Downloading ${doc.title}...`, 'success');
-                
-                // Log the download
-                console.log('Downloading document:', doc.title, 'from', doc.path);
-                console.log('Downloading document:', doc);
+                try {
+                    // Log the download attempt
+                    logEvent(LOG_LEVEL.ACCESS, 'Document download started', {
+                        documentId: doc.id,
+                        documentTitle: doc.title,
+                        fileName: doc.fileName,
+                        fileType: doc.fileType,
+                        fileSize: doc.fileSize,
+                        user: currentUser,
+                        timestamp: new Date().toISOString(),
+                        userAgent: navigator.userAgent,
+                        ip: await getClientIP()
+                    });
+                    
+                    // Create a temporary link element
+                    const link = document.createElement('a');
+                    link.href = `files/${encodeURIComponent(doc.fileName)}`;
+                    link.download = doc.fileName;
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    
+                    // Append to the document, trigger click, and remove
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    // Log successful download
+                    logEvent(LOG_LEVEL.ACCESS, 'Document download completed', {
+                        documentId: doc.id,
+                        documentTitle: doc.title,
+                        fileName: doc.fileName,
+                        user: currentUser,
+                        timestamp: new Date().toISOString()
+                    });
+                    
+                    // Show success message
+                    showNotification(`Downloading ${doc.title}...`, 'success');
+                } catch (error) {
+                    console.error('Error downloading document:', error);
+                    logEvent(LOG_LEVEL.ERROR, 'Document download failed', {
+                        documentId: doc.id,
+                        documentTitle: doc.title,
+                        fileName: doc.fileName,
+                        user: currentUser,
+                        error: error.message,
+                        stack: error.stack,
+                        timestamp: new Date().toISOString()
+                    });
+                    showNotification('Error downloading document', 'error');
+                }
             }
 
             // Verify document access for download
@@ -618,17 +650,39 @@
             async function handleLogin(e) {
                 e.preventDefault();
                 
-                const email = emailInput.value.trim();
+                const email = emailInput.value.trim().toLowerCase();
                 const code = codeInput.value.trim();
+                const timestamp = new Date().toISOString();
+                
+                // Log the login attempt
+                logEvent(LOG_LEVEL.ACCESS, 'Login attempt', {
+                    email,
+                    code,
+                    timestamp,
+                    userAgent: navigator.userAgent,
+                    ip: await getClientIP()
+                });
                 
                 // Validate inputs
                 if (!email || !code) {
-                    showNotification('Please fill in all fields', 'error');
+                    const errorMsg = 'Please fill in all fields';
+                    logEvent(LOG_LEVEL.WARN, 'Login validation failed', {
+                        email,
+                        error: errorMsg,
+                        timestamp
+                    });
+                    showNotification(errorMsg, 'error');
                     return;
                 }
                 
                 if (!isValidEmail(email)) {
-                    showNotification('Please enter a valid email address', 'error');
+                    const errorMsg = 'Please enter a valid email address';
+                    logEvent(LOG_LEVEL.WARN, 'Login validation failed', {
+                        email,
+                        error: 'Invalid email format',
+                        timestamp
+                    });
+                    showNotification(errorMsg, 'error');
                     emailInput.focus();
                     return;
                 }
@@ -637,6 +691,14 @@
                 const generatedCode = generateAccessCode(email);
                 
                 if (code === generatedCode) {
+                    // Log successful login
+                    logEvent(LOG_LEVEL.ACCESS, 'Login successful', {
+                        email,
+                        code,
+                        timestamp,
+                        userAgent: navigator.userAgent
+                    });
+                    
                     // Save auth data
                     saveAuthData(email, code);
                     currentUser = email;
@@ -644,6 +706,7 @@
                     // Initialize user's documents if they don't exist
                     const userDocs = getUserDocuments(email);
                     if (!userDocs || userDocs.length === 0) {
+                        logEvent(LOG_LEVEL.INFO, 'Initializing sample documents for new user', { email });
                         initializeSampleDocuments(email);
                     }
                     
@@ -651,14 +714,43 @@
                     loadDocuments();
                     showNotification('Login successful!', 'success');
                 } else {
+                    // Log failed login attempt
+                    logEvent(LOG_LEVEL.WARN, 'Invalid access code', {
+                        email,
+                        providedCode: code,
+                        expectedCode: generatedCode,
+                        timestamp,
+                        userAgent: navigator.userAgent,
+                        ip: await getClientIP()
+                    });
+                    
                     showNotification('Invalid access code', 'error');
                     codeInput.focus();
+                }
+            }
+
+            // Get client IP address
+            async function getClientIP() {
+                try {
+                    const response = await fetch('https://api.ipify.org?format=json');
+                    const data = await response.json();
+                    return data.ip || 'unknown';
+                } catch (error) {
+                    console.error('Error getting client IP:', error);
+                    return 'unknown';
                 }
             }
 
             // Handle logout
             function handleLogout(e) {
                 if (e) e.preventDefault();
+                
+                // Log the logout
+                logEvent(LOG_LEVEL.ACCESS, 'User logged out', {
+                    email: currentUser,
+                    timestamp: new Date().toISOString()
+                });
+                
                 clearAuthData();
                 currentUser = null;
                 documents = [];
@@ -667,32 +759,66 @@
             }
 
             // Handle request access code
-            function handleRequestCode() {
-                const email = emailInput.value.trim();
+            async function handleRequestCode() {
+                const email = emailInput.value.trim().toLowerCase();
+                const timestamp = new Date().toISOString();
                 
                 if (!email) {
-                    showNotification('Please enter your email address', 'error');
+                    const errorMsg = 'Please enter your email address';
+                    logEvent(LOG_LEVEL.WARN, 'Access code request validation failed', {
+                        email,
+                        error: 'No email provided',
+                        timestamp
+                    });
+                    showNotification(errorMsg, 'error');
                     emailInput.focus();
                     return;
                 }
                 
                 if (!isValidEmail(email)) {
-                    showNotification('Please enter a valid email address', 'error');
+                    const errorMsg = 'Please enter a valid email address';
+                    logEvent(LOG_LEVEL.WARN, 'Access code request validation failed', {
+                        email,
+                        error: 'Invalid email format',
+                        timestamp
+                    });
+                    showNotification(errorMsg, 'error');
                     emailInput.focus();
                     return;
                 }
                 
-                // Generate and display the access code
-                const accessCode = generateAccessCode(email);
-                
-                // In a real app, you would send this code to the user's email
-                // For this example, we'll just show it in an alert
-                alert(`Your access code is: ${accessCode}\n\n(Note: In a real app, this would be sent to your email)`);
-                
-                // Enable the code input and login button
-                if (codeInput) codeInput.disabled = false;
-                if (loginBtn) loginBtn.disabled = false;
-                if (codeInput) codeInput.focus();
+                try {
+                    // Generate and display the access code
+                    const accessCode = generateAccessCode(email);
+                    
+                    // Log the access code generation
+                    logEvent(LOG_LEVEL.ACCESS, 'Access code generated', {
+                        email,
+                        code: accessCode,
+                        timestamp,
+                        userAgent: navigator.userAgent,
+                        ip: await getClientIP()
+                    });
+                    
+                    // In a real app, you would send this code to the user's email
+                    // For this example, we'll just show it in an alert
+                    alert(`Your access code is: ${accessCode}\n\n(Note: In a real app, this would be sent to your email)`);
+                    
+                    // Enable the code input and login button
+                    if (codeInput) codeInput.disabled = false;
+                    if (loginBtn) loginBtn.disabled = false;
+                    if (codeInput) codeInput.focus();
+                    
+                } catch (error) {
+                    console.error('Error generating access code:', error);
+                    logEvent(LOG_LEVEL.ERROR, 'Error generating access code', {
+                        email,
+                        error: error.message,
+                        stack: error.stack,
+                        timestamp: new Date().toISOString()
+                    });
+                    showNotification('Error generating access code. Please try again.', 'error');
+                }
             }
 
             // Handle file upload
