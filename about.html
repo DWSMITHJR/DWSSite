@@ -24,12 +24,18 @@
     <link rel="stylesheet" href="css/styles.css" media="all">
     <link rel="stylesheet" href="css/about.css" media="all">
     <link rel="stylesheet" href="css/legal.css" media="all">
+    <link rel="stylesheet" href="css/components/environment-info.css" media="all">
     
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
+    <!-- Environment Badge -->
+    <div id="environment-badge" class="environment-badge">
+        <span id="environment-text">Environment</span>
+    </div>
+    
     <!-- Animated Background -->
     <div class="bg-particles" id="particles"></div>
 
@@ -166,29 +172,29 @@
 
             <!-- User Session Section -->
             <section class="info-section">
-                <h2>User Session</h2>
+                <h2>System Authentication & Session</h2>
                 <div class="info-grid">
                     <div class="info-card">
-                        <h3>Connection</h3>
-                        <p>Status: <span id="connection-status" class="value">-</span></p>
-                        <p>Type: <span id="connection-type" class="value">-</span></p>
-                        <p>Effective Type: <span id="effective-type" class="value">-</span></p>
-                        <p>Downlink: <span id="downlink" class="value">-</span></p>
-                        <p>RTT: <span id="rtt" class="value">-</span></p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Authentication</h3>
-                        <p>Status: <span id="auth-status" class="value">-</span></p>
-                        <p>User: <span id="auth-user" class="value">-</span></p>
-                        <p>Role: <span id="auth-role" class="value">-</span></p>
+                        <h3>System Authentication</h3>
+                        <p>Status: <span id="auth-status" class="value">Unauthenticated</span></p>
+                        <p>User: <span id="auth-user" class="value">Guest</span></p>
+                        <p>Role: <span id="auth-role" class="value">Public</span></p>
                         <p>Last Login: <span id="last-login" class="value">-</span></p>
+                        <p>Auth Provider: <span id="auth-provider" class="value">None</span></p>
                     </div>
                     <div class="info-card">
-                        <h3>Activity</h3>
+                        <h3>Session Information</h3>
+                        <p>Session ID: <span id="session-id" class="value">-</span></p>
                         <p>Session Start: <span id="session-start" class="value">-</span></p>
                         <p>Last Active: <span id="last-active" class="value">-</span></p>
-                        <p>Page Views: <span id="page-views" class="value">-</span></p>
-                        <p>Time on Page: <span id="time-on-page" class="value">-</span></p>
+                        <p>Session Timeout: <span id="session-timeout" class="value">-</span></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>System Status</h3>
+                        <p>Cookies: <span id="cookies-status" class="value">-</span></p>
+                        <p>Local Storage: <span id="local-storage" class="value">-</span></p>
+                        <p>Session Storage: <span id="session-storage" class="value">-</span></p>
+                        <p>Secure Context: <span id="secure-context" class="value">-</span></p>
                     </div>
                 </div>
             </section>
@@ -250,10 +256,228 @@
             </div>
         </section>
     </main>
+    
+    <!-- Loading Indicator -->
+    <div id="loading-indicator" class="loading-indicator">
+        <div class="loading-spinner"></div>
+        <p>Loading system information...</p>
+    </div>
+    
+    <!-- Inline Environment Detection -->
     <script>
-        // Update current year
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+        // Simple environment detection
+        function detectEnvironment() {
+            const { hostname, port, search } = window.location;
+            return {
+                isDev: hostname === 'localhost' || 
+                       hostname === '127.0.0.1' || 
+                       port === '3000' || 
+                       port === '8080' ||
+                       search.includes('dev=true') ||
+                       window.location.protocol === 'file:',
+                protocol: window.location.protocol,
+                host: window.location.host,
+                href: window.location.href
+            };
+        }
 
+        // Update environment badge
+        function updateEnvironmentBadge() {
+            const env = detectEnvironment();
+            const envBadge = document.getElementById('environment-badge');
+            const envText = document.getElementById('environment-text');
+            
+            if (envBadge && envText) {
+                if (env.isDev) {
+                    document.body.classList.add('env-development');
+                    envText.textContent = 'Development';
+                } else {
+                    document.body.classList.add('env-production');
+                    envText.textContent = 'Production';
+                }
+            }
+        }
+
+        // Update system information
+        function updateSystemInfo() {
+            // Update current year
+            const yearElement = document.getElementById('current-year');
+            if (yearElement) {
+                yearElement.textContent = new Date().getFullYear();
+            }
+
+            // Update OS info
+            const osInfo = {
+                name: navigator.platform,
+                platform: navigator.platform,
+                arch: navigator.cpuClass || 'Unknown',
+                cores: navigator.hardwareConcurrency || 'Unknown'
+            };
+
+            const osName = document.getElementById('os-name');
+            const osPlatform = document.getElementById('os-platform');
+            const osArch = document.getElementById('os-arch');
+            const cpuCores = document.getElementById('cpu-cores');
+            const cpuThreads = document.getElementById('cpu-threads');
+
+            if (osName) osName.textContent = osInfo.name;
+            if (osPlatform) osPlatform.textContent = osInfo.platform;
+            if (osArch) osArch.textContent = osInfo.arch;
+            if (cpuCores) cpuCores.textContent = osInfo.cores;
+            if (cpuThreads) cpuThreads.textContent = osInfo.cores * 2 || 'Unknown';
+
+            // Memory info
+            const memTotal = document.getElementById('mem-total');
+            const memFree = document.getElementById('mem-free');
+            const memUsed = document.getElementById('mem-used');
+            
+            if (navigator.deviceMemory) {
+                if (memTotal) memTotal.textContent = `${navigator.deviceMemory} GB`;
+            } else {
+                if (memTotal) memTotal.textContent = 'N/A';
+            }
+            if (memFree) memFree.textContent = 'N/A';
+            if (memUsed) memUsed.textContent = 'N/A';
+        }
+
+        // Initialize the page
+        function initPage() {
+            updateEnvironmentBadge();
+            updateSystemInfo();
+            
+            // Hide loading indicator
+            const loadingIndicator = document.getElementById('loading-indicator');
+            if (loadingIndicator) {
+                loadingIndicator.style.opacity = '0';
+                setTimeout(() => {
+                    loadingIndicator.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        // Run initialization when DOM is loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPage);
+        } else {
+            initPage();
+        }
+    </script>
+    
+    <style>
+        /* Loading Indicator Styles */
+        .loading-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #3498db;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            text-align: center;
+            max-width: 80%;
+            padding: 20px;
+            background: #fff3f3;
+            border: 1px solid #ffcdd2;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .error-message button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+        
+        .error-message button:hover {
+            background: #2980b9;
+        }
+        
+        /* Environment-specific styles */
+        .env-development .environment-badge {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+        
+        .env-production .environment-badge {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: #2ecc71;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+    </style>
+    
+    <script>
+        // Update current year (non-blocking)
+        requestIdleCallback(() => {
+            const yearElement = document.getElementById('current-year');
+            if (yearElement) {
+                yearElement.textContent = new Date().getFullYear();
+            }
+        });
+
+        // Set environment badge (non-blocking)
+        requestIdleCallback(() => {
+            const isDev = window.location.hostname === 'localhost' || 
+                         window.location.hostname === '127.0.0.1' || 
+                         window.location.port === '3000' ||
+                         window.location.port === '8080' ||
+                         window.location.search.includes('dev=true');
+            
+            const envBadge = document.getElementById('environment-badge');
+            const envText = document.getElementById('environment-text');
+            
+            if (envBadge && envText) {
+                if (isDev) {
+                    document.body.classList.add('env-development');
+                    envText.textContent = 'Development';
+                } else {
+                    document.body.classList.add('env-production');
+                    envText.textContent = 'Production';
+                }
+            }
+        });
+        
         // System Information
         function updateSystemInfo() {
             // OS Info
@@ -302,29 +526,32 @@
 
         // User Session
         function updateUserSession() {
-            // Get IP - Note: This requires a third-party service in a real app
-            fetch('https://api.ipify.org?format=json')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('user-ip').textContent = data.ip || 'Unknown';
-                })
-                .catch(() => {
-                    document.getElementById('user-ip').textContent = 'Could not determine';
-                });
-
-            document.getElementById('user-lang').textContent = navigator.language || navigator.userLanguage || 'Unknown';
-            document.getElementById('user-online').textContent = navigator.onLine ? 'Yes' : 'No';
-            
-            // Time info
             const now = new Date();
-            document.getElementById('local-time').textContent = now.toLocaleString();
-            document.getElementById('time-zone').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
-            document.getElementById('daylight-saving').textContent = now.getTimezoneOffset() < now.getTimezoneOffset(new Date(2023, 6, 1)) ? 'Yes' : 'No';
             
-            // Storage
-            document.getElementById('cookies-enabled').textContent = navigator.cookieEnabled ? 'Enabled' : 'Disabled';
+            // Generate a simple session ID (in a real app, this would come from the server)
+            const sessionId = 'sess_' + Math.random().toString(36).substr(2, 9);
+            document.getElementById('session-id').textContent = sessionId;
+            
+            // Set session start time
+            document.getElementById('session-start').textContent = now.toLocaleString();
+            document.getElementById('last-active').textContent = now.toLocaleTimeString();
+            
+            // Check secure context
+            document.getElementById('secure-context').textContent = window.isSecureContext ? 'Yes' : 'No';
+            
+            // Check storage availability
+            document.getElementById('cookies-status').textContent = navigator.cookieEnabled ? 'Enabled' : 'Disabled';
             document.getElementById('local-storage').textContent = typeof(Storage) !== 'undefined' ? 'Available' : 'Not Available';
             document.getElementById('session-storage').textContent = typeof(sessionStorage) !== 'undefined' ? 'Available' : 'Not Available';
+            
+            // Set session timeout (30 minutes from now)
+            const timeout = new Date(now.getTime() + 30 * 60 * 1000);
+            document.getElementById('session-timeout').textContent = timeout.toLocaleTimeString();
+            
+            // Update last active time every minute
+            setInterval(() => {
+                document.getElementById('last-active').textContent = new Date().toLocaleTimeString();
+            }, 60000);
         }
 
         // Browser Capabilities
@@ -506,34 +733,39 @@
                 };
                 this.initializeEventListeners();
                 this.initializeDiagnosticInfo();
+                this.setupConsoleOverrides();
             }
 
             log(level, message, tab = 'runtime') {
                 const timestamp = new Date().toISOString();
-                const logEntry = { level, message, timestamp };
-                this.logs[tab].push(logEntry);
-                this.updateLogDisplay(tab);
-                return logEntry;
+                const logEntry = { timestamp, level, message };
+                
+                if (this.logs[tab]) {
+                    this.logs[tab].push(logEntry);
+                    this.updateLogDisplay(tab);
+                }
+                
+                // Also log to browser console
+                const originalConsole = console[level] || console.log;
+                originalConsole.apply(console, [`[${tab.toUpperCase()}]`, message]);
             }
 
             updateLogDisplay(tab) {
-                const logContent = document.getElementById(`${tab}-log`);
-                if (!logContent) return;
+                const logElement = document.getElementById(`${tab}-log`);
+                if (!logElement) return;
 
-                logContent.innerHTML = this.logs[tab].map(entry => {
-                    return `
-                        <div class="log-entry">
-                            <span class="log-timestamp">[${new Date(entry.timestamp).toLocaleTimeString()}]</span>
-                            <span class="log-level ${entry.level}">${entry.level.toUpperCase()}</span>
-                            <span>${entry.message}</span>
-                        </div>
-                    `;
-                }).join('');
-
+                logElement.innerHTML = this.logs[tab]
+                    .map(entry => `
+                        <div class="log-entry log-${entry.level}">
+                            <span class="log-time">${new Date(entry.timestamp).toLocaleTimeString()}</span>
+                            <span class="log-level">${entry.level.toUpperCase()}</span>
+                            <span class="log-message">${entry.message}</span>
+                        </div>`
+                    )
+                    .join('');
+                
                 // Auto-scroll to bottom
-                if (logContent.scrollHeight > logContent.clientHeight) {
-                    logContent.scrollTop = logContent.scrollHeight;
-                }
+                logElement.scrollTop = logElement.scrollHeight;
             }
 
             clearLogs(tab = null) {
@@ -546,14 +778,15 @@
                         this.updateLogDisplay(t);
                     });
                 }
+                this.log('info', 'Logs cleared', tab || 'all');
             }
 
             copyLogsToClipboard(tab) {
-                const logsToCopy = this.logs[tab].map(entry => 
-                    `[${new Date(entry.timestamp).toISOString()}] ${entry.level.toUpperCase()}: ${entry.message}`
-                ).join('\n');
-
-                navigator.clipboard.writeText(logsToCopy).then(() => {
+                const logText = this.logs[tab]
+                    .map(entry => `[${new Date(entry.timestamp).toISOString()}] [${entry.level}] ${entry.message}`)
+                    .join('\n');
+                
+                navigator.clipboard.writeText(logText).then(() => {
                     this.log('info', 'Logs copied to clipboard', tab);
                 }).catch(err => {
                     this.log('error', `Failed to copy logs: ${err.message}`, tab);
@@ -571,7 +804,7 @@
                             btn.classList.remove('active');
                         });
                         e.target.classList.add('active');
-
+                        
                         // Show corresponding content
                         document.querySelectorAll('.log-content').forEach(content => {
                             content.classList.remove('active');
@@ -583,86 +816,153 @@
                 // Control buttons
                 document.getElementById('clear-logs')?.addEventListener('click', () => {
                     const activeTab = document.querySelector('.tab-button.active')?.dataset.tab;
-                    if (activeTab) {
-                        this.clearLogs(activeTab);
-                        this.log('info', 'Logs cleared', activeTab);
-                    }
+                    if (activeTab) this.clearLogs(activeTab);
                 });
 
                 document.getElementById('copy-logs')?.addEventListener('click', () => {
                     const activeTab = document.querySelector('.tab-button.active')?.dataset.tab;
-                    if (activeTab) {
-                        this.copyLogsToClipboard(activeTab);
-                    }
+                    if (activeTab) this.copyLogsToClipboard(activeTab);
                 });
 
                 document.getElementById('refresh-logs')?.addEventListener('click', () => {
                     const activeTab = document.querySelector('.tab-button.active')?.dataset.tab;
-                    if (activeTab) {
-                        this.updateLogDisplay(activeTab);
-                        this.log('info', 'Logs refreshed', activeTab);
-                    }
+                    if (activeTab) this.updateLogDisplay(activeTab);
+                });
+            }
+
+            setupConsoleOverrides() {
+                // Override console methods to capture logs
+                const originalConsole = {
+                    log: console.log,
+                    info: console.info,
+                    warn: console.warn,
+                    error: console.error
+                };
+
+                ['log', 'info', 'warn', 'error'].forEach(level => {
+                    console[level] = (...args) => {
+                        // Call original console method
+                        originalConsole[level].apply(console, args);
+                        
+                        // Format message
+                        const message = args
+                            .map(arg => 
+                                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                            )
+                            .join(' ');
+                        
+                        // Log to our panel
+                        this.log(level, message, 'runtime');
+                    };
                 });
             }
 
             initializeDiagnosticInfo() {
-                // Initial runtime info
-                this.log('info', 'Application initialized', 'runtime');
-                this.log('debug', `User Agent: ${navigator.userAgent}`, 'runtime');
-                this.log('debug', `Platform: ${navigator.platform}`, 'runtime');
-                this.log('debug', `Logical Processors: ${navigator.hardwareConcurrency || 'Unknown'}`, 'runtime');
-                this.log('debug', `Device Memory: ${navigator.deviceMemory || 'Unknown'} GB`, 'runtime');
-                this.log('debug', `Connection: ${navigator.connection ? JSON.stringify(navigator.connection) : 'Network info not available'}`, 'runtime');
+                // Initial system info
+                this.log('info', 'Initializing diagnostic console...', 'runtime');
+                this.log('info', `User Agent: ${navigator.userAgent}`, 'diagnostics');
+                this.log('info', `Platform: ${navigator.platform}`, 'diagnostics');
+                this.log('info', `Language: ${navigator.language}`, 'diagnostics');
+                this.log('info', `Online: ${navigator.onLine}`, 'diagnostics');
+                this.log('info', `Cookies: ${navigator.cookieEnabled}`, 'diagnostics');
+                this.log('info', `Screen: ${window.screen.width}x${window.screen.height}`, 'diagnostics');
+                this.log('info', `Color Depth: ${screen.colorDepth}`, 'diagnostics');
                 
-                // Initial diagnostics
-                this.log('info', 'Running system diagnostics...', 'diagnostics');
-                this.log('debug', 'Checking browser capabilities...', 'diagnostics');
+                // Test cloud connection
+                this.testCloudConnection();
                 
-                // Cloud info
-                this.log('info', 'Checking cloud connectivity...', 'cloud');
-                this.log('debug', 'Cloud services: Not connected (client-side only)', 'cloud');
+                // Start trace logging
+                this.startTraceLogging();
+            }
+            
+            testCloudConnection() {
+                this.log('info', 'Testing cloud connectivity...', 'cloud');
                 
-                // Trace info
-                this.log('info', 'Tracing enabled', 'trace');
-                this.log('debug', 'Page loaded', 'trace');
+                // Test with a small request to a reliable endpoint
+                const testUrls = [
+                    'https://httpbin.org/get',
+                    'https://www.google.com/favicon.ico'
+                ];
                 
-                // Simulate some trace events
-                setTimeout(() => {
-                    this.log('debug', 'DOM fully loaded', 'trace');
-                    this.log('info', 'Initialization complete', 'runtime');
-                }, 500);
-                
-                // Monitor performance
+                testUrls.forEach(url => {
+                    fetch(url, { method: 'HEAD', cache: 'no-store' })
+                        .then(() => {
+                            this.log('success', `Connected to ${new URL(url).hostname}`, 'cloud');
+                        })
+                        .catch(err => {
+                            this.log('error', `Failed to connect to ${url}: ${err.message}`, 'cloud');
+                        });
+                });
+            }
+            
+            startTraceLogging() {
+                // Log performance metrics
                 if (window.performance) {
-                    const perfEntries = performance.getEntriesByType('navigation');
-                    if (perfEntries.length > 0) {
-                        const navTiming = perfEntries[0];
-                        this.log('info', `Page loaded in ${navTiming.loadEventEnd - navTiming.startTime}ms`, 'diagnostics');
+                    const perf = window.performance;
+                    const timing = perf.timing;
+                    
+                    if (timing) {
+                        const loadTime = timing.loadEventEnd - timing.navigationStart;
+                        this.log('info', `Page loaded in ${loadTime}ms`, 'trace');
+                        
+                        // Log resource timing
+                        const resources = perf.getEntriesByType('resource');
+                        resources.forEach(resource => {
+                            this.log('info', 
+                                `${resource.name} loaded in ${resource.duration.toFixed(2)}ms`,
+                                'trace'
+                            );
+                        });
                     }
                 }
                 
-                // Monitor memory (if available)
-                if (window.performance && performance.memory) {
-                    const formatBytes = (bytes) => {
-                        if (bytes === 0) return '0 Bytes';
-                        const k = 1024;
-                        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-                        const i = Math.floor(Math.log(bytes) / Math.log(k));
-                        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+                // Log memory usage if available
+                if (performance.memory) {
+                    const formatMemory = (bytes) => {
+                        return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
                     };
                     
-                    setInterval(() => {
-                        const memory = performance.memory;
-                        this.log('debug', `Memory usage: ${formatBytes(memory.usedJSHeapSize)} / ${formatBytes(memory.totalJSHeapSize)} (${(memory.usedJSHeapSize / memory.totalJSHeapSize * 100).toFixed(1)}%)`, 'diagnostics');
-                    }, 10000); // Update every 10 seconds
+                    this.log('info', 
+                        `Memory: ${formatMemory(performance.memory.usedJSHeapSize)} used, ` +
+                        `${formatMemory(performance.memory.totalJSHeapSize)} total`,
+                        'trace'
+                    );
                 }
+                
+                // Log network status changes
+                window.addEventListener('online', () => {
+                    this.log('info', 'Network: Online', 'trace');
+                });
+                
+                window.addEventListener('offline', () => {
+                    this.log('warn', 'Network: Offline', 'trace');
+                });
+                
+                // Log page visibility changes
+                document.addEventListener('visibilitychange', () => {
+                    this.log('info', 
+                        `Page ${document.visibilityState}`,
+                        'trace'
+                    );
+                });
             }
         }
 
-        // Initialize all updates
+        // Initialize diagnostic logger
+        const logger = new DiagnosticLogger();
+        
+        // Example usage of the logger
+        logger.log('info', 'Diagnostic console initialized', 'runtime');
+        
+        // Initialize all updates when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             // Core information updates
             updateSystemInfo();
+            
+            // Log system info
+            logger.log('info', 'System information updated', 'diagnostics');
+            logger.log('info', `Browser: ${navigator.userAgent}`, 'diagnostics');
+            logger.log('info', `Screen: ${window.screen.width}x${window.screen.height}`, 'diagnostics');
             updateServerInfo();
             updateUserSession();
             updateBrowserCapabilities();
