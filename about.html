@@ -267,91 +267,175 @@
     <script>
         // Simple environment detection
         function detectEnvironment() {
-            const { hostname, port, search } = window.location;
-            return {
-                isDev: hostname === 'localhost' || 
-                       hostname === '127.0.0.1' || 
-                       port === '3000' || 
-                       port === '8080' ||
-                       search.includes('dev=true') ||
-                       window.location.protocol === 'file:',
-                protocol: window.location.protocol,
-                host: window.location.host,
-                href: window.location.href
-            };
+            try {
+                // Default to safest values
+                const result = {
+                    isDev: false,
+                    protocol: '',
+                    host: '',
+                    href: ''
+                };
+                
+                // Safely access window.location properties
+                if (typeof window !== 'undefined' && window.location) {
+                    const { hostname, port, search, protocol, host, href } = window.location;
+                    
+                    result.isDev = hostname === 'localhost' || 
+                                 hostname === '127.0.0.1' || 
+                                 port === '3000' || 
+                                 port === '8080' ||
+                                 (search && search.includes('dev=true')) ||
+                                 protocol === 'file:';
+                    result.protocol = protocol;
+                    result.host = host;
+                    result.href = href;
+                }
+                
+                return result;
+            } catch (error) {
+                console.error('Error detecting environment:', error);
+                return {
+                    isDev: false,
+                    protocol: 'unknown',
+                    host: 'unknown',
+                    href: 'unknown'
+                };
+            }
         }
 
         // Update environment badge
         function updateEnvironmentBadge() {
-            const env = detectEnvironment();
-            const envBadge = document.getElementById('environment-badge');
-            const envText = document.getElementById('environment-text');
-            
-            if (envBadge && envText) {
-                if (env.isDev) {
-                    document.body.classList.add('env-development');
-                    envText.textContent = 'Development';
-                } else {
-                    document.body.classList.add('env-production');
-                    envText.textContent = 'Production';
+            try {
+                const env = detectEnvironment();
+                const envBadge = document.getElementById('environment-badge');
+                const envText = document.getElementById('environment-text');
+                
+                if (envBadge && envText) {
+                    if (env.isDev) {
+                        document.body.classList.add('env-development');
+                        envText.textContent = 'Development';
+                    } else {
+                        document.body.classList.add('env-production');
+                        envText.textContent = 'Production';
+                    }
                 }
+            } catch (error) {
+                console.error('Error updating environment badge:', error);
+                // Continue execution even if badge update fails
             }
         }
 
         // Update system information
         function updateSystemInfo() {
-            // Update current year
-            const yearElement = document.getElementById('current-year');
-            if (yearElement) {
-                yearElement.textContent = new Date().getFullYear();
-            }
-
-            // Update OS info
-            const osInfo = {
-                name: navigator.platform,
-                platform: navigator.platform,
-                arch: navigator.cpuClass || 'Unknown',
-                cores: navigator.hardwareConcurrency || 'Unknown'
+            // Helper function to safely set text content
+            const safeSetText = (elementId, text) => {
+                try {
+                    const el = document.getElementById(elementId);
+                    if (el) el.textContent = text;
+                } catch (e) {
+                    console.warn(`Could not update element ${elementId}:`, e);
+                }
             };
 
-            const osName = document.getElementById('os-name');
-            const osPlatform = document.getElementById('os-platform');
-            const osArch = document.getElementById('os-arch');
-            const cpuCores = document.getElementById('cpu-cores');
-            const cpuThreads = document.getElementById('cpu-threads');
+            try {
+                // Update current year
+                safeSetText('current-year', new Date().getFullYear());
 
-            if (osName) osName.textContent = osInfo.name;
-            if (osPlatform) osPlatform.textContent = osInfo.platform;
-            if (osArch) osArch.textContent = osInfo.arch;
-            if (cpuCores) cpuCores.textContent = osInfo.cores;
-            if (cpuThreads) cpuThreads.textContent = osInfo.cores * 2 || 'Unknown';
+                // Safely get navigator properties with fallbacks
+                const nav = typeof navigator !== 'undefined' ? navigator : {};
+                const platform = nav.platform || 'Unknown';
+                const cores = nav.hardwareConcurrency || 'Unknown';
 
-            // Memory info
-            const memTotal = document.getElementById('mem-total');
-            const memFree = document.getElementById('mem-free');
-            const memUsed = document.getElementById('mem-used');
-            
-            if (navigator.deviceMemory) {
-                if (memTotal) memTotal.textContent = `${navigator.deviceMemory} GB`;
-            } else {
-                if (memTotal) memTotal.textContent = 'N/A';
+                // Update OS info
+                safeSetText('os-name', platform);
+                safeSetText('os-platform', platform);
+                safeSetText('os-arch', nav.cpuClass || 'Unknown');
+                safeSetText('cpu-cores', cores);
+                safeSetText('cpu-threads', cores !== 'Unknown' ? cores * 2 : 'Unknown');
+
+                // Memory info
+                if (nav.deviceMemory) {
+                    safeSetText('mem-total', `${nav.deviceMemory} GB`);
+                } else {
+                    safeSetText('mem-total', 'N/A');
+                }
+                safeSetText('mem-free', 'N/A');
+                safeSetText('mem-used', 'N/A');
+
+                // Update server info
+                if (window.location) {
+                    safeSetText('server-hostname', window.location.hostname || 'N/A');
+                    safeSetText('server-port', window.location.port || 'N/A');
+                    safeSetText('server-protocol', window.location.protocol || 'N/A');
+                    safeSetText('request-url', window.location.href || 'N/A');
+                    safeSetText('request-path', window.location.pathname || 'N/A');
+                }
+
+                // Update response status
+                safeSetText('response-status', '200 OK');
+                safeSetText('content-type', document.contentType || 'text/html');
+
+            } catch (error) {
+                console.error('Error in updateSystemInfo:', error);
+                // Don't rethrow, we want to continue execution
+            } finally {
+                // Always hide loading indicator when done
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) {
+                    loadingIndicator.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingIndicator.style.display = 'none';
+                    }, 300);
+                }
             }
-            if (memFree) memFree.textContent = 'N/A';
-            if (memUsed) memUsed.textContent = 'N/A';
         }
 
         // Initialize the page
         function initPage() {
-            updateEnvironmentBadge();
-            updateSystemInfo();
-            
-            // Hide loading indicator
-            const loadingIndicator = document.getElementById('loading-indicator');
-            if (loadingIndicator) {
-                loadingIndicator.style.opacity = '0';
-                setTimeout(() => {
+            // Set a timeout to ensure the loading indicator is always hidden
+            const loadingTimeout = setTimeout(() => {
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) {
+                    loadingIndicator.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingIndicator.style.display = 'none';
+                    }, 300);
+                }
+            }, 5000); // 5 second timeout as a last resort
+
+            try {
+                // Run initialization steps with error boundaries
+                try {
+                    updateEnvironmentBadge();
+                } catch (e) {
+                    console.error('Error in updateEnvironmentBadge:', e);
+                }
+
+                try {
+                    updateSystemInfo();
+                } catch (e) {
+                    console.error('Error in updateSystemInfo:', e);
+                }
+
+                // Clear the timeout since we've completed successfully
+                clearTimeout(loadingTimeout);
+                
+                // Hide loading indicator
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) {
+                    loadingIndicator.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingIndicator.style.display = 'none';
+                    }, 300);
+                }
+            } catch (error) {
+                console.error('Unexpected error in initPage:', error);
+                // Ensure loading indicator is hidden even in case of uncaught errors
+                clearTimeout(loadingTimeout);
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) {
                     loadingIndicator.style.display = 'none';
-                }, 300);
+                }
             }
         }
 
