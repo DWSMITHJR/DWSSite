@@ -21,10 +21,39 @@
     <link rel="preload" href="images/DLogo.jpg" as="image">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="css/styles.css" media="all">
-    <link rel="stylesheet" href="css/about.css" media="all">
-    <link rel="stylesheet" href="css/legal.css" media="all">
-    <link rel="stylesheet" href="css/components/environment-info.css" media="all">
+    <style>
+        /* Basic visibility styles for debugging */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .info-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .info-card {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #3498db;
+        }
+        .value {
+            font-weight: bold;
+            color: #2980b9;
+        }
+        /* Hide loading indicator by default */
+        .loading-indicator {
+            display: none !important;
+        }
+    </style>
     
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -265,191 +294,83 @@
     
     <!-- Inline Environment Detection -->
     <script>
-        // Simple environment detection
-        function detectEnvironment() {
-            try {
-                // Default to safest values
-                const result = {
-                    isDev: false,
-                    protocol: '',
-                    host: '',
-                    href: ''
-                };
-                
-                // Safely access window.location properties
-                if (typeof window !== 'undefined' && window.location) {
-                    const { hostname, port, search, protocol, host, href } = window.location;
-                    
-                    result.isDev = hostname === 'localhost' || 
-                                 hostname === '127.0.0.1' || 
-                                 port === '3000' || 
-                                 port === '8080' ||
-                                 (search && search.includes('dev=true')) ||
-                                 protocol === 'file:';
-                    result.protocol = protocol;
-                    result.host = host;
-                    result.href = href;
-                }
-                
-                return result;
-            } catch (error) {
-                console.error('Error detecting environment:', error);
-                return {
-                    isDev: false,
-                    protocol: 'unknown',
-                    host: 'unknown',
-                    href: 'unknown'
-                };
+        // Simple initialization that won't block rendering
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading indicator
+            const loadingIndicator = document.getElementById('loading-indicator');
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
             }
-        }
 
-        // Update environment badge
-        function updateEnvironmentBadge() {
+            // Simple environment detection
             try {
-                const env = detectEnvironment();
-                const envBadge = document.getElementById('environment-badge');
+                const isLocal = window.location.hostname === 'localhost' || 
+                              window.location.hostname === '127.0.0.1' ||
+                              window.location.protocol === 'file:';
+                
                 const envText = document.getElementById('environment-text');
-                
-                if (envBadge && envText) {
-                    if (env.isDev) {
-                        document.body.classList.add('env-development');
-                        envText.textContent = 'Development';
-                    } else {
-                        document.body.classList.add('env-production');
-                        envText.textContent = 'Production';
-                    }
+                if (envText) {
+                    envText.textContent = isLocal ? 'Development' : 'Production';
                 }
-            } catch (error) {
-                console.error('Error updating environment badge:', error);
-                // Continue execution even if badge update fails
+            } catch (e) {
+                console.log('Environment detection skipped');
             }
-        }
 
-        // Update system information
-        function updateSystemInfo() {
-            // Helper function to safely set text content
-            const safeSetText = (elementId, text) => {
-                try {
-                    const el = document.getElementById(elementId);
-                    if (el) el.textContent = text;
-                } catch (e) {
-                    console.warn(`Could not update element ${elementId}:`, e);
-                }
-            };
-
+            // Update current year
             try {
-                // Update current year
-                safeSetText('current-year', new Date().getFullYear());
+                const yearElement = document.getElementById('current-year');
+                if (yearElement) {
+                    yearElement.textContent = new Date().getFullYear();
+                }
+            } catch (e) {
+                console.log('Year update skipped');
+            }
 
-                // Safely get navigator properties with fallbacks
-                const nav = typeof navigator !== 'undefined' ? navigator : {};
-                const platform = nav.platform || 'Unknown';
-                const cores = nav.hardwareConcurrency || 'Unknown';
+            // Update basic system info
+            try {
+                const nav = window.navigator || {};
+                
+                // Helper to safely set text
+                const setText = (id, text) => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = text || 'N/A';
+                };
 
-                // Update OS info
-                safeSetText('os-name', platform);
-                safeSetText('os-platform', platform);
-                safeSetText('os-arch', nav.cpuClass || 'Unknown');
-                safeSetText('cpu-cores', cores);
-                safeSetText('cpu-threads', cores !== 'Unknown' ? cores * 2 : 'Unknown');
+                // Set basic system info
+                setText('os-name', nav.platform);
+                setText('os-platform', nav.platform);
+                setText('os-arch', nav.cpuClass || 'N/A');
+                
+                // Set CPU info if available
+                if (nav.hardwareConcurrency) {
+                    setText('cpu-cores', nav.hardwareConcurrency);
+                    setText('cpu-threads', nav.hardwareConcurrency * 2);
+                }
 
-                // Memory info
+                // Set memory info if available
                 if (nav.deviceMemory) {
-                    safeSetText('mem-total', `${nav.deviceMemory} GB`);
-                } else {
-                    safeSetText('mem-total', 'N/A');
-                }
-                safeSetText('mem-free', 'N/A');
-                safeSetText('mem-used', 'N/A');
-
-                // Update server info
-                if (window.location) {
-                    safeSetText('server-hostname', window.location.hostname || 'N/A');
-                    safeSetText('server-port', window.location.port || 'N/A');
-                    safeSetText('server-protocol', window.location.protocol || 'N/A');
-                    safeSetText('request-url', window.location.href || 'N/A');
-                    safeSetText('request-path', window.location.pathname || 'N/A');
+                    setText('mem-total', `${nav.deviceMemory} GB`);
                 }
 
-                // Update response status
-                safeSetText('response-status', '200 OK');
-                safeSetText('content-type', document.contentType || 'text/html');
+                // Set server info
+                setText('server-hostname', window.location.hostname);
+                setText('server-port', window.location.port || '80');
+                setText('server-protocol', window.location.protocol);
+                setText('request-url', window.location.href);
+                setText('request-path', window.location.pathname);
+                setText('response-status', '200 OK');
+                setText('content-type', document.contentType || 'text/html');
 
-            } catch (error) {
-                console.error('Error in updateSystemInfo:', error);
-                // Don't rethrow, we want to continue execution
-            } finally {
-                // Always hide loading indicator when done
-                const loadingIndicator = document.getElementById('loading-indicator');
-                if (loadingIndicator) {
-                    loadingIndicator.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingIndicator.style.display = 'none';
-                    }, 300);
-                }
+            } catch (e) {
+                console.log('System info update skipped:', e);
             }
-        }
-
-        // Initialize the page
-        function initPage() {
-            // Set a timeout to ensure the loading indicator is always hidden
-            const loadingTimeout = setTimeout(() => {
-                const loadingIndicator = document.getElementById('loading-indicator');
-                if (loadingIndicator) {
-                    loadingIndicator.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingIndicator.style.display = 'none';
-                    }, 300);
-                }
-            }, 5000); // 5 second timeout as a last resort
-
-            try {
-                // Run initialization steps with error boundaries
-                try {
-                    updateEnvironmentBadge();
-                } catch (e) {
-                    console.error('Error in updateEnvironmentBadge:', e);
-                }
-
-                try {
-                    updateSystemInfo();
-                } catch (e) {
-                    console.error('Error in updateSystemInfo:', e);
-                }
-
-                // Clear the timeout since we've completed successfully
-                clearTimeout(loadingTimeout);
-                
-                // Hide loading indicator
-                const loadingIndicator = document.getElementById('loading-indicator');
-                if (loadingIndicator) {
-                    loadingIndicator.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingIndicator.style.display = 'none';
-                    }, 300);
-                }
-            } catch (error) {
-                console.error('Unexpected error in initPage:', error);
-                // Ensure loading indicator is hidden even in case of uncaught errors
-                clearTimeout(loadingTimeout);
-                const loadingIndicator = document.getElementById('loading-indicator');
-                if (loadingIndicator) {
-                    loadingIndicator.style.display = 'none';
-                }
-            }
-        }
-
-        // Run initialization when DOM is loaded
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initPage);
-        } else {
-            initPage();
-        }
+        });
     </script>
     
     <style>
         /* Loading Indicator Styles */
         .loading-indicator {
+            display: none; /* Hidden by default */
             position: fixed;
             top: 0;
             left: 0;
