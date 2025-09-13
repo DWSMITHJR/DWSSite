@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "build": "echo 'Building application...' && echo 'Build complete!'",
-    "heroku-postbuild": "npm install"
+    "build": "npx copyfiles -u 1 \"**/*.{html,css,js,json,png,jpg,jpeg,gif,svg,ico}\" dist/ && echo 'Build complete!'",
+    "heroku-postbuild": "npm install && npm run build"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -15,7 +15,8 @@
     "express-session": "^1.18.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "copyfiles": "^3.0.0"
   },
   "repository": {
     "type": "git",
