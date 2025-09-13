@@ -26,9 +26,9 @@ const server = http.createServer((req, res) => {
     console.log(`Request for ${req.url}`);
     
     // Parse URL
-    let filePath = '.' + req.url;
-    if (filePath === './') {
-        filePath = './index.html';
+    let filePath = path.join('dist', req.url);
+    if (filePath === path.join('dist', '/')) {
+        filePath = path.join('dist', 'index.html');
     }
 
     const extname = String(path.extname(filePath)).toLowerCase();
