@@ -4,16 +4,22 @@
 @import 'components/particles.css';
 @import 'components/forms.css';
 @import 'components/hero.css';
+@import 'components/animations.css';
 
 /* Main layout styles */
+body {
+    padding-top: 70px; /* Space for fixed header */
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 var(--spacing-unit);
+    padding: 0 2rem;
 }
 
 .section {
     padding: 4rem 0;
+    position: relative;
 }
 
 .section-title {
