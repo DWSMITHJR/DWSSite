@@ -1,4 +1,4 @@
-# Azure deployment script for DWSSite
+# Azure deployment script for refDWSSite
 
 # Prerequisites
 # - Azure CLI installed
@@ -6,7 +6,7 @@
 # - Azure App Service plan and resource group
 
 # Configuration
-$resourceGroupName = "DWSSite-rg"
+$resourceGroupName = "refDWSSite-rg"
 $appServiceName = "dws-portfolio"
 $location = "eastus"
 
@@ -24,11 +24,11 @@ az group create --name $resourceGroupName --location $location
 
 # Create App Service plan if it doesn't exist
 Write-Host "Creating App Service plan if needed..."
-az appservice plan create --name "DWSSite-plan" --resource-group $resourceGroupName --location $location --sku B1
+az appservice plan create --name "refDWSSite-plan" --resource-group $resourceGroupName --location $location --sku B1
 
 # Create App Service if it doesn't exist
 Write-Host "Creating App Service if needed..."
-az webapp create --name $appServiceName --plan "DWSSite-plan" --resource-group $resourceGroupName --runtime "NODE|18-lts"
+az webapp create --name $appServiceName --plan "refDWSSite-plan" --resource-group $resourceGroupName --runtime "NODE|18-lts"
 
 # Configure deployment
 Write-Host "Configuring deployment..."

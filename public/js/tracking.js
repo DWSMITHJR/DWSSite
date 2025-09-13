@@ -49,20 +49,30 @@ function collectClientInfo() {
     };
 }
 
+// API base URL - update this to match your node-api-server URL
+const API_BASE_URL = 'http://localhost:3001';
+
 // Send tracking data to server
 function sendTrackingData() {
     const clientInfo = collectClientInfo();
     
-    // Send data to server
-    fetch('/api/track', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(clientInfo)
-    }).catch(error => {
+    // Send data to API server using ApiService
+    ApiService.trackEvent(clientInfo).catch(error => {
         console.error('Error sending tracking data:', error);
     });
+}
+
+// Function to log email and hash to the server
+async function logEmailAndHash(email, emailHash) {
+    try {
+        const clientInfo = collectClientInfo();
+        const response = await ApiService.logEmailHash(email, emailHash, { clientInfo });
+        console.log('Email hash logged successfully:', response);
+        return response;
+    } catch (error) {
+        console.error('Error logging email hash:', error);
+        throw error;
+    }
 }
 
 // Run tracking when DOM is fully loaded

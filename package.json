@@ -19,14 +19,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DWSMITHJR/DWSSite.git"
+    "url": "git+https://github.com/DWSMITHJR/refDWSSite.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/DWSMITHJR/DWSSite/issues"
+    "url": "https://github.com/DWSMITHJR/refDWSSite/issues"
   },
-  "homepage": "https://github.com/DWSMITHJR/DWSSite#readme"
+  "homepage": "https://github.com/DWSMITHJR/refDWSSite#readme"
 }
