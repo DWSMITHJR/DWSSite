@@ -1,86 +1,56 @@
-# refDWSSite
+# Donald W. Smith Jr. - Professional Portfolio
 
-This is the frontend for Donald W. Smith Jr.'s personal website, which communicates with a separate API server for all backend functionality.
+## Professional Summary
 
-## Architecture Overview
+Results-driven professional with a strong background in [your field]. Skilled in [list key skills]. Committed to delivering high-quality solutions and driving business success through innovative problem-solving and technical expertise.
 
-The project has been refactored to use a client-server architecture:
+## Core Competencies
 
-- **Frontend (this repository)**: A static website that makes API calls to a separate backend server.
-- **Backend (node-api-server)**: A separate Node.js/Express API server that handles all server-side logic.
+- [Skill 1] - [Brief description or years of experience]
+- [Skill 2] - [Brief description or years of experience]
+- [Skill 3] - [Brief description or years of experience]
+- [Skill 4] - [Brief description or years of experience]
 
-## API Integration
+## Professional Experience
 
-The frontend communicates with the following API endpoints:
+### [Current/Most Recent Position]
+**Company Name** | [Location]  
+*[Month/Year] - Present*
+- Key achievement 1
+- Key achievement 2
+- Key achievement 3
 
-- `POST /api/verify`: Verify email and authentication
-- `POST /api/signout`: Handle user sign out
-- `GET /api/documents`: Retrieve document data
-- `POST /api/track`: Track user interactions and analytics
-- `POST /api/log/email-hash`: Log email hashes for verification
-- `POST /api/diagnostics`: Log diagnostic information from the client
+### [Previous Position]
+**Company Name** | [Location]  
+*[Month/Year] - [Month/Year]*
+- Key achievement 1
+- Key achievement 2
 
-## Configuration
+## Education
 
-API configuration is managed in `public/js/config.js`, which defines the base URL and endpoint paths:
+**Degree in [Your Field]**  
+[University Name], [Location]  
+*[Year of Graduation]*
 
-```javascript
-const API_CONFIG = {
-    BASE_URL: 'https://api.donaldwsmithjr.com',
-    ENDPOINTS: {
-        VERIFY: '/api/verify',
-        SIGNOUT: '/api/signout',
-        DOCUMENTS: '/api/documents',
-        TRACK: '/api/track',
-        LOG_EMAIL_HASH: '/api/log/email-hash',
-        DIAGNOSTICS: '/api/diagnostics'
-    },
-    // ...
-};
-```
+## Certifications
 
-## Development
+- [Certification 1] - [Year]
+- [Certification 2] - [Year]
 
-### Prerequisites
+## Contact Information
 
-- Modern web browser with JavaScript enabled
-- No Node.js or server-side dependencies required (all server functionality is handled by the API server)
+- **Email:** [Your Email]
+- **Phone:** [Your Phone]
+- **LinkedIn:** [Your LinkedIn Profile]
+- **Portfolio:** [Your Portfolio URL]
 
-### Running Locally
+## Technical Skills
 
-1. Clone this repository
-2. Open `index.html` in a web browser
-3. The site will make API calls to the production API server by default
+- **Languages:** [List languages]
+- **Technologies:** [List technologies]
+- **Tools:** [List tools]
 
-### Local Development with API Server
+*References available upon request*
 
-For local development with a local API server:
 
-1. Clone the `node-api-server` repository
-2. Follow the setup instructions in the API server's README
-3. Update `public/js/config.js` to point to your local API server:
-   ```javascript
-   BASE_URL: 'http://localhost:3001',
-   ```
 
-## Deployment
-
-The frontend is deployed as static files. No server-side processing is required.
-
-## Security
-
-- All API requests include appropriate CORS headers
-- Sensitive operations require authentication
-- Client-side code does not contain any sensitive information or credentials
-
-## Error Handling
-
-API errors are handled by the `ApiService` class in `public/js/api.js`, which provides consistent error handling and user feedback.
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a new Pull Request
