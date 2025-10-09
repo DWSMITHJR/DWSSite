@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lassiter Family Legacy - Marietta, Georgia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e8ba3 100%);
+            color: #2c3e50;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.95), rgba(42, 82, 152, 0.95));
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .crest-container {
+            margin-bottom: 2rem;
+            animation: fadeInScale 1.5s ease-out;
+            z-index: 1;
+        }
+
+        .family-crest {
+            width: 250px;
+            height: auto;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.4));
+            animation: floatCrest 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes floatCrest {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: white;
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s ease-out 0.5s both;
+            z-index: 1;
+            margin-bottom: 1rem;
+        }
+
+        .hero .motto {
+            font-size: 1.8rem;
+            color: #ffd700;
+            font-style: italic;
+            animation: fadeInUp 1s ease-out 0.7s both;
+            z-index: 1;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: #e8f4f8;
+            animation: fadeInUp 1s ease-out 1s both;
+            z-index: 1;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            animation: bounce 2s infinite;
+            z-index: 1;
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 2rem;
+            color: white;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: white;
+            margin: 3rem 0;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInSection 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInSection {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section:nth-child(1) { animation-delay: 0.2s; }
+        .section:nth-child(2) { animation-delay: 0.3s; }
+        .section:nth-child(3) { animation-delay: 0.4s; }
+        .section:nth-child(4) { animation-delay: 0.5s; }
+        .section:nth-child(5) { animation-delay: 0.6s; }
+        .section:nth-child(6) { animation-delay: 0.7s; }
+        .section:nth-child(7) { animation-delay: 0.8s; }
+        .section:nth-child(8) { animation-delay: 0.9s; }
+
+        h2 {
+            font-size: 2.5rem;
+            color: #1e3c72;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            animation: underlineGrow 1s ease-out 0.5s forwards;
+        }
+
+        @keyframes underlineGrow {
+            to {
+                width: 100%;
+            }
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            color: #2a5298;
+            margin: 2rem 0 1rem;
+        }
+
+        h4 {
+            font-size: 1.4rem;
+            color: #1e3c72;
+            margin: 1.5rem 0 1rem;
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #1e3c72, #2a5298, #7e8ba3);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin: 3rem 0;
+            position: relative;
+            opacity: 0;
+            animation: slideIn 0.8s ease-out forwards;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+            animation-delay: 0.2s;
+        }
+
+        .timeline-item:nth-child(even) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .timeline-content {
+            width: 45%;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: #1e3c72;
+            border: 4px solid white;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 0 4px #1e3c72;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(30, 60, 114, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(30, 60, 114, 0);
+            }
+        }
+
+        .family-tree {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+
+        .tree-node {
+            margin: 1rem 0;
+            padding: 1rem 1rem 1rem 2rem;
+            border-left: 3px solid rgba(255,255,255,0.3);
+            animation: slideInLeft 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .tree-node:nth-child(1) { animation-delay: 0.1s; }
+        .tree-node:nth-child(2) { animation-delay: 0.2s; }
+        .tree-node:nth-child(3) { animation-delay: 0.3s; }
+        .tree-node:nth-child(4) { animation-delay: 0.4s; }
+        .tree-node:nth-child(5) { animation-delay: 0.5s; }
+        .tree-node:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .stat-card {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            margin: 1rem;
+            border-radius: 15px;
+            min-width: 200px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            animation: popIn 0.5s ease-out;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            border-left: 5px solid #ff6b6b;
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .grid-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .census-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 1.5rem 0;
+            border-left: 5px solid #2a5298;
+            transition: transform 0.3s ease;
+        }
+
+        .census-card:hover {
+            transform: translateX(10px);
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem;
+            margin-top: 4rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            animation: fadeIn 1s ease-out;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+        }
+
+        tr {
+            transition: background 0.3s ease;
+        }
+
+        tr:hover {
+            background: #f5f7fa;
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 2rem;
+            margin: 2rem 0;
+            color: #555;
+            position: relative;
+        }
+
+        .quote::before {
+            content: '"';
+            font-size: 4rem;
+            color: #1e3c72;
+            opacity: 0.3;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+        }
+
+        .info-box {
+            background: #e8f4f8;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            border-left: 4px solid #1e3c72;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .timeline::before {
+                left: 20px;
+            }
+            .timeline-item {
+                flex-direction: column !important;
+                padding-left: 60px;
+            }
+            .timeline-content {
+                width: 100%;
+            }
+            .timeline-dot {
+                left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="crest-container">
+            <img src="./images/crest.gif" alt="Lassiter Family Crest" class="family-crest" style="max-width: 200px; height: auto;">
+        </div>
+        <h1>The Lassiter Family Legacy</h1>
+        <p class="motto">Visio et Veritas</p>
+        <p>Marietta, Georgia • 1852 - Present</p>
+        <div class="scroll-indicator"></div>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <h2>Introduction: Pioneers of Cobb County</h2>
+            <p>
+                The Lassiter family holds a significant and longstanding position in the historical landscape of Marietta, Georgia, and the broader community of Cobb County. Tracing their roots from the late 19th century into the 20th—and even 21st—centuries, the Lassiters emerged from agricultural backgrounds and gradually became influential through civic engagement, education, and property ownership.
+            </p>
+            <p>
+                Central to this legacy is <strong>Leamond Narvel Lassiter (1879–1966)</strong>, whose life story embodies the transformation of rural Georgia into a thriving suburban community. The Lassiter family lived through Reconstruction, the Jim Crow era, and major social and economic shifts that shaped modern Marietta.
+            </p>
+            
+            <div style="display: flex; justify-content: space-around; margin-top: 3rem; flex-wrap: wrap;">
+                <div class="stat-card">
+                    <span class="stat-number">5</span>
+                    <span>Generations</span>
+                </div>
+                <div class="stat-card" style="animation-delay: 0.2s;">
+                    <span class="stat-number">140+</span>
+                    <span>Years of Legacy</span>
+                </div>
+                <div class="stat-card" style="animation-delay: 0.4s;">
+                    <span class="stat-number">1879</span>
+                    <span>Patriarch Born</span>
+                </div>
+                <div class="stat-card" style="animation-delay: 0.6s;">
+                    <span class="stat-number">1981</span>
+                    <span>High School Named</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Genealogical Overview</h2>
+            
+            <h3>The Lassiter Lineage: Documented Through History</h3>
+            <p>
+                The Lassiter surname in the United States traces its origins to early English settlers, and by the 19th century, Lassiter families had appeared throughout the American South. In Georgia, records suggest the Lassiters established roots in Cobb County by the late 1800s.
+            </p>
+
+            <div class="info-box">
+                <h4>Key Ancestral Figure: Leamond Narvel Lassiter</h4>
+                <p><strong>Born:</strong> March 10, 1879, Marietta, Cobb County, Georgia</p>
+                <p><strong>Died:</strong> February 17, 1966, Cobb County, Georgia</p>
+                <p><strong>Parents:</strong> William Tom Lassiter (1855–1924) and Estelle Alpha Spinks Lassiter (1855–1927)</p>
+                <p><strong>Spouse:</strong> Minnie Lee Brown (1882–1952)</p>
+            </div>
+
+            <p>
+                Genealogical records, including those compiled on Wikitree and FamilySearch, show the Lassiter family's presence intertwined with other well-known Cobb County surnames such as Spinks, Brown, and McAfee. Marriages often occurred within the local community, further cementing the family's ties to Marietta's development.
+            </p>
+            
+            <div class="family-tree">
+                <h3 style="color: white; margin-bottom: 2rem;">Lassiter Family Tree</h3>
+                <div class="tree-node">
+                    <strong>William Tom Lassiter (1855–1924)</strong><br>
+                    Farmer, early Cobb County settler
+                </div>
+                <div class="tree-node" style="margin-left: 2rem;">
+                    <strong>Estelle Alpha Spinks Lassiter (1855–1927)</strong><br>
+                    Matriarch, Georgia native
+                </div>
+                <div class="tree-node" style="margin-left: 4rem;">
+                    <strong>Leamond Narvel Lassiter (1879–1966)</strong><br>
+                    ⚭ Minnie Lee Brown (1882–1952)<br>
+                    Central patriarch; businessman, community leader
+                </div>
+                <div class="tree-node" style="margin-left: 6rem;">
+                    <strong>Multiple Children (Early 1900s–1930s)</strong><br>
+                    Educators, business leaders, civic volunteers<br>
+                    Including descendants who carried on the family legacy
+                </div>
+                <div class="tree-node" style="margin-left: 8rem;">
+                    <strong>Modern Descendants (20th–21st century)</strong><br>
+                    Philanthropists, educators, business owners<br>
+                    Community leaders throughout Cobb County
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Federal Census Records: A Window into Family Life</h2>
+            
+            <p>
+                Federal census records from 1900 to 1940 provide invaluable snapshots of the Lassiter family's evolution, documenting their transition from agricultural roots to urban prosperity. These records reveal occupational shifts, household compositions, educational achievements, and the family's adaptation to changing economic conditions.
+            </p>
+
+            <div class="census-card">
+                <h4>1900 United States Census</h4>
+                <p>
+                    The dawn of the 20th century found the Lassiters in Cobb County. Leamond N. Lassiter appears as a 21-year-old living in his parents' household. William Tom Lassiter, the head, is documented as a farmer—reflecting the agricultural foundation of the family's prosperity.
+                </p>
+            </div>
+
+            <div class="census-card">
+                <h4>1910 & 1920 Census Records</h4>
+                <p>
+                    By 1910, Leamond had married and established his own household in Marietta. These censuses reveal the family's continued dependence on farming while beginning to diversify into various trades as the county urbanized. The household grew with the addition of children, documenting the expansion of the Lassiter lineage.
+                </p>
+            </div>
+
+            <div class="census-card">
+                <h4>1930 & 1940 Census: Urban Transition</h4>
+                <p>
+                    These decades, spanning the Great Depression and post-Depression recovery, show significant occupational evolution. The Lassiter family's occupational patterns included teaching, railroad work, and civic affairs. Rising literacy and educational attainment among descendants signified increased community mobility and prosperity.
+                </p>
+            </div>
+
+            <p>
+                Federal censuses from 1900–1940 chart an arc of economic resilience, adaptation, and increasing civic engagement for the Lassiter family, showcasing their sustained impact on Marietta's demographic profile.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Timeline of Legacy</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>1855-1870s</h3>
+                        <h4>Foundation Era</h4>
+                        <p>William Tom Lassiter and Estelle Alpha Spinks Lassiter establish the family in Cobb County during Reconstruction</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>March 10, 1879</h3>
+                        <h4>Birth of Leamond Narvel Lassiter</h4>
+                        <p>The future patriarch is born in Marietta, Cobb County, Georgia</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Early 1900s</h3>
+                        <h4>Marriage & Family Growth</h4>
+                        <p>Leamond marries Minnie Lee Brown; they establish their household and begin raising their family</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>1917-1918</h3>
+                        <h4>World War I Service</h4>
+                        <p>Lassiter family members register for the draft, contributing to the national war effort</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>1920s-1930s</h3>
+                        <h4>Entrepreneurship Era</h4>
+                        <p>Transition from farming to diversified business ventures; family begins property development</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>1952</h3>
+                        <h4>Death of Minnie Lee Brown Lassiter</h4>
+                        <p>The matriarch passes, having raised a family of influential community members</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>February 17, 1966</h3>
+                        <h4>Death of Leamond Narvel Lassiter</h4>
+                        <p>The patriarch passes at age 86, leaving a legacy of community service and business acumen</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>1981</h3>
+                        <h4>Lassiter High School Opens</h4>
+                        <p>A prominent educational institution in East Cobb is named in honor of the family's contributions</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Early 2000s</h3>
+                        <h4>Charitable Foundation Established</h4>
+                        <p>The Lassiter Family Charitable Foundation formalizes philanthropic efforts</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3>Present Day</h3>
+                        <h4>Enduring Legacy</h4>
+                        <p>Five generations later, the family continues its tradition of education, philanthropy, and community engagement</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Vital Records: Documenting Family History</h2>
+            
+            <p>
+                The stable documentation of personal events such as births, marriages, and deaths is pivotal for tracing genealogical histories. These vital records, preserved in Cobb County archives and maintained by the Georgia Department of Health, provide concrete evidence of family connections and life events.
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Notes/Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Birth</strong></td>
+                        <td>Leamond Narvel Lassiter</td>
+                        <td>March 10, 1879</td>
+                        <td>Marietta, Cobb County, GA</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Birth</strong></td>
+                        <td>William Tom Lassiter</td>
+                        <td>1855</td>
+                        <td>Georgia</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Marriage</strong></td>
+                        <td>L.N. Lassiter & Minnie Brown</td>
+                        <td>Early 1900s</td>
+                        <td>Cobb County, GA</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Death</strong></td>
+                        <td>William Tom Lassiter</td>
+                        <td>1924</td>
+                        <td>Cobb County, GA</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Death</strong></td>
+                        <td>Estelle Alpha Spinks Lassiter</td>
+                        <td>1927</td>
+                        <td>Cobb County, GA</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Death</strong></td>
+                        <td>Minnie Lee Brown Lassiter</td>
+                        <td>1952</td>
+                        <td>Cobb County, GA</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Death</strong></td>
+                        <td>Leamond Narvel Lassiter</td>
+                        <td>February 17, 1966</td>
+                        <td>Marietta, Cobb County, GA; buried locally</td>
+                    </tr>
+                    <tr>
