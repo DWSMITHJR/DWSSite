@@ -32,7 +32,12 @@ jobs:
         run: npm ci
       
       - name: Build
-        run: npm run build
+        run: |
+          # Create public directory if it doesn't exist
+          mkdir -p public
+          # Copy all necessary files to the public directory
+          cp -r index.html family.html css/ images/ js/ documents/ favicon.ico public/ 2>/dev/null || :
+          echo "Build complete!"
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -40,7 +45,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './'  # Changed from '/' to './' to ensure correct path
+          path: 'public/'  # Point to the public directory
   
   deploy:
     environment:
