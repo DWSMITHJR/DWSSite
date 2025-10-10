@@ -1,0 +1,35 @@
+/* Bounce animation for interactive elements */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Shake animation for non-interactive elements */
+@keyframes subtleShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-1px) rotate(-0.5deg); }
+  50% { transform: translateX(1px) rotate(0.5deg); }
+  75% { transform: translateX(-1px) rotate(0.5deg); }
+}
+
+/* Apply bounce animation to interactive elements */
+a, button, .btn, .card, .nav-link, .social-icon {
+  transition: transform 0.2s ease-in-out;
+  display: inline-block; /* Required for transform to work on inline elements */
+}
+
+/* Apply shake animation to non-interactive elements */
+p, h1, h2, h3, h4, h5, h6, div:not([class*='btn']):not([class*='nav']):not([class*='card']):not(a):not(button):not([onclick]):not([href]):not([tabindex]):hover {
+  animation: subtleShake 0.5s ease;
+  animation-iteration-count: 1;
+  display: inline-block;
+}
+
+a:hover, button:hover, .btn:hover, .card:hover, .nav-link:hover, .social-icon:hover {
+  animation: bounce 0.5s ease;
+  animation-iteration-count: 1;
+}
