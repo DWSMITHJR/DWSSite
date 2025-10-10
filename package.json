@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "build": "npx copyfiles -u 1 \"**/*.{html,css,js,json,png,jpg,jpeg,gif,svg,ico}\" dist/ && echo 'Build complete!'",
+    "clean": "rimraf dist",
+    "clean:all": "rimraf dist node_modules package-lock.json",
+    "copy:assets": "node copy-assets.js",
+    "build": "npm run clean && npm run copy:assets && echo 'Build complete!'",
     "heroku-postbuild": "npm install && npm run build"
   },
   "dependencies": {
@@ -17,8 +20,9 @@
     "express-session": "^1.18.1"
   },
   "devDependencies": {
-    "copyfiles": "2.4.1",
-    "nodemon": "^3.0.2"
+    "ncp": "^2.0.0",
+    "nodemon": "^3.0.2",
+    "rimraf": "^5.0.10"
   },
   "repository": {
     "type": "git",

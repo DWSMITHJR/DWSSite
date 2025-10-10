@@ -18,7 +18,7 @@
             overflow-x: hidden;
         }
 
-        .hero {
+       .hero {
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -30,7 +30,7 @@
             background: linear-gradient(135deg, rgba(30, 60, 114, 0.95), rgba(42, 82, 152, 0.95));
         }
 
-        .hero::before {
+       .hero::before {
             content: '';
             position: absolute;
             width: 200%;
@@ -45,13 +45,13 @@
             100% { transform: translate(50px, 50px); }
         }
 
-        .crest-container {
+       .crest-container {
             margin-bottom: 2rem;
             animation: fadeInScale 1.5s ease-out;
             z-index: 1;
         }
 
-        .family-crest {
+       .family-crest {
             width: 250px;
             height: auto;
             filter: drop-shadow(0 10px 30px rgba(0,0,0,0.4));
@@ -78,7 +78,7 @@
             }
         }
 
-        .hero h1 {
+       .hero h1 {
             font-size: 4rem;
             color: white;
             text-shadow: 2px 2px 20px rgba(0,0,0,0.3);
@@ -87,7 +87,7 @@
             margin-bottom: 1rem;
         }
 
-        .hero .motto {
+       .motto {
             font-size: 1.8rem;
             color: #ffd700;
             font-style: italic;
@@ -97,17 +97,20 @@
             text-shadow: 1px 1px 10px rgba(0,0,0,0.3);
         }
 
-        .hero p {
+       .hero p {
             font-size: 1.5rem;
             color: #e8f4f8;
             animation: fadeInUp 1s ease-out 1s both;
             z-index: 1;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
         }
 
         @keyframes fadeInDown {
             from {
                 opacity: 0;
-                transform: translateY(-50px);
+                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
@@ -118,7 +121,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(50px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -126,17 +129,20 @@
             }
         }
 
-        .scroll-indicator {
+       .scroll-indicator {
             position: absolute;
             bottom: 30px;
             animation: bounce 2s infinite;
+            cursor: pointer;
             z-index: 1;
         }
 
-        .scroll-indicator::after {
+       .scroll-indicator::after {
             content: '↓';
             font-size: 2rem;
             color: white;
+            opacity: 0.7;
+            transition: all 0.3s ease;
         }
 
         @keyframes bounce {
@@ -151,179 +157,157 @@
             }
         }
 
-        .container {
+       .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        .section {
+       .section {
             background: white;
             margin: 3rem 0;
             padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             opacity: 0;
-            transform: translateY(50px);
-            animation: fadeInSection 0.8s ease-out forwards;
+            animation: fadeIn 0.8s ease-out forwards;
         }
 
-        @keyframes fadeInSection {
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        .section:nth-child(1) { animation-delay: 0.2s; }
-        .section:nth-child(2) { animation-delay: 0.3s; }
-        .section:nth-child(3) { animation-delay: 0.4s; }
-        .section:nth-child(4) { animation-delay: 0.5s; }
-        .section:nth-child(5) { animation-delay: 0.6s; }
-        .section:nth-child(6) { animation-delay: 0.7s; }
-        .section:nth-child(7) { animation-delay: 0.8s; }
-        .section:nth-child(8) { animation-delay: 0.9s; }
+       .section:nth-child(1) { animation-delay: 0.2s; }
+       .section:nth-child(2) { animation-delay: 0.3s; }
+       .section:nth-child(3) { animation-delay: 0.4s; }
+       .section:nth-child(4) { animation-delay: 0.5s; }
+       .section:nth-child(5) { animation-delay: 0.6s; }
+       .section:nth-child(6) { animation-delay: 0.7s; }
+       .section:nth-child(7) { animation-delay: 0.8s; }
+       .section:nth-child(8) { animation-delay: 0.9s; }
 
         h2 {
             font-size: 2.5rem;
             color: #1e3c72;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             position: relative;
-            display: inline-block;
+            padding-bottom: 1rem;
         }
 
         h2::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: 0;
             left: 0;
-            width: 0;
+            width: 100px;
             height: 4px;
             background: linear-gradient(90deg, #1e3c72, #2a5298);
-            animation: underlineGrow 1s ease-out 0.5s forwards;
-        }
-
-        @keyframes underlineGrow {
-            to {
-                width: 100%;
-            }
+            border-radius: 2px;
         }
 
         h3 {
             font-size: 1.8rem;
             color: #2a5298;
-            margin: 2rem 0 1rem;
+            margin: 2rem 0 1.5rem;
         }
 
         h4 {
             font-size: 1.4rem;
-            color: #1e3c72;
+            color: #3a6cb3;
             margin: 1.5rem 0 1rem;
         }
 
         p {
-            line-height: 1.8;
-            margin-bottom: 1rem;
             font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #333;
         }
 
-        .timeline {
-            position: relative;
-            padding: 2rem 0;
+        strong {
+            color: #1e3c72;
         }
 
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: linear-gradient(180deg, #1e3c72, #2a5298, #7e8ba3);
-            transform: translateX(-50%);
+        ul, ol {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
         }
 
-        .timeline-item {
-            display: flex;
-            margin: 3rem 0;
-            position: relative;
-            opacity: 0;
-            animation: slideIn 0.8s ease-out forwards;
+        li {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
         }
 
-        .timeline-item:nth-child(odd) {
-            flex-direction: row-reverse;
-            animation-delay: 0.2s;
+        a {
+            color: #2a5298;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
         }
 
-        .timeline-item:nth-child(even) {
-            animation-delay: 0.4s;
+        a:hover {
+            color: #1e3c72;
+            border-bottom-color: #1e3c72;
         }
 
-        @keyframes slideIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        .timeline-content {
-            width: 45%;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+       .highlight-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 2rem;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .timeline-content:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            background: #1e3c72;
-            border: 4px solid white;
-            border-radius: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 0 4px #1e3c72;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 0 0 0 rgba(30, 60, 114, 0.7);
-            }
-            50% {
-                box-shadow: 0 0 0 10px rgba(30, 60, 114, 0);
-            }
-        }
-
-        .family-tree {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 3rem;
-            border-radius: 20px;
             margin: 2rem 0;
+            border-left: 5px solid #e67e22;
         }
 
-        .tree-node {
-            margin: 1rem 0;
-            padding: 1rem 1rem 1rem 2rem;
-            border-left: 3px solid rgba(255,255,255,0.3);
-            animation: slideInLeft 0.6s ease-out forwards;
+        .stat-card {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin: 1rem;
+            min-width: 200px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
             opacity: 0;
+            animation: popIn 0.5s ease-out;
         }
 
-        .tree-node:nth-child(1) { animation-delay: 0.1s; }
-        .tree-node:nth-child(2) { animation-delay: 0.2s; }
-        .tree-node:nth-child(3) { animation-delay: 0.3s; }
-        .tree-node:nth-child(4) { animation-delay: 0.4s; }
-        .tree-node:nth-child(5) { animation-delay: 0.5s; }
-        .tree-node:nth-child(6) { animation-delay: 0.6s; }
+       .stat-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+       .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+       .highlight-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            border-left: 5px solid #e67e22;
+        }
 
         @keyframes slideInLeft {
             from {
@@ -334,49 +318,6 @@
                 opacity: 1;
                 transform: translateX(0);
             }
-        }
-
-        .stat-card {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem;
-            margin: 1rem;
-            border-radius: 15px;
-            min-width: 200px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease;
-            animation: popIn 0.5s ease-out;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-10px) rotate(2deg);
-        }
-
-        @keyframes popIn {
-            from {
-                transform: scale(0);
-            }
-            to {
-                transform: scale(1);
-            }
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .highlight-box {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            padding: 2rem;
-            border-radius: 15px;
-            margin: 2rem 0;
-            border-left: 5px solid #ff6b6b;
-            animation: slideInRight 0.8s ease-out;
         }
 
         @keyframes slideInRight {
@@ -390,23 +331,23 @@
             }
         }
 
-        .grid {
+       .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin: 2rem 0;
         }
 
-        .grid-item {
+       .grid-item {
             background: white;
             padding: 2rem;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
             animation: fadeIn 0.8s ease-out;
         }
 
-        .grid-item:hover {
+       .grid-item:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
@@ -414,103 +355,167 @@
         @keyframes fadeIn {
             from {
                 opacity: 0;
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        .census-card {
+       .census-card {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             padding: 2rem;
             border-radius: 15px;
-            margin: 1.5rem 0;
+            margin: 2rem 0;
             border-left: 5px solid #2a5298;
             transition: transform 0.3s ease;
         }
 
-        .census-card:hover {
+       .census-card:hover {
             transform: translateX(10px);
         }
 
-        .footer {
+       .footer {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
             text-align: center;
-            padding: 3rem;
+            padding: 2rem;
             margin-top: 4rem;
         }
 
-        table {
+        .footer a {
+            color: #ffd700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .data-summary {
             width: 100%;
             border-collapse: collapse;
-            margin: 2rem 0;
-            animation: fadeIn 1s ease-out;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            table-layout: fixed;
         }
 
-        th, td {
+        .data-summary th, 
+        .data-summary td {
             padding: 1rem;
             text-align: left;
-            border-bottom: 2px solid #e0e0e0;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+            word-wrap: break-word;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .data-summary th {
+            background: #1e3c72;
             color: white;
-            font-weight: bold;
+            font-weight: 500;
+            position: sticky;
+            top: 0;
         }
 
-        tr {
-            transition: background 0.3s ease;
+        /* Set specific column widths */
+        .data-summary th:nth-child(1),
+        .data-summary td:nth-child(1) {
+            width: 28%;
+            min-width: 150px;
+        }
+        
+        .data-summary th:nth-child(2),
+        .data-summary td:nth-child(2) {
+            width: 15%;
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .data-summary th:nth-child(3),
+        .data-summary td:nth-child(3) {
+            width: 22%;
+            min-width: 120px;
+        }
+        
+        .data-summary th:nth-child(4),
+        .data-summary td:nth-child(4) {
+            width: 35%;
+            min-width: 180px;
+        }
+        
+        @media (max-width: 768px) {
+            .data-summary {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .data-summary th,
+            .data-summary td {
+                white-space: normal;
+                min-width: 120px;
+            }
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
         }
 
         tr:hover {
-            background: #f5f7fa;
+            background: #f1f3f5;
         }
 
-        .quote {
+       .quote {
             font-style: italic;
             font-size: 1.2rem;
             text-align: center;
+            max-width: 800px;
+            margin: 3rem auto;
             padding: 2rem;
-            margin: 2rem 0;
-            color: #555;
             position: relative;
         }
 
-        .quote::before {
+       .quote::before {
             content: '"';
             font-size: 4rem;
             color: #1e3c72;
-            opacity: 0.3;
+            opacity: 0.2;
             position: absolute;
-            top: -10px;
+            top: -20px;
             left: 20px;
         }
 
-        .info-box {
+       .info-box {
             background: #e8f4f8;
             padding: 1.5rem;
             border-radius: 10px;
             margin: 1.5rem 0;
-            border-left: 4px solid #1e3c72;
+            border-left: 4px solid #2a5298;
         }
 
         @media (max-width: 768px) {
-            .hero h1 {
+           .hero h1 {
                 font-size: 2.5rem;
             }
-            .timeline::before {
+           .timeline::before {
                 left: 20px;
             }
-            .timeline-item {
-                flex-direction: column !important;
+           .timeline-item {
+                flex-direction: column!important;
                 padding-left: 60px;
             }
-            .timeline-content {
+           .timeline-content {
                 width: 100%;
             }
-            .timeline-dot {
+           .timeline-dot {
                 left: 20px;
             }
         }
@@ -523,7 +528,7 @@
         </div>
         <h1>The Lassiter Family Legacy</h1>
         <p class="motto">Visio et Veritas</p>
-        <p>Marietta, Georgia • 1852 - Present</p>
+        <p>Marietta, Georgia • Education & Civic Service</p>
         <div class="scroll-indicator"></div>
     </div>
 
@@ -531,396 +536,311 @@
         <div class="section">
             <h2>Introduction: Pioneers of Cobb County</h2>
             <p>
-                The Lassiter family holds a significant and longstanding position in the historical landscape of Marietta, Georgia, and the broader community of Cobb County. Tracing their roots from the late 19th century into the 20th—and even 21st—centuries, the Lassiters emerged from agricultural backgrounds and gradually became influential through civic engagement, education, and property ownership.
+                The Lassiter family holds a significant and longstanding position in the historical landscape of Marietta, Georgia, and the broader community of Cobb County. The family's enduring legacy is most notably linked to civic contributions, land development, and a profound dedication to education, particularly through the life of Leamond Narvel Lassiter.
             </p>
             <p>
-                Central to this legacy is <strong>Leamond Narvel Lassiter (1879–1966)</strong>, whose life story embodies the transformation of rural Georgia into a thriving suburban community. The Lassiter family lived through Reconstruction, the Jim Crow era, and major social and economic shifts that shaped modern Marietta.
+                Central to this legacy is <strong>Leamond Narvel Lassiter (1879–1966)</strong>, whose extensive service on the Cobb County Board of Education and advocacy for school consolidation cemented the family's place in the region's history. The Lassiters lived through major social and economic shifts, and their descendants have continued to contribute to the community, including attending the high school named in their honor.
             </p>
             
             <div style="display: flex; justify-content: space-around; margin-top: 3rem; flex-wrap: wrap;">
                 <div class="stat-card">
-                    <span class="stat-number">5</span>
-                    <span>Generations</span>
+                    <span class="stat-number">12</span>
+                    <span>Years of Board Service</span>
                 </div>
                 <div class="stat-card" style="animation-delay: 0.2s;">
-                    <span class="stat-number">140+</span>
-                    <span>Years of Legacy</span>
-                </div>
-                <div class="stat-card" style="animation-delay: 0.4s;">
                     <span class="stat-number">1879</span>
                     <span>Patriarch Born</span>
                 </div>
-                <div class="stat-card" style="animation-delay: 0.6s;">
+                <div class="stat-card" style="animation-delay: 0.4s;">
                     <span class="stat-number">1981</span>
-                    <span>High School Named</span>
+                    <span>High School Established</span>
+                </div>
+                <div class="stat-card" style="animation-delay: 0.6s;">
+                    <span class="stat-number">1944</span>
+                    <span>Board Appointment</span>
                 </div>
             </div>
         </div>
 
         <div class="section">
-            <h2>Genealogical Overview</h2>
+            <h2>Genealogical Overview: The Lassiter Family Branches</h2>
             
-            <h3>The Lassiter Lineage: Documented Through History</h3>
+            <h3>Two Prominent Branches of the Lassiter Legacy</h3>
             <p>
-                The Lassiter surname in the United States traces its origins to early English settlers, and by the 19th century, Lassiter families had appeared throughout the American South. In Georgia, records suggest the Lassiters established roots in Cobb County by the late 1800s.
+                The Lassiter family in Marietta is represented by two historically significant branches, both making substantial contributions to Cobb County's African American community and history.
             </p>
 
-            <div class="info-box">
-                <h4>Key Ancestral Figure: Leamond Narvel Lassiter</h4>
-                <p><strong>Born:</strong> March 10, 1879, Marietta, Cobb County, Georgia</p>
-                <p><strong>Died:</strong> February 17, 1966, Cobb County, Georgia</p>
-                <p><strong>Parents:</strong> William Tom Lassiter (1855–1924) and Estelle Alpha Spinks Lassiter (1855–1927)</p>
-                <p><strong>Spouse:</strong> Minnie Lee Brown (1882–1952)</p>
+            <div class="info-box" style="background: linear-gradient(135deg, #f5f7fa 0%, #e3e9f2 100%);
+                                    margin-bottom: 2rem;
+                                    border-left: 5px solid #2a5298;">
+                <h3>I. The East Cobb County Branch (L.N. Lassiter Family)</h3>
+                <p>This branch is notably recognized for its substantial contributions to Cobb County's educational and business history, honored by the naming of Lassiter High School.</p>
+                
+                <h4>Founding Generation</h4>
+                <p><strong>Leamond Narvel Lassiter (1879–1966)</strong><br>
+                Pioneer East Cobb family member whose significant contributions to education resulted in the naming of Lassiter High School in his honor.</p>
+                
+                <p><strong>Eva Mae (Hagood) Lassiter (1887–1984)</strong><br>
+                Wife of L.N. Lassiter, Sr. The couple raised nine children who carried on the family legacy.</p>
+                
+                <h4>Notable Descendants</h4>
+                <p><strong>Harry Lamar Lassiter (1926-2006)</strong><br>
+                Son - Local business leader, World War II Navy veteran, and co-ran the Lassiter Family businesses.</p>
+                
+                <p><strong>Johnnie LeCroy Lassiter</strong><br>
+                Daughter-in-law (Wife of Harry) - Matriarch of the Lassiter Family businesses, Co-Manager of Lassiter Property Investment, and a lifelong leader in the Marietta Campmeeting community.</p>
+                
+                <p><strong>L.N. Lassiter, Jr. (1922-2004)</strong><br>
+                Son - Notable community member in Marietta and Americus, married to Charlotte Casey Lassiter.</p>
+                
+                <p><strong>Charlotte Casey Lassiter</strong><br>
+                Daughter-in-law - Worked at the Bell Aircraft bomber plant during WWII and was active in Mt. Zion churches and the Marietta Camp Meeting.</p>
             </div>
 
-            <p>
-                Genealogical records, including those compiled on Wikitree and FamilySearch, show the Lassiter family's presence intertwined with other well-known Cobb County surnames such as Spinks, Brown, and McAfee. Marriages often occurred within the local community, further cementing the family's ties to Marietta's development.
-            </p>
+            <div class="info-box" style="background: linear-gradient(135deg, #f0f5ff 0%, #d6e4ff 100%);
+                                    margin-bottom: 2rem;
+                                    border-left: 5px solid #1e3c72;">
+                <h3>II. The Lemon Street District Branch (Isaac and Mary Lassiter)</h3>
+                <p>This branch established roots in the African American Lemon Street District of Marietta after the Civil War, beginning with their property purchase on Lemon Street in 1898.</p>
+                
+                <h4>Founding Generation</h4>
+                <p><strong>Isaac and Mary Lassiter</strong><br>
+                Established the family's long-term legacy through property ownership and community involvement in the historic Lemon Street District.</p>
+                
+                <h4>Notable Descendant</h4>
+                <p><strong>Patrice Shelton Lassiter</strong><br>
+                A noted historian and contributor to the historical record of Black schools in Cobb County, including documenting the history of the first African American teacher at Lemon Street Elementary.</p>
+            </div>
             
             <div class="family-tree">
-                <h3 style="color: white; margin-bottom: 2rem;">Lassiter Family Tree</h3>
-                <div class="tree-node">
-                    <strong>William Tom Lassiter (1855–1924)</strong><br>
-                    Farmer, early Cobb County settler
-                </div>
-                <div class="tree-node" style="margin-left: 2rem;">
-                    <strong>Estelle Alpha Spinks Lassiter (1855–1927)</strong><br>
-                    Matriarch, Georgia native
-                </div>
-                <div class="tree-node" style="margin-left: 4rem;">
-                    <strong>Leamond Narvel Lassiter (1879–1966)</strong><br>
-                    ⚭ Minnie Lee Brown (1882–1952)<br>
-                    Central patriarch; businessman, community leader
-                </div>
-                <div class="tree-node" style="margin-left: 6rem;">
-                    <strong>Multiple Children (Early 1900s–1930s)</strong><br>
-                    Educators, business leaders, civic volunteers<br>
-                    Including descendants who carried on the family legacy
-                </div>
-                <div class="tree-node" style="margin-left: 8rem;">
-                    <strong>Modern Descendants (20th–21st century)</strong><br>
-                    Philanthropists, educators, business owners<br>
-                    Community leaders throughout Cobb County
+                <h3 style="color: white; margin-bottom: 2rem; text-align: center;">Lassiter Family Legacy Timeline</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>1879</h4>
+                            <p>Leamond Narvel Lassiter is born in Georgia, later becoming a central figure in Cobb County's educational development.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>1898</h4>
+                            <p>Isaac and Mary Lassiter purchase property in the Lemon Street District, establishing their family's legacy in Marietta's African American community.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>1903</h4>
+                            <p>Leamond N. Lassiter marries Eva Mae Hagood, beginning a family that would significantly impact Cobb County's educational landscape.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>1944-1956</h4>
+                            <p>Leamond N. Lassiter serves on the Cobb County Board of Education, including two years as chairman, advocating for school consolidation and improved educational facilities.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>1981</h4>
+                            <p>Lassiter High School is established in East Cobb, named in honor of Leamond N. Lassiter's contributions to education.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>Present Day</h4>
+                            <p>The Lassiter family's legacy continues through their descendants and the lasting impact of their contributions to education and community development in Cobb County.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="section">
-            <h2>Federal Census Records: A Window into Family Life</h2>
+            <h2>Family Properties and Residences</h2>
             
-            <p>
-                Federal census records from 1900 to 1940 provide invaluable snapshots of the Lassiter family's evolution, documenting their transition from agricultural roots to urban prosperity. These records reveal occupational shifts, household compositions, educational achievements, and the family's adaptation to changing economic conditions.
-            </p>
-
             <div class="census-card">
-                <h4>1900 United States Census</h4>
-                <p>
-                    The dawn of the 20th century found the Lassiters in Cobb County. Leamond N. Lassiter appears as a 21-year-old living in his parents' household. William Tom Lassiter, the head, is documented as a farmer—reflecting the agricultural foundation of the family's prosperity.
-                </p>
+                <h3>East Cobb County</h3>
+                <p>The L.N. Lassiter family maintained strong ties to East Cobb County, with properties that supported their business ventures and community involvement. Their legacy is most visibly preserved through Lassiter High School, established in 1981 in their honor.</p>
+                
+                <h3>Lemon Street District</h3>
+                <p>The Isaac and Mary Lassiter branch established their legacy through property ownership in the historic African American Lemon Street District, beginning with their purchase in 1898. This area became a significant center of African American life in Marietta.</p>
+                
+                <p>Both branches of the Lassiter family demonstrate the importance of property ownership and community building in the African American experience in Cobb County, with legacies that continue to influence the area today.</p>
             </div>
-
-            <div class="census-card">
-                <h4>1910 & 1920 Census Records</h4>
-                <p>
-                    By 1910, Leamond had married and established his own household in Marietta. These censuses reveal the family's continued dependence on farming while beginning to diversify into various trades as the county urbanized. The household grew with the addition of children, documenting the expansion of the Lassiter lineage.
-                </p>
-            </div>
-
-            <div class="census-card">
-                <h4>1930 & 1940 Census: Urban Transition</h4>
-                <p>
-                    These decades, spanning the Great Depression and post-Depression recovery, show significant occupational evolution. The Lassiter family's occupational patterns included teaching, railroad work, and civic affairs. Rising literacy and educational attainment among descendants signified increased community mobility and prosperity.
-                </p>
-            </div>
-
-            <p>
-                Federal censuses from 1900–1940 chart an arc of economic resilience, adaptation, and increasing civic engagement for the Lassiter family, showcasing their sustained impact on Marietta's demographic profile.
-            </p>
-        </div>
-
-        <div class="section">
-            <h2>Timeline of Legacy</h2>
             
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>1855-1870s</h3>
-                        <h4>Foundation Era</h4>
-                        <p>William Tom Lassiter and Estelle Alpha Spinks Lassiter establish the family in Cobb County during Reconstruction</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>March 10, 1879</h3>
-                        <h4>Birth of Leamond Narvel Lassiter</h4>
-                        <p>The future patriarch is born in Marietta, Cobb County, Georgia</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Early 1900s</h3>
-                        <h4>Marriage & Family Growth</h4>
-                        <p>Leamond marries Minnie Lee Brown; they establish their household and begin raising their family</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>1917-1918</h3>
-                        <h4>World War I Service</h4>
-                        <p>Lassiter family members register for the draft, contributing to the national war effort</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>1920s-1930s</h3>
-                        <h4>Entrepreneurship Era</h4>
-                        <p>Transition from farming to diversified business ventures; family begins property development</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>1952</h3>
-                        <h4>Death of Minnie Lee Brown Lassiter</h4>
-                        <p>The matriarch passes, having raised a family of influential community members</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>February 17, 1966</h3>
-                        <h4>Death of Leamond Narvel Lassiter</h4>
-                        <p>The patriarch passes at age 86, leaving a legacy of community service and business acumen</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>1981</h3>
-                        <h4>Lassiter High School Opens</h4>
-                        <p>A prominent educational institution in East Cobb is named in honor of the family's contributions</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Early 2000s</h3>
-                        <h4>Charitable Foundation Established</h4>
-                        <p>The Lassiter Family Charitable Foundation formalizes philanthropic efforts</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Present Day</h3>
-                        <h4>Enduring Legacy</h4>
-                        <p>Five generations later, the family continues its tradition of education, philanthropy, and community engagement</p>
-                    </div>
-                </div>
+            <div class="info-box">
+                <h4>Documented Residences</h4>
+                <p>While specific addresses from the early 20th century are not fully documented, both branches of the Lassiter family were deeply rooted in their respective communities:</p>
+                <ul>
+                    <li>The East Cobb County branch maintained properties that supported their business and educational endeavors</li>
+                    <li>The Lemon Street District branch was centered around their 1898 property purchase, which became a cornerstone of the African American community</li>
+                </ul>
             </div>
         </div>
 
         <div class="section">
-            <h2>Vital Records: Documenting Family History</h2>
-            
-            <p>
-                The stable documentation of personal events such as births, marriages, and deaths is pivotal for tracing genealogical histories. These vital records, preserved in Cobb County archives and maintained by the Georgia Department of Health, provide concrete evidence of family connections and life events.
-            </p>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Event</th>
-                        <th>Name</th>
-                        <th>Date</th>
-                        <th>Notes/Location</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Birth</strong></td>
-                        <td>Leamond Narvel Lassiter</td>
-                        <td>March 10, 1879</td>
-                        <td>Marietta, Cobb County, GA</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Birth</strong></td>
-                        <td>William Tom Lassiter</td>
-                        <td>1855</td>
-                        <td>Georgia</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Marriage</strong></td>
-                        <td>L.N. Lassiter & Minnie Brown</td>
-                        <td>Early 1900s</td>
-                        <td>Cobb County, GA</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Death</strong></td>
-                        <td>William Tom Lassiter</td>
-                        <td>1924</td>
-                        <td>Cobb County, GA</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Death</strong></td>
-                        <td>Estelle Alpha Spinks Lassiter</td>
-                        <td>1927</td>
-                        <td>Cobb County, GA</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Death</strong></td>
-                        <td>Minnie Lee Brown Lassiter</td>
-                        <td>1952</td>
-                        <td>Cobb County, GA</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Death</strong></td>
-                        <td>Leamond Narvel Lassiter</td>
-                        <td>February 17, 1966</td>
-                        <td>Marietta, Cobb County, GA; buried locally</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="section">
-            <h2>Comprehensive Lassiter Family Research</h2>
+            <h2>Comprehensive Lassiter Family Research Summary</h2>
             
             <div class="info-box" style="margin-bottom: 2rem;">
-                <h3>Introduction</h3>
-                <p>This report presents a detailed genealogical analysis of the Lassiter family of Marietta, Cobb County, Georgia, focusing on their historical presence, land ownership, and contributions to the local community from the late 19th century through the 20th century. The research draws upon census records, city directories, property records, and other primary sources to construct a comprehensive family history.</p>
+                <h3>Summary of Verified Findings</h3>
+                <p>This report documents the significant contributions of both branches of the Lassiter family to Cobb County's history. The East Cobb County branch, led by Leamond N. Lassiter, made lasting impacts on education, while the Lemon Street District branch contributed to the development of Marietta's African American community through property ownership and historical documentation.</p>
             </div>
 
-            <h3>Data Summary</h3>
+            <h3>Family Branches Overview</h3>
             <div class="census-card">
                 <table class="data-summary">
                     <tr>
-                        <th>Category</th>
-                        <th>Details</th>
+                        <th>Branch</th>
+                        <th>Key Figures</th>
+                        <th>Notable Contributions</th>
                     </tr>
                     <tr>
-                        <td>Primary Location</td>
-                        <td>Marietta, Cobb County, Georgia</td>
+                        <td><strong>East Cobb County Branch</strong></td>
+                        <td>Leamond N. Lassiter, Eva Mae Hagood Lassiter, Harry Lamar Lassiter</td>
+                        <td>Education advocacy, 12 years on School Board, Lassiter High School namesake</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lemon Street District Branch</strong></td>
+                        <td>Isaac and Mary Lassiter, Patrice Shelton Lassiter</td>
+                        <td>Historic property ownership, documentation of Black educational history</td>
                     </tr>
                     <tr>
                         <td>Time Period</td>
-                        <td>1870s - 1990s</td>
+                        <td colspan="2">1879 - Present (Established presence from late 19th century)</td>
                     </tr>
                     <tr>
-                        <td>Key Figures</td>
-                        <td>Leamond N. Lassiter, Minnie Lee Brown Lassiter, William Tom Lassiter</td>
-                    </tr>
-                    <tr>
-                        <td>Properties</td>
-                        <td>Multiple land lots in Land Lot 1042, 7th District, 2nd Section</td>
-                    </tr>
-                    <tr>
-                        <td>Key Sources</td>
-                        <td>Census Records, City Directories, Property Deeds, Marriage Records</td>
+                        <td>Primary Locations</td>
+                        <td colspan="2">East Cobb County & Lemon Street District, Marietta, Georgia</td>
                     </tr>
                 </table>
             </div>
 
             <h3>Historical Context</h3>
-            <p>The Lassiter family's presence in Marietta, Georgia, spans over a century, with documented activities from the late 19th century through the 20th century. Their story is intertwined with the broader historical developments of Cobb County, including post-Civil War reconstruction, the Great Migration, and 20th-century urban development.</p>
+            <p>The Lassiter family's story is one of adaptation and persistence within Cobb County. The East Cobb branch's educational advocacy and the Lemon Street branch's community leadership both played crucial roles in shaping Marietta's development, particularly within the African American community during the era of segregation and subsequent desegregation.</p>
 
             <h3>Family Members and Relationships</h3>
             <div class="info-box">
                 <h4>Leamond N. Lassiter (1879-1966)</h4>
-                <p>Born on March 10, 1879, in Georgia, Leamond N. Lassiter was a central figure in the Lassiter family. He married Minnie Lee Brown (1882-1952) in the early 1900s, and they had several children together. The family was deeply rooted in Marietta's African American community, with Leamond working as a laborer and later as a farmer.</p>
+                <p>Leamond N. Lassiter was the central figure who earned the family's lasting recognition through his public service. He married <strong>Eva Mae Hagood</strong> (1887-1984) on February 15, 1903. They had nine children who continued the family's legacy of community service and leadership.</p>
             </div>
             
             <div class="info-box">
-                <h4>Minnie Lee Brown Lassiter (1882-1952)</h4>
-                <p>Born in Georgia, Minnie was the wife of Leamond N. Lassiter. She was a homemaker and played a significant role in maintaining family connections and traditions.</p>
+                <h4>Eva Mae Hagood Lassiter (1887-1984)</h4>
+                <p>Eva Mae Hagood was the wife of Leamond N. Lassiter and the matriarch of the family line honored by the school naming. She outlived Leamond, passing away in 1984, and was instrumental in maintaining family connections and traditions.</p>
             </div>
 
-            <h3>Residential History</h3>
-            <div class="census-card">
-                <h4>1900-1920: Early Residences</h4>
-                <p>In the early 20th century, the Lassiter family lived in various locations in Marietta, including:
-                <ul>
-                    <li>1900: Residing in Cobb County with parents William T. and Estelle Lassiter</li>
-                    <li>1910: Living on Washington Avenue in Marietta</li>
-                    <li>1920: Residing on Lemon Street in Marietta</li>
-                </ul>
-                </p>
+            <div class="info-box">
+                <h4>Isaac and Mary Lassiter</h4>
+                <p>Founders of the Lemon Street District branch, Isaac and Mary Lassiter established their family's presence in Marietta through strategic property acquisition and community involvement, setting the stage for future generations' contributions.</p>
             </div>
 
-            <div class="census-card">
-                <h4>1930-1950: Property Ownership</h4>
-                <p>By the 1930s, the Lassiter family had acquired significant property in Marietta, including land in Land Lot 1042, 7th District, 2nd Section of Cobb County. Property records from 1934-1935 document transactions involving Leamond N. Lassiter and other family members.</p>
+            <div class="highlight-box">
+                <h3>Enduring Legacy</h3>
+                <p>The Lassiter family's impact on Cobb County continues to be felt today through Lassiter High School, the historical record preserved by family historians, and the ongoing contributions of their descendants to the Marietta community. Their story exemplifies the power of education, property ownership, and community engagement in creating lasting change.</p>
             </div>
-
-            <h3>Property Records and Land Ownership</h3>
-            <p>The Lassiter family's property holdings were concentrated in Land Lot 1042, 7th District, 2nd Section of Cobb County. Key transactions include:</p>
-            <ul>
-                <li>1934: Deed from J.H. Grogan to Leamond N. Lassiter (Book 89, Page 23)</li>
-                <li>1935: Deed from Leamond N. Lassiter to Minnie L. Lassiter (Book 93, Page 361)</li>
-                <li>1935: Deed from Leamond N. Lassiter to Minnie L. Lassiter (Book 93, Page 362)</li>
-            </ul>
-
-            <h3>Census Records Analysis</h3>
-            <div class="census-card">
-                <h4>1900 Census</h4>
-                <p>Leamond N. Lassiter appears as a 21-year-old living with his parents, William T. and Estelle Lassiter, in Cobb County. His occupation is listed as a farm laborer.</p>
-            </div>
-
-            <div class="census-card">
-                <h4>1910 Census</h4>
-                <p>Leamond and Minnie Lassiter are listed as living on Washington Avenue in Marietta with their children. Leamond's occupation is listed as a laborer in a brick yard.</p>
-            </div>
-
-            <div class="census-card">
-                <h4>1920 Census</h4>
-                <p>The family is recorded as living on Lemon Street in Marietta. Leamond is listed as a laborer in a lumber yard.</p>
-            </div>
-
-            <h3>City Directory Listings</h3>
-            <p>City directories from the 1920s through the 1940s document the Lassiter family's presence in Marietta, with addresses including:</p>
-            <ul>
-                <li>1927: 207 Lemon Street</li>
-                <li>1935: 207 Lemon Street (Leamond N. Lassiter, laborer)</li>
-                <li>1941: 207 Lemon Street (Leamond N. Lassiter, farmer)</li>
-                <li>1947: 207 Lemon Street (Leamond N. Lassiter, farmer)</li>
-            </ul>
-
-            <h3>Marriage and Family Connections</h3>
-            <p>Marriage records from Cobb County document the union of Leamond N. Lassiter and Minnie Lee Brown, as well as other family connections. The Lassiter family was part of a network of African American families in Marietta, including the Brown, Grogan, and Lemon families.</p>
-
-            <h3>Community Involvement and Legacy</h3>
-            <p>The Lassiter family was active in the Marietta community, with connections to local churches, schools, and civic organizations. Their long-term residence on Lemon Street (now part of the historic African American Lemon Street District) reflects their deep roots in the community.</p>
-
-            <h3>Conclusion</h3>
-            <p>The Lassiter family's history in Marietta, Georgia, provides valuable insights into the African American experience in the post-Civil War South. Through property ownership, community involvement, and family continuity, the Lassiters established a lasting legacy in Cobb County. This research serves as a foundation for further study of the family's contributions to Marietta's history and development.</p>
-
-            <div class="info-box" style="margin-top: 2rem;">
-                <h4>Research Notes and Methodology</h4>
-                <p>This report is based on primary source documents, including census records, city directories, property deeds, and marriage records. The research was conducted through the Cobb County Superior Court Clerk's Office, Georgia Archives, and online genealogical resources. Some records may contain discrepancies in names, dates, and other details, which is common in historical documents.</p>
-            </div>
+        </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 The Lassiter Family Legacy. All rights reserved.</p>
-            <p>Research and documentation by Donald W. Smith Jr.</p>
-        </div>
-    </footer>
+        <div class="section">
+            <h2>Comprehensive Genealogy of Leamond Narvel & Eva Mae (Hagood) Lassiter</h2>
+            
+            <div class="info-box">
+                <h3>Foundational Records and Family Background</h3>
+                <p>Leamond Narvel Lassiter Sr. (April 18, 1879 – January 7, 1966) and Eva Mae Hagood Lassiter (February 23, 1887 – August 5, 1984) were married on February 15, 1903, in Cobb County, Georgia. Their union is well-documented in state marriage records and census returns, establishing their prominent position in Marietta's history.</p>
+            </div>
 
-    <script src="js/script.js"></script>
+            <h3>Generational Overview</h3>
+            <div class="census-card">
+                <table class="data-summary">
+                    <tr>
+                        <th>Child</th>
+                        <th>Lifespan</th>
+                        <th>Spouse(s)</th>
+                        <th>Notable Information</th>
+                    </tr>
+                    <tr>
+                        <td><strong>1. LeoDelle Lassiter Jolley</strong></td>
+                        <td>1904–2001</td>
+                        <td>Lex Jolley</td>
+                        <td>Prominent in Cobb County oral histories, buried in Mountain View Park Cemetery, Marietta</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. Narvel Leonard Lassiter Sr.</strong></td>
+                        <td>1906–1996</td>
+                        <td>Mary Lou Moon</td>
+                        <td>Father of Narvel Leonard Lassiter Jr., buried at Kennesaw Memorial Park</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. William Clay Lassiter</strong></td>
+                        <td>1908–1982</td>
+                        <td>Multiple</td>
+                        <td>Established family lines in both Georgia and Alabama</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4. Lena May Lassiter Johnson</strong></td>
+                        <td>1910–2005</td>
+                        <td>Mr. Johnson</td>
+                        <td>Buried at Mozley Memorial Gardens, Lithia Springs, GA</td>
+                    </tr>
+                    <tr>
+                        <td><strong>5. Doyle McMullen Lassiter</strong></td>
+                        <td>1913–1978</td>
+                        <td>Frances Rucker Griggs</td>
+                        <td>Resided in Stone Mountain, GA; buried at Melwood Cemetery</td>
+                    </tr>
+                    <tr>
+                        <td><strong>6. Aubrey Hagood Lassiter</strong></td>
+                        <td>1918–1994</td>
+                        <td>Dorothy Mae Wood</td>
+                        <td>Lived in Cobb and Cherokee counties, GA</td>
+                    </tr>
+                    <tr>
+                        <td><strong>7. Leamond Narvel Lassiter Jr.</strong></td>
+                        <td>1922–2004</td>
+                        <td>Unknown</td>
+                        <td>Buried at Kennesaw Memorial Park, Marietta</td>
+                    </tr>
+                    <tr>
+                        <td><strong>8. Harry Lamar Lassiter Sr.</strong></td>
+                        <td>1926–2006</td>
+                        <td>Johnnie Kate</td>
+                        <td>Father of Harry Lamar Lassiter Jr., buried at Kennesaw Memorial Park</td>
+                    </tr>
+                    <tr>
+                        <td><strong>9. Margaret Regina Lassiter</strong></td>
+                        <td>1927–2020</td>
+                        <td>Unknown</td>
+                        <td>Spent her life in Marietta, GA</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Family Legacy and Impact</h3>
+                <p>The Lassiter family's influence extends across multiple generations, with descendants contributing significantly to Cobb County's development. From educational leadership to community building, the Lassiter name remains an important part of Marietta's history. The family's story is preserved through various records, including census data, marriage certificates, and oral histories at Kennesaw State University.</p>
+            </div>
+
+            <div class="info-box">
+                <h4>Research Sources</h4>
+                <ul>
+                    <li>FamilySearch Lassiter Records and Family Trees</li>
+                    <li>Find a Grave Memorials and Cemetery Data</li>
+                    <li>WikiTree Lassiter Collaborative Profiles</li>
+                    <li>Cobb County and Georgia Vital Records</li>
+                    <li>Kennesaw State University Oral History Project</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© Lassiter Family Research Project. All Rights Reserved. Last Updated: October 2025.</p>
+    </div>
 </body>
 </html>
