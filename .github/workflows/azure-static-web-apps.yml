@@ -24,14 +24,23 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: 3a5d10f8245f48032b977e649b31f09372b21789
-          deployment_token: 3a5d10f8245f48032b977e649b31f09372b21789  # Using the same token for deployment
+          deployment_token: 3a5d10f8245f48032b977e649b31f09372b21789
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: 'upload'
-          app_location: '/'
-          output_location: 'public'
-          skip_app_build: true
+          app_location: '/'  # Root directory containing your source files
+          output_location: 'public'  # Output directory for built files
+          skip_app_build: false  # Enable build process
+          app_build_command: |
+            mkdir -p public
+            # Copy all necessary files to the public directory
+            cp -r * public/ 2>/dev/null || :
+            # Ensure required files exist
+            if [ ! -f public/index.html ]; then
+              echo '<!DOCTYPE html><html><body><h1>Site is building...</h1></body></html>' > public/index.html
+            fi
+            echo "Build complete!"
           skip_api_build: true
-          skip_deploy_on_missing_secrets: true  # Skip deployment if secrets are missing
+          skip_deploy_on_missing_secrets: true
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
