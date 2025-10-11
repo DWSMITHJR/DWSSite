@@ -1,34 +1,37 @@
-// Application configuration
-const CONFIG = {
-    // API endpoints
-    API_BASE_URL: '/api',
+// API Configuration
+const API_CONFIG = {
+    // Base URL for all API requests
+    BASE_URL: 'https://api.donaldwsmithjr.com', // Update this with your actual API server URL
+    
+    // Authentication endpoints
     ENDPOINTS: {
-        AUTH: '/auth',
-        DOCUMENTS: '/documents',
-        UPLOAD: '/upload'
+        VERIFY: '/api/verify',
+        SIGNOUT: '/api/signout',
+        DOCUMENTS: '/api/documents',
+        TRACK: '/api/track',
+        LOG_EMAIL_HASH: '/api/log/email-hash',
+        DIAGNOSTICS: '/api/diagnostics'
     },
     
-    // Application settings
-    APP: {
-        NAME: 'Document Manager',
-        VERSION: '1.0.0',
-        ENV: 'development' // 'development' or 'production'
+    // Default request headers
+    DEFAULT_HEADERS: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
     },
     
-    // Authentication settings
-    AUTH: {
-        TOKEN_KEY: 'auth_token',
-        TOKEN_EXPIRY: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
-        STORAGE_KEY: 'auth_data'
+    // Get full URL for an endpoint
+    getUrl: function(endpoint) {
+        return `${this.BASE_URL}${endpoint}`;
     },
     
-    // UI settings
-    UI: {
-        ITEMS_PER_PAGE: 10,
-        NOTIFICATION_TIMEOUT: 5000, // 5 seconds
-        DEBOUNCE_DELAY: 300 // ms for search input debouncing
+    // Get headers with optional additional headers
+    getHeaders: function(additionalHeaders = {}) {
+        return {
+            ...this.DEFAULT_HEADERS,
+            ...additionalHeaders
+        };
     }
 };
 
-// Make config available globally
-window.CONFIG = CONFIG;
+// Make API_CONFIG available globally
+window.API_CONFIG = API_CONFIG;
