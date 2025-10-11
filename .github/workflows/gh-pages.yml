@@ -9,6 +9,7 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  deployments: write
 
 jobs:
   build-and-deploy:
@@ -23,6 +24,7 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
+          ref: main  # Explicitly checkout main branch
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -36,33 +38,56 @@ jobs:
       - name: Build
         run: |
           # Install dependencies
+          echo "Installing dependencies..."
           npm ci
           
-          # Create public directory and copy static files
+          # Run the build script if it exists
+          if [ -f "package.json" ] && grep -q "build" package.json; then
+            echo "Running build script..."
+            npm run build
+          fi
+          
+          # Create public directory if it doesn't exist
           mkdir -p public
           
-          # Copy all static files to public directory
-          cp -r assets public/ 2>/dev/null || :
-          cp -r css public/ 2>/dev/null || :
-          cp -r js public/ 2>/dev/null || :
-          cp -r images public/ 2>/dev/null || :
+          # Copy static files to public directory
+          echo "Copying static files..."
+          [ -d "assets" ] && cp -r assets public/ || echo "No assets directory found"
+          [ -d "css" ] && cp -r css public/ || echo "No css directory found"
+          [ -d "js" ] && cp -r js public/ || echo "No js directory found"
+          [ -d "images" ] && cp -r images public/ || echo "No images directory found"
           
           # Create a basic index.html if one doesn't exist
-          if [ ! -f public/index.html ]; then
-            echo '<!DOCTYPE html>
+          if [ ! -f "public/index.html" ]; then
+            echo "Creating default index.html..."
+            cat > public/index.html << 'EOL'
+            <!DOCTYPE html>
             <html>
             <head>
               <title>Donald W. Smith Jr. Portfolio</title>
-              <link rel="stylesheet" href="/css/styles.css">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <style>
+                body { 
+                  font-family: Arial, sans-serif; 
+                  line-height: 1.6; 
+                  max-width: 800px; 
+                  margin: 0 auto; 
+                  padding: 20px;
+                }
+                h1 { color: #2c3e50; }
+              </style>
             </head>
             <body>
               <h1>Welcome to My Portfolio</h1>
               <p>Content is being served via GitHub Pages.</p>
+              <p>Last updated: $(date)</p>
             </body>
-            </html>' > public/index.html
+            </html>
+            EOL
           fi
           
           echo "Build complete!"
+          echo "Contents of public directory:"
           ls -la public/
       
       - name: Setup Pages
@@ -76,3 +101,15 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        
+      - name: Show deployment status
+        if: success()
+        run: |
+          echo "Deployment status: ${{ steps.deployment.outcome }}"
+          echo "View your site at: ${{ steps.deployment.outputs.page_url }}"
+          
+      - name: Deployment failed
+        if: failure()
+        run: |
+          echo "Deployment failed. Check the build logs for more details."
+          exit 1
