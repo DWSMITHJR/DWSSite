@@ -12,11 +12,19 @@ env:
   BUILD_DIR: build
   TARGET_BRANCH: gh-pages
 
+# Set the required permissions for the workflow
 permissions:
-  contents: write
-  pages: write
-  id-token: write
-  deployments: write
+  contents: write  # For pushing to gh-pages branch
+  pages: write     # For GitHub Pages
+  id-token: write  # For GitHub OIDC
+  deployments: write  # For deployment status
+  actions: write   # For GitHub Actions API
+  checks: write    # For status checks
+  statuses: write  # For commit statuses
+  pull-requests: write  # For pull request comments
+  security-events: write  # For security events
+  issues: write    # For issues
+  # metadata: read is not a valid permission, removed
 
 jobs:
   build-and-deploy:
@@ -162,9 +170,17 @@ jobs:
           # Add remote with authentication
           git remote add origin "https://x-access-token:$GH_TOKEN@github.com/$GITHUB_REPOSITORY.git"
           
-          # Create or reset the gh-pages branch
-          git checkout --orphan $TARGET_BRANCH
-          git rm -rf .
+          # Fetch the gh-pages branch if it exists
+          if git ls-remote --exit-code --heads origin $TARGET_BRANCH; then
+            echo "$TARGET_BRANCH branch exists, checking out..."
+            git fetch origin $TARGET_BRANCH
+            git checkout $TARGET_BRANCH
+            git rm -rf .
+          else
+            echo "$TARGET_BRANCH branch does not exist, creating new branch..."
+            git checkout --orphan $TARGET_BRANCH
+            git rm -rf .
+          fi
           
           # Add and commit the built files
           git add .
@@ -173,12 +189,9 @@ jobs:
           # Force push to the gh-pages branch
           git push -f origin $TARGET_BRANCH
           
-          # Set branch protection for gh-pages
-          curl -X PUT \
-            -H "Authorization: token $GH_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/repos/$GITHUB_REPOSITORY/branches/$TARGET_BRANCH/protection" \
-            -d '{"required_status_checks": null, "enforce_admins": null, "required_pull_request_reviews": null, "restrictions": null, "required_linear_history": false, "allow_force_pushes": true, "allow_deletions": true}'
+          # Output the deployment URL
+          echo "Deployment to $TARGET_BRANCH branch complete!"
+          echo "View your site at: https://$GITHUB_REPOSITORY_OWNER.github.io/${GITHUB_REPOSITORY#*/}"
           
       - name: Get the deployed URL
         id: deployment
