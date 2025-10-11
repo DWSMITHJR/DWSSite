@@ -4,7 +4,6 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
-    branches: [ gh-pages ]
 
 permissions:
   contents: write
@@ -12,11 +11,12 @@ permissions:
   id-token: write
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,15 +35,31 @@ jobs:
       
       - name: Build
         run: |
-          # Create public directory if it doesn't exist
+          # Install dependencies
+          npm ci
+          
+          # Create public directory and copy static files
           mkdir -p public
           
-          # Copy all files to public directory (excluding .git, .github, node_modules, etc.)
-          find . -maxdepth 1 -not -path './.git*' -not -path './.github*' -not -path './node_modules*' -not -path './public' -not -path '.' -exec cp -r {} public/ \;
+          # Copy all static files to public directory
+          cp -r assets public/ 2>/dev/null || :
+          cp -r css public/ 2>/dev/null || :
+          cp -r js public/ 2>/dev/null || :
+          cp -r images public/ 2>/dev/null || :
           
-          # Ensure index.html exists
+          # Create a basic index.html if one doesn't exist
           if [ ! -f public/index.html ]; then
-            echo '<!DOCTYPE html><html><body><h1>Site is building...</h1></body></html>' > public/index.html
+            echo '<!DOCTYPE html>
+            <html>
+            <head>
+              <title>Donald W. Smith Jr. Portfolio</title>
+              <link rel="stylesheet" href="/css/styles.css">
+            </head>
+            <body>
+              <h1>Welcome to My Portfolio</h1>
+              <p>Content is being served via GitHub Pages.</p>
+            </body>
+            </html>' > public/index.html
           fi
           
           echo "Build complete!"
