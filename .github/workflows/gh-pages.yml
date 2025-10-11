@@ -46,16 +46,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Build
+      - name: Build and Prepare for Deployment
         run: |
-          # Set up build directory
+          # Create a clean build directory
           echo "Setting up build environment..."
+          rm -rf $BUILD_DIR
           mkdir -p $BUILD_DIR
           
-          # Copy all files to build directory
-          echo "Copying files to build directory..."
-          rsync -av --exclude='.git' --exclude='.github' --exclude='node_modules' --exclude=$BUILD_DIR . $BUILD_DIR/
+          # Copy only necessary files
+          echo "Copying project files..."
+          cp -r * .[^.]* $BUILD_DIR/ 2>/dev/null || :
           
+          # Move into build directory
           cd $BUILD_DIR
           
           # Install dependencies if package.json exists
@@ -68,6 +70,9 @@ jobs:
               echo "Running build script..."
               npm run build
             fi
+            
+            # Clean up node_modules to reduce size
+            rm -rf node_modules
           fi
           
           # Create a basic index.html if one doesn't exist
@@ -89,21 +94,58 @@ jobs:
                   padding: 20px;
                 }
                 h1 { color: #2c3e50; }
+                .deploy-info {
+                  margin-top: 2em;
+                  padding: 1em;
+                  background: #f8f9fa;
+                  border-radius: 4px;
+                  font-size: 0.9em;
+                  color: #6c757d;
+                }
               </style>
             </head>
             <body>
               <h1>Welcome to My Portfolio</h1>
-              <p>Content is being served via GitHub Pages.</p>
-              <p>Last updated: $(date)</p>
-              <p>Commit: $GITHUB_SHA</p>
+              <p>This is the default landing page for your GitHub Pages site.</p>
+              
+              <div class="deploy-info">
+                <p><strong>Deployment Information:</strong></p>
+                <ul>
+                  <li>Last updated: <span id="timestamp">$(date)</span></li>
+                  <li>Commit: <code>$GITHUB_SHA</code></li>
+                  <li>Branch: <code>main</code></li>
+                </ul>
+              </div>
+              
+              <script>
+                // Update timestamp with client-side time
+                document.getElementById('timestamp').textContent = new Date().toLocaleString();
+              </script>
             </body>
             </html>
             EOL
           fi
           
+          # Ensure all built files are in the root
+          if [ -d "public" ]; then
+            echo "Moving public files to root..."
+            mv public/* .
+            rm -rf public
+          fi
+          
+          # Create a .nojekyll file to bypass Jekyll processing
+          touch .nojekyll
+          
           echo "Build complete!"
           echo "Contents of build directory:"
           ls -la
+          
+          # Verify index.html exists
+          if [ ! -f "index.html" ]; then
+            echo "ERROR: index.html was not generated!"
+            ls -la
+            exit 1
+          fi
       
       - name: Deploy to gh-pages branch
         env:
