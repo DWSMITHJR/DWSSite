@@ -1,89 +1,107 @@
-// Collect client information
-function collectClientInfo() {
-    const screenInfo = {
-        width: window.screen.width,
-        height: window.screen.height,
-        colorDepth: window.screen.colorDepth,
-        pixelRatio: window.devicePixelRatio || 1
-    };
+/**
+ * Tracking and Analytics Service
+ * Handles user interactions and analytics events
+ */
+class TrackingService {
+    constructor() {
+        this.initialized = false;
+        this.trackingEnabled = true; // Set to false to disable tracking
+    }
 
-    const browserInfo = {
-        userAgent: navigator.userAgent,
-        language: navigator.language,
-        languages: navigator.languages,
-        platform: navigator.platform,
-        cookieEnabled: navigator.cookieEnabled,
-        doNotTrack: navigator.doNotTrack === '1' || navigator.msDoNotTrack === '1' || window.doNotTrack === '1',
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        screen: screenInfo,
-        viewport: {
-            width: window.innerWidth,
-            height: window.innerHeight
-        },
-        online: navigator.onLine,
-        hardwareConcurrency: navigator.hardwareConcurrency || 'unknown'
-    };
-
-    // Add more detailed browser detection if needed
-    const ua = navigator.userAgent;
-    browserInfo.browser = {
-        isChrome: /Chrome/.test(ua) && !/Edge|Edg|OPR|Opera/.test(ua),
-        isFirefox: /Firefox/.test(ua),
-        isSafari: /Safari/.test(ua) && !/Chrome|Edge|Edg|OPR|Opera/.test(ua),
-        isEdge: /Edg/.test(ua),
-        isIE: /Trident/.test(ua),
-        isOpera: /OPR|Opera/.test(ua)
-    };
-
-    // Get current page info
-    const pageInfo = {
-        url: window.location.href,
-        referrer: document.referrer || 'direct',
-        title: document.title,
-        timestamp: new Date().toISOString()
-    };
-
-    return {
-        browser: browserInfo,
-        page: pageInfo
-    };
-}
-
-// API base URL - update this to match your node-api-server URL
-const API_BASE_URL = 'http://localhost:3001';
-
-// Send tracking data to server
-function sendTrackingData() {
-    const clientInfo = collectClientInfo();
+    /**
+     * Initialize tracking service
+     */
+    init() {
+        if (this.initialized || !this.trackingEnabled) return;
+        
+        try {
+            // Initialize analytics services here if needed
+            // Example: Google Analytics, Mixpanel, etc.
+            console.log('Tracking service initialized');
+            this.initialized = true;
+            
+            // Track page view
+            this.trackPageView();
+            
+            // Set up event listeners for tracking
+            this.setupEventListeners();
+            
+        } catch (error) {
+            console.error('Failed to initialize tracking:', error);
+        }
+    }
     
-    // Send data to API server using ApiService
-    ApiService.trackEvent(clientInfo).catch(error => {
-        console.error('Error sending tracking data:', error);
-    });
-}
-
-// Function to log email and hash to the server
-async function logEmailAndHash(email, emailHash) {
-    try {
-        const clientInfo = collectClientInfo();
-        const response = await ApiService.logEmailHash(email, emailHash, { clientInfo });
-        console.log('Email hash logged successfully:', response);
-        return response;
-    } catch (error) {
-        console.error('Error logging email hash:', error);
-        throw error;
+    /**
+     * Track page view
+     * @param {string} page - Page path (defaults to current path)
+     */
+    trackPageView(page = window.location.pathname) {
+        if (!this.initialized || !this.trackingEnabled) return;
+        
+        const data = {
+            page,
+            title: document.title,
+            timestamp: new Date().toISOString(),
+            referrer: document.referrer
+        };
+        
+        // In a real app, send this to your analytics service
+        console.log('Page view:', data);
+    }
+    
+    /**
+     * Track custom event
+     * @param {string} category - Event category
+     * @param {string} action - Event action
+     * @param {string} label - Event label (optional)
+     * @param {number} value - Event value (optional)
+     */
+    trackEvent(category, action, label = '', value = null) {
+        if (!this.initialized || !this.trackingEnabled) return;
+        
+        const eventData = {
+            category,
+            action,
+            label,
+            value,
+            timestamp: new Date().toISOString()
+        };
+        
+        // In a real app, send this to your analytics service
+        console.log('Event tracked:', eventData);
+    }
+    
+    /**
+     * Set up event listeners for tracking
+     */
+    setupEventListeners() {
+        // Track outbound links
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            if (!link) return;
+            
+            // Track external links
+            if (link.hostname !== window.location.hostname) {
+                this.trackEvent('Outbound Link', 'Click', link.href);
+            }
+        });
+        
+        // Track form submissions
+        document.addEventListener('submit', (e) => {
+            const form = e.target;
+            if (!form) return;
+            
+            this.trackEvent('Form', 'Submit', form.id || 'unknown-form');
+        });
     }
 }
 
-// Run tracking when DOM is fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Initial tracking
-    sendTrackingData();
-    
-    // Track page visibility changes
-    document.addEventListener('visibilitychange', function() {
-        if (document.visibilityState === 'visible') {
-            sendTrackingData();
-        }
-    });
+// Initialize tracking service
+const trackingService = new TrackingService();
+
+document.addEventListener('DOMContentLoaded', () => {
+    trackingService.init();
 });
+
+// Make available globally
+window.trackingService = trackingService;

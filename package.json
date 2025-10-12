@@ -1,0 +1,40 @@
+{
+  "name": "dws-portfolio",
+  "version": "1.0.0",
+  "description": "Donald W. Smith Jr. Portfolio and Document Library",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "clean": "rimraf public",
+    "clean:all": "rimraf public node_modules package-lock.json",
+    "copy:assets": "node copy-assets.js",
+    "build": "npm run clean && npm run copy:assets && echo 'Build complete!'",
+    "heroku-postbuild": "npm install && npm run build"
+  },
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/http-client": "^2.2.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-session": "^1.18.1",
+    "fs-extra": "^11.2.0"
+  },
+  "devDependencies": {
+    "ncp": "^2.0.0",
+    "nodemon": "^3.0.2",
+    "rimraf": "^5.0.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DWSMITHJR/refDWSSite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DWSMITHJR/refDWSSite/issues"
+  },
+  "homepage": "https://github.com/DWSMITHJR/refDWSSite#readme"
+}

@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Professional portfolio of Donald W. Smith Jr. - Solutions Architect">
+    <meta name="author" content="Donald W. Smith Jr.">
+    <meta name="keywords" content="solutions, architecture, cloud, azure, aws, devops, software development">
+    <meta name="theme-color" content="#ffffff">
+    
+    <title>Donald W. Smith Jr. | Solutions Portfolio</title>
+    
+    <!-- Favicon (base64 encoded to prevent 404) -->
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AkEEjIXDlQhNQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAGUlEQVQ4y2NgGAWjYAQBExMTEwPJgAEAHp4B8ZtDqo0AAAAASUVORK5CYII=">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="images/DLogo.png" as="image">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css" media="all">
+    <link rel="stylesheet" href="css/components/build-info.css" media="all">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Base Styles */
+    :root {
+      --primary: #38bdf8;
+      --primary-dark: #0ea5e9;
+      --bg-dark: #0f172a;
+      --bg-darker: #020617;
+      --bg-panel: #1e293b;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --border-color: #334155;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .site-header {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .logo-img {
+      height: 40px;
+      width: auto;
+      border-radius: 8px;
+    }
+
+    /* Navigation */
+    .primary-navigation {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--primary);
+      background: rgba(56, 189, 248, 0.1);
+    }
+
+    .nav-icon {
+      font-size: 1.2em;
+    }
+
+    /* Main Content */
+    main {
+      padding-top: 80px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 100px 2rem 4rem;
+    }
+
+    .section {
+      margin-bottom: 4rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), transparent);
+      border-radius: 3px;
+    }
+
+    /* Project Cards */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .project-card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      height: 100%;
+    }
+
+    .project-panel {
+      background: linear-gradient(145deg, var(--bg-panel), #1a2233);
+      border-radius: 0.8rem;
+      padding: 1.8rem;
+      height: 100%;
+      border-left: 4px solid var(--primary);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.1), transparent);
+      transition: 0.5s;
+    }
+
+    .project-panel:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-left-color: var(--primary-dark);
+    }
+
+    .project-panel:hover::before {
+      left: 100%;
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .project-title {
+      color: var(--primary);
+      margin: 0 0 0.5rem;
+      font-size: 1.4rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .project-company {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin: 0 0 1rem;
+      font-weight: 500;
+    }
+
+    .project-year {
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--primary);
+      font-size: 0.8rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-weight: 600;
+      white-space: nowrap;
+      margin-left: 1rem;
+    }
+
+    .project-description {
+      color: var(--text-primary);
+      margin: 0 0 1.5rem;
+      flex-grow: 1;
+      line-height: 1.6;
+    }
+
+    .project-details {
+      background-color: rgba(15, 23, 42, 0.5);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin: 1rem 0 0;
+      border: 1px solid var(--border-color);
+    }
+
+    .project-details h4 {
+      margin-top: 0;
+      color: var(--primary);
+      font-size: 1.1rem;
+    }
+
+    .project-details ul {
+      margin: 0.5rem 0 0;
+      padding-left: 1.25rem;
+    }
+
+    .project-details li {
+      margin-bottom: 0.5rem;
+      position: relative;
+      padding-left: 1.25rem;
+    }
+
+    .project-details li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+    }
+
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0 0;
+    }
+
+    .tech-tag {
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--primary);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .toggle-details {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      padding: 0.5rem 1.25rem;
+      border-radius: 2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toggle-details:hover {
+      background: rgba(56, 189, 248, 0.1);
+      transform: translateY(-1px);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-darker);
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .project-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        padding: 1rem;
+      }
+
+      .nav-links {
+        display: none; /* Mobile menu would go here */
+      }
+
+      main {
+        padding: 80px 1rem 2rem;
+      }
+
+      .section-title {
+        font-size: 1.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-panel {
+        padding: 1.5rem;
+      }
+
+      .project-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+
+      .project-year {
+        margin: 0;
+        align-self: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-particles" id="particles"></div>
+
+  <!-- Skip to Main Content Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <div class="header-content">
+      <a href="index.html" class="logo" aria-label="Return to Home" title="Return to Home">
+        <img src="images/DLogo.png" alt="Donald W. Smith Jr. - Professional Portfolio" class="logo-img" width="40" height="40" loading="lazy">
+      </a>
+      
+      <!-- Primary Navigation -->
+      <nav id="primary-navigation" class="primary-navigation" aria-label="Primary">
+        <ul class="nav-links" role="menubar">
+          <li role="none">
+            <a href="index.html" class="nav-link" title="Return to Home" role="menuitem">
+              <span class="nav-icon" aria-hidden="true">🏠</span>
+              <span class="nav-text">Home</span>
+            </a>
+          </li>
+          <li role="none">
+            <a href="#" class="nav-link active" aria-current="page" title="Current Page: Solutions" role="menuitem">
+              <span class="nav-icon" aria-hidden="true">💡</span>
+              <span class="nav-text">Solutions</span>
+            </a>
+          </li>
+          <li role="none">
+            <a href="apps.html" class="nav-link" title="View Applications" role="menuitem">
+              <span class="nav-icon" aria-hidden="true">📱</span>
+              <span class="nav-text">Applications</span>
+            </a>
+          </li>
+          <li role="none">
+            <a href="index.html#contact" class="nav-link" title="Contact Information" role="menuitem">
+              <span class="nav-icon" aria-hidden="true">✉️</span>
+              <span class="nav-text">Contact</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" tabindex="-1" role="main">
+    <section class="section">
+      <h1 class="section-title">Project Portfolio</h1>
+      <p style="text-align: center; color: var(--text-secondary); margin-bottom: 3rem;">Selected Projects by Donald W. Smith Jr.</p>
+
+  <section>
+    <h2>Recent Projects (2024-2025)</h2>
+    
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">Natural Language Application</h3>
+        <span class="project-year">2025</span>
+      </div>
+      <p class="project-company">Windsurf - Solutions Architect</p>
+      <p class="project-description">Reference implementation for NLWeb, AutoRAG and AutoML for LLM processing of artifacts. Python-based web application for natural language processing and machine learning.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">LLM</span>
+        <span class="tech-tag">AutoML</span>
+        <span class="tech-tag">NLP</span>
+      </div>
+    </div>
+
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">Tracker Application</h3>
+        <span class="project-year">2025</span>
+      </div>
+      <p class="project-company">Windsurf - Solutions Architect</p>
+      <p class="project-description">C# Blazor web application serving as a reference implementation for multitenant systems where organizations can securely track individuals that require additional scrutiny.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">C#</span>
+        <span class="tech-tag">Blazor</span>
+        <span class="tech-tag">.NET Core</span>
+        <span class="tech-tag">Multi-tenant</span>
+      </div>
+    </div>
+
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">TimeLine Application</h3>
+        <span class="project-year">2025</span>
+      </div>
+      <p class="project-company">Windsurf - Solutions Architect</p>
+      <p class="project-description">Windows Forms application providing local storage image timeline with immediate access to images. Features automatic recategorization based on EXIF data and file attributes.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">C#</span>
+        <span class="tech-tag">WinForms</span>
+        <span class="tech-tag">EXIF</span>
+        <span class="tech-tag">.NET</span>
+      </div>
+    </div>
+
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">Dynamic Workload Manager</h3>
+        <span class="project-year">2025</span>
+      </div>
+      <p class="project-company">Windsurf - Solutions Architect</p>
+      <p class="project-description">Comprehensive, enterprise-grade C# solution for dynamic workload loading, execution, and management following Microsoft best practices and patterns.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">C#</span>
+        <span class="tech-tag">.NET Core</span>
+        <span class="tech-tag">Enterprise</span>
+        <span class="tech-tag">Design Patterns</span>
+      </div>
+    </div>
+
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">Tracker Application</h3>
+        <span class="project-year">2025</span>
+      </div>
+      <p class="project-company">Windsurf - Solutions Architect</p>
+      <p class="project-description">C# Blazor web application serving as a reference implementation for multitenant systems where organizations can securely track individuals requiring additional scrutiny.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">C#</span>
+        <span class="tech-tag">Blazor</span>
+        <span class="tech-tag">.NET Core</span>
+        <span class="tech-tag">Multi-tenant</span>
+      </div>
+    </div>
+
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">TimeLine Application</h3>
+        <span class="project-year">2025</span>
+      </div>
+      <p class="project-company">Windsurf - Solutions Architect</p>
+      <p class="project-description">Windows Forms application providing local storage image timeline with immediate access to images. Features automatic recategorization based on EXIF data and file attributes.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">C#</span>
+        <span class="tech-tag">WinForms</span>
+        <span class="tech-tag">EXIF</span>
+        <span class="tech-tag">.NET</span>
+      </div>
+    </div>
+
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">Dynamic Workload Loader and Manager</h3>
+        <span class="project-year">2025</span>
+      </div>
+      <p class="project-company">Windsurf - Solutions Architect</p>
+      <p class="project-description">Enterprise-grade C# solution for dynamic workload loading, execution, and management following Microsoft best practices and patterns.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">C#</span>
+        <span class="tech-tag">.NET Core</span>
+        <span class="tech-tag">Enterprise</span>
+        <span class="tech-tag">Design Patterns</span>
+      </div>
+    </div>
+
+    <h2>Enterprise Solutions (2017-2024)</h2>
+    
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">Multicloud Strategy & Global Connectivity</h3>
+        <span class="project-year">2022-2024</span>
+      </div>
+      <p class="project-company">Giesecke+Devrient (G+D) - Solutions Architect</p>
+      <p class="project-description">Provided advisory, guidance, best practices and documentation for cloud-based multicloud, hyperscalers and global connectivity strategy. Established technical guidance and policy direction for the architecture group.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">Multi-cloud</span>
+        <span class="tech-tag">Cloud Strategy</span>
+        <span class="tech-tag">Enterprise Architecture</span>
+        <span class="tech-tag">Documentation</span>
+      </div>
+    </div>
+
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">Geospatial Aerial Imagery Analysis</h3>
+        <span class="project-year">2021</span>
+      </div>
+      <p class="project-company">FM Global, Inc. - Solutions Architect</p>
+      <p class="project-description">Provided advisory and guidance for a cloud-based geospatial aerial imagery analysis project for risk analysis. Azure PaaS based portal, high volume AI/ML image processing and integration with 3rd party data providers for data augmentation. Deployed on Kubernetes.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">Azure</span>
+        <span class="tech-tag">AI/ML</span>
+        <span class="tech-tag">Kubernetes</span>
+        <span class="tech-tag">Geospatial</span>
+      </div>
+    </div>
+
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">Azure Mesh Core Architecture</h3>
+        <span class="project-year">2020-2021</span>
+      </div>
+      <p class="project-company">GlaxoSmithKline - Solutions Architect</p>
+      <p class="project-description">Provided technical support to the solutions architects for an Azure mesh core architecture for big data analytics workloads. Compute tier includes Databricks, Talend, Collibra, Synapse and SQL Server accessing Delta lake and ADLS in a certified and global data governance environment. Deployed on Kubernetes.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">Azure</span>
+        <span class="tech-tag">Databricks</span>
+        <span class="tech-tag">Synapse</span>
+        <span class="tech-tag">Kubernetes</span>
+      </div>
+    </div>
+
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">Mainframe Modernization</h3>
+        <span class="project-year">2020</span>
+      </div>
+      <p class="project-company">Humana Inc. - Solutions Architect</p>
+      <p class="project-description">Led Humana's Mainframe Modernization initiative to the Azure cloud. Provided advisory, guidance, best practices and templates for cloud migration based on security, PCI, and HIPAA requirements. Developed architectural blueprints, infographics, and detailed architectural diagrams for program execution.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">Azure</span>
+        <span class="tech-tag">Mainframe</span>
+        <span class="tech-tag">HIPAA</span>
+        <span class="tech-tag">PCI</span>
+      </div>
+    </div>
+
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">Bank Merger Integration</h3>
+        <span class="project-year">2019-2020</span>
+      </div>
+      <p class="project-company">Truist Inc. - Solutions Architect</p>
+      <p class="project-description">Architect for the bank merger of Suntrust and BBnT. Performed analysis and provided design documentation for a combination of in-house, SaaS, IaaS services for on-premise and hybrid cloud solutions. Articulated implementation details for designs, provided security assessment and developer guidance.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">Enterprise Architecture</span>
+        <span class="tech-tag">Cloud Migration</span>
+        <span class="tech-tag">Security</span>
+        <span class="tech-tag">Integration</span>
+      </div>
+    </div>
+
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">Global Analytics Platform</h3>
+        <span class="project-year">2017-2020</span>
+      </div>
+      <p class="project-company">EY LLP - Principal Architect</p>
+      <p class="project-description">Principal architect for a big data global analytics platform on Azure for Ernst & Young LLP. An Azure PaaS greenfield platform architected from the ground up as part of audit transformation. Led the platform feature team in the development of a global platform for hosting big data analytic solutions based on data privacy regulations.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">Azure</span>
+        <span class="tech-tag">Big Data</span>
+        <span class="tech-tag">Data Privacy</span>
+        <span class="tech-tag">PaaS</span>
+      </div>
+    </div>
+
+
+    <h2>Financial & Insurance Solutions (2016-2021)</h2>
+    
+
+
+    <h2>Transportation & Logistics (2013-2016)</h2>
+    
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">Train Management System</h3>
+        <span class="project-year">2013-2016</span>
+      </div>
+      <p class="project-company">Norfolk Southern, Inc. - Senior Developer</p>
+      <p class="project-description">Agile development of integrated train management system using C# .NET MVC, MVVM, EF, ORM, MEF, Prism, RESTful services, Web API, Kendo, oData, JayData, Angular, SQL Server, CICS, and TIBCO.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">.NET</span>
+        <span class="tech-tag">Angular</span>
+        <span class="tech-tag">SQL Server</span>
+        <span class="tech-tag">REST</span>
+      </div>
+    </div>
+
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">LMS eCommerce Integration</h3>
+        <span class="project-year">2013</span>
+      </div>
+      <p class="project-company">Allscripts, Inc. - Business Analyst/Architect</p>
+      <p class="project-description">Requirements gathering and design for Saba LMS eCommerce initiative with 3DSI L3 payment processor and Oracle integration. Designed publish-subscribe integration pattern with Oracle ERP/Fusion bus/Saba LMS webservices.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">Oracle</span>
+        <span class="tech-tag">eCommerce</span>
+        <span class="tech-tag">LMS</span>
+        <span class="tech-tag">Integration</span>
+      </div>
+    </div>
+
+    <h2>Enterprise Solutions (2008-2013)</h2>
+    
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">Global CRM Implementation</h3>
+        <span class="project-year">2008-2012</span>
+      </div>
+      <p class="project-company">Oldcastle, Inc. - Integration Architect</p>
+      <p class="project-description">Multinational Salesforce.com rollout for 6,000+ users across multiple business units. Integrated with SQL Server, DB2, Lawson ERP, and Viewpoint using IBM CastIron.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">Salesforce</span>
+        <span class="tech-tag">ERP Integration</span>
+        <span class="tech-tag">IBM CastIron</span>
+        <span class="tech-tag">Enterprise</span>
+      </div>
+    </div>
+
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">LMS eCommerce Integration</h3>
+        <span class="project-year">2013</span>
+      </div>
+      <p class="project-company">Allscripts, Inc. - Business Analyst/Architect</p>
+      <p class="project-description">Requirements gathering and design for Saba LMS eCommerce initiative with 3DSI L3 payment processor and Oracle integration. Designed publish-subscribe integration pattern with Oracle ERP/Fusion bus/Saba LMS webservices.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">Oracle</span>
+        <span class="tech-tag">eCommerce</span>
+        <span class="tech-tag">LMS</span>
+        <span class="tech-tag">Integration</span>
+      </div>
+    </div>
+
+    <h2>Enterprise Solutions (2008-2013)</h2>
+    
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">Global CRM Implementation</h3>
+        <span class="project-year">2008-2012</span>
+      </div>
+      <p class="project-company">Oldcastle, Inc. - Integration Architect</p>
+      <p class="project-description">Multinational Salesforce.com rollout for 6,000+ users across multiple business units. Integrated with SQL Server, DB2, Lawson ERP, and Viewpoint using IBM CastIron.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">Salesforce</span>
+        <span class="tech-tag">ERP Integration</span>
+        <span class="tech-tag">IBM CastIron</span>
+        <span class="tech-tag">Enterprise</span>
+      </div>
+    </div>
+
+    <h2>Early Career Highlights (1995-2008)</h2>
+    
+    <div class="project-panel">
+      <div class="project-header">
+        <h3 class="project-title">E-Commerce & Web Platforms</h3>
+        <span class="project-year">1995-2008</span>
+      </div>
+      <p class="project-company">EdgeTek Technologies & Various Clients</p>
+      <p class="project-description">Led development of multiple high-profile projects including Primesport e-commerce platform, RealEstate.com property search, and enterprise solutions for Siemens, LOMA, and FWT. Specialized in scalable web applications and system integrations.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">eCommerce</span>
+        <span class="tech-tag">Web Development</span>
+        <span class="tech-tag">.NET</span>
+        <span class="tech-tag">SQL Server</span>
+      </div>
+    </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer id="contact" role="contentinfo">
+    <div class="footer-content">
+      <p>&copy; 2025 Donald W. Smith Jr. | All Rights Reserved</p>
+      <div class="footer-links">
+        <a href="mailto:architect@donaldwsmithjr.com" class="footer-link">Email</a>
+        <span class="footer-separator">•</span>
+        <a href="https://linkedin.com/in/donaldwsmithjr" target="_blank" rel="noopener noreferrer" class="footer-link">LinkedIn</a>
+        <span class="footer-separator">•</span>
+        <a href="https://github.com/DWSMITHJR" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  
+  <script>
+    // Initialize particles.js
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof particlesJS !== 'undefined') {
+        particlesJS('particles', {
+          particles: {
+            number: { value: 80, density: { enable: true, value_area: 800 } },
+            color: { value: '#38bdf8' },
+            shape: { type: 'circle' },
+            opacity: { value: 0.5, random: true },
+            size: { value: 3, random: true },
+            line_linked: { enable: true, distance: 150, color: '#38bdf8', opacity: 0.2, width: 1 },
+            move: { enable: true, speed: 2, direction: 'none', random: true, straight: false, out_mode: 'out' }
+          },
+          interactivity: {
+            detect_on: 'canvas',
+            events: {
+              onhover: { enable: true, mode: 'grab' },
+              onclick: { enable: true, mode: 'push' },
+              resize: true
+            }
+          },
+          retina_detect: true
+        });
+      }
+
+      // Add fade-in animation to project cards
+      const projectCards = document.querySelectorAll('.project-panel');
+      projectCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.animation = `fadeIn 0.6s ease-out ${index * 0.1}s forwards`;
+      });
+
+      // Toggle details functionality
+      function toggleDetails(id) {
+        const details = document.getElementById(id);
+        const button = details.previousElementSibling;
+        
+        if (details.classList.contains('show')) {
+          details.classList.remove('show');
+          button.innerHTML = 'View Details <span class="nav-icon" aria-hidden="true">▼</span>';
+        } else {
+          details.classList.add('show');
+          button.innerHTML = 'Hide Details <span class="nav-icon" aria-hidden="true">▲</span>';
+        }
+      }
+
+      // Make toggleDetails globally available
+      window.toggleDetails = toggleDetails;
+    });
+  </script>
+</body>
+</html>
