@@ -46,12 +46,30 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(10, 14, 39, 0.95);
+    background: rgba(10, 14, 39, 0.98) !important;
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(79, 195, 247, 0.1);
+    border-bottom: 1px solid rgba(79, 195, 247, 0.1) !important;
     z-index: 1000;
-    padding: 0.5rem 0;
+    padding: 0.5rem 0 !important;
     transition: all 0.3s ease;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    align-items: center;
+}
+
+/* Ensure primary navigation is visible */
+.primary-navigation {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    height: auto !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .header-content {
@@ -80,10 +98,15 @@ header {
 }
 
 .nav-links {
-    display: flex;
-    gap: 2rem;
+    display: flex !important;
+    gap: 1.5rem;
     list-style: none;
-    align-items: center;
+    margin: 0;
+    padding: 0;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    flex-direction: row !important;
 }
 
 .nav-links a {
@@ -116,10 +139,11 @@ header {
 }
 
 /* Rest of your existing CSS remains the same */
-/* Main Content */
-main {
-    margin-top: 60px;
-    background: transparent;
+/* Main Content Container */
+.main-content-container {
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 0 2rem;
 }
 
 /* Hero Section */
@@ -612,6 +636,20 @@ footer::before {
     margin-top: 1.5rem;
 }
 
+.primary-navigation {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
+    margin-left: 2rem;
+    position: static !important;
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    border-bottom: none !important;
+}
+
 .btn-block {
     display: inline-flex;
     align-items: center;
@@ -661,8 +699,112 @@ footer::before {
         align-items: center;
     }
     
-    .nav-links {
-        display: none;
+    /* Mobile menu styles */
+    .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 2rem;
+        height: 2rem;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 10;
+    }
+    
+    .menu-toggle:focus {
+        outline: 2px solid #4fc3f7;
+        border-radius: 4px;
+    }
+    
+    .menu-toggle-icon,
+    .menu-toggle-icon::before,
+    .menu-toggle-icon::after {
+        width: 2rem;
+        height: 2px;
+        background: #e2e8f0;
+        border-radius: 2px;
+        transition: all 0.3s ease-in-out;
+        position: relative;
+    }
+    
+    .menu-toggle-icon::before,
+    .menu-toggle-icon::after {
+        content: '';
+        position: absolute;
+        left: 0;
+    }
+    
+    .menu-toggle-icon::before {
+        transform: translateY(-8px);
+    }
+    
+    .menu-toggle-icon::after {
+        transform: translateY(8px);
+    }
+    
+    /* Menu open state */
+    .menu-toggle[aria-expanded="true"] .menu-toggle-icon {
+        background: transparent;
+    }
+    
+/* Removed mobile toggle styles */
+    
+    /* Navigation menu */
+.primary-navigation {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    height: auto !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    border: none !important;
+}
+
+.nav-links {
+    display: flex !important;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 1.5rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.active {
+    background: rgba(79, 195, 247, 0.2);
+    font-weight: 500;
+}
+
+/* Hide mobile menu toggle button */
+.menu-toggle {
+    display: none !important;
+}
+    
+/* Removed mobile-specific navigation styles */
+    
+    .nav-links a {
+        padding: 0.75rem 1rem;
+        display: block;
     }
     
     .section {

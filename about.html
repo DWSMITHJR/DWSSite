@@ -1,128 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" itemscope itemtype="http://schema.org/WebPage">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="System and browser information page showing detailed technical specifications of your device and browser.">
+    <meta name="description" content="About Donald W. Smith Jr. - Professional portfolio and debug information">
     <meta name="author" content="Donald W. Smith Jr.">
-    <meta name="keywords" content="system information, browser details, device specs, technical information">
-    <meta name="theme-color" content="#1e40af">
-    <meta name="color-scheme" content="light dark">
+    <meta name="keywords" content="about, debug, runtime information, portfolio, Donald Smith">
+    <meta name="theme-color" content="#ffffff">
     
-    <title>System Information | Donald W. Smith Jr.</title>
+    <title>About & Debug - Donald W. Smith Jr. | Portfolio</title>
     
     <!-- Favicon (base64 encoded to prevent 404) -->
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AkEEjIXDlQhNQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAGUlEQVQ4y2NgGAWjYAQBExMTEwPJgAEAHp4B8ZtDqo0AAAAASUVORK5CYII=">
     
     <!-- Preload Critical Resources -->
-    <link rel="preload" href="css/base/reset.css" as="style">
-    <link rel="preload" href="css/base/variables.css" as="style">
     <link rel="preload" href="css/styles.css" as="style">
-    <link rel="preload" href="css/about.css" as="style">
-    <link rel="preload" href="images/DLogo.jpg" as="image" imagesrcset="images/DLogo.jpg 1x, images/DLogo@2x.jpg 2x">
+    <link rel="preload" href="images/DLogo.png" as="image">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="css/base/reset.css" media="all">
-    <link rel="stylesheet" href="css/base/variables.css" media="all">
     <link rel="stylesheet" href="css/styles.css" media="all">
+    <link rel="stylesheet" href="css/components/build-info.css" media="all">
     <link rel="stylesheet" href="css/about.css" media="all">
     
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "System Information",
-        "description": "Detailed technical specifications of your device and browser",
-        "author": {
-            "@type": "Person",
-            "name": "Donald W. Smith Jr."
-        }
-    }
-    </script>
-    
-    <!-- Critical CSS inlined for faster rendering -->
-        <style>
-        /* Critical CSS - Inlined for faster rendering */
-        .loading-indicator {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(15, 23, 42, 0.95);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            color: #fff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            text-align: center;
-            padding: 2rem;
-        }
-        
-        .loading-spinner {
-            width: 3rem;
-            height: 3rem;
-            border: 0.35rem solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top-color: #60a5fa;
-            animation: spin 1s ease-in-out infinite;
-            margin-bottom: 1.5rem;
-            will-change: transform;
-        }
-        
-        .loading-indicator p {
-            margin: 0.5rem 0 0;
-            font-size: 1.1rem;
-            color: #e2e8f0;
-        }
-        
-        .error-message {
-            background: rgba(220, 38, 38, 0.1);
-            border-left: 4px solid #ef4444;
-            padding: 1rem;
-            border-radius: 0.25rem;
-            max-width: 32rem;
-        }
-        
-        .error-message p {
-            margin: 0 0 0.5rem;
-            line-height: 1.5;
-        }
-        
-        .error-message p:last-child {
-            margin-bottom: 0;
-        }
-        
-        .error-message small {
-            opacity: 0.8;
-            font-size: 0.875em;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Screen reader only utility class */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-    </style>
 </head>
 <body>
     <!-- Animated Background -->
@@ -134,45 +37,71 @@
     <!-- Header -->
     <header class="site-header" role="banner">
         <div class="header-content" itemscope itemtype="https://schema.org/Person">
-            <a href="index.html" class="logo" aria-label="Return to Home Page" title="Return to Home Page" itemprop="url">
+            <a href="#home" class="logo" aria-label="Return to Top of Page" title="Return to Top of Page" itemprop="url">
                 <img src="images/DLogo.jpg" alt="Donald W. Smith Jr. - Professional Portfolio" class="logo-img" width="50" height="50" loading="lazy" itemprop="image">
             </a>
-            
-            <!-- Mobile Menu Toggle -->
-            <button class="menu-toggle" 
-                    id="mobile-menu-toggle" 
-                    aria-expanded="false" 
-                    aria-controls="primary-navigation"
-                    aria-label="Toggle navigation menu">
-                <span class="menu-toggle-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Menu</span>
-            </button>
             
             <!-- Primary Navigation -->
             <nav id="primary-navigation" class="primary-navigation" aria-label="Primary">
                 <ul class="nav-links" role="menubar">
                     <li role="none">
-                        <a href="index.html" class="nav-link" title="Navigate to Home Page" aria-label="Home" role="menuitem">
+                        <a href="#home" 
+                           class="nav-link" 
+                           title="Home" 
+                           aria-label="Home"
+                           role="menuitem">
                             <span class="nav-icon" aria-hidden="true">🏠</span>
                             <span class="nav-text">Home</span>
                         </a>
                     </li>
                     <li role="none">
-                        <a href="link.html" class="nav-link" title="Request Access Code" aria-label="Request Access Code" role="menuitem">
+                        <a href="#contact" 
+                           class="nav-link" 
+                           title="Contact Information" 
+                           aria-label="Contact"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">✉️</span>
+                            <span class="nav-text">Contact</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="link.html" 
+                           class="nav-link" 
+                           title="Request Access Code" 
+                           aria-label="Request Access Code"
+                           role="menuitem">
                             <span class="nav-icon" aria-hidden="true">🔑</span>
                             <span class="nav-text">Request Code</span>
                         </a>
                     </li>
                     <li role="none">
-                        <a href="info.html" class="nav-link" title="Document Library" aria-label="Document Library" role="menuitem">
-                            <span class="nav-icon" aria-hidden="true">📂</span>
+                        <a href="info.html" 
+                           class="nav-link" 
+                           title="View Documents" 
+                           aria-label="Documents"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">📄</span>
                             <span class="nav-text">Documents</span>
                         </a>
                     </li>
                     <li role="none">
-                        <a href="about.html" class="nav-link active" aria-current="page" title="Current Page: System Information" role="menuitem">
+                        <a href="about.html" 
+                           class="nav-link active" 
+                           aria-current="page" 
+                           title="Current Section: About"
+                           role="menuitem">
                             <span class="nav-icon" aria-hidden="true">ℹ️</span>
                             <span class="nav-text">About</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="suggest.html" 
+                           class="nav-link" 
+                           title="Make a Suggestion" 
+                           aria-label="Suggest"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">💡</span>
+                            <span class="nav-text">Suggest</span>
                         </a>
                     </li>
                 </ul>
@@ -180,16 +109,13 @@
         </div>
     </header>
 
-    <!-- Loading Indicator -->
-    <div id="loading-indicator" class="loading-indicator" role="status" aria-live="polite">
-        <div class="loading-spinner" aria-hidden="true"></div>
-        <p>Loading system information...</p>
-    </div>
-
-    <div class="about-container" role="main" id="main-content" tabindex="-1">
-        <header class="page-header">
-            <h1 class="page-title">System Information</h1>
-        </header>
+    <main id="main-content" tabindex="-1" role="main" itemscope itemtype="https://schema.org/WebPage">
+        <div class="about-container">
+            <h1 class="section-title">About This Site</h1>
+            
+            <section class="info-section" aria-labelledby="site-purpose-heading">
+                <h2 id="site-purpose-heading" class="fade-in">Site Purpose</h2>
+                <p>This website serves as the professional portfolio of Donald W. Smith Jr., showcasing his work, projects, and professional experience. It's built with modern web standards, focusing on performance, accessibility, and user experience.</p>
 
         <div class="content">
             <!-- System Information -->
@@ -231,27 +157,95 @@
             </section>
         </div>
 
-        <!-- Footer -->
-        <footer id="contact" class="site-footer" role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
+        </footer>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
+        <div class="footer-container">
             <div class="footer-content">
+                <!-- Contact Section -->
+                <section class="footer-section" aria-labelledby="contact-heading">
+                    <h3 id="contact-heading" class="footer-heading">
+                        <span class="emoji" aria-hidden="true">🚀</span>
+                        <span>Contact & Legal Information</span>
+                    </h3>
+                    <div class="footer-social" role="navigation" aria-label="Contact methods">
+                        <a href="https://linkedin.com/in/donaldwsmithjr"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="Connect on LinkedIn"
+                           class="social-link">
+                            <span class="social-icon" aria-hidden="true">🔗</span>
+                            <span class="social-text">LinkedIn</span>
+                        </a>
+                        <a href="https://github.com/DWSMITHJR"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="View GitHub profile"
+                           class="social-link">
+                            <span class="social-icon" aria-hidden="true">🐙</span>
+                            <span class="social-text">GitHub</span>
+                        </a>
+                        <a href="mailto:architect@donaldwsmithjr.com"
+                           aria-label="Send email to Donald W. Smith Jr."
+                           class="social-link">
+                            <span class="social-icon" aria-hidden="true">📧</span>
+                            <span class="social-text">Email</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Legal & Copyright -->
                 <div class="footer-legal" role="contentinfo">
                     <p class="copyright">
-                        &copy; <span itemprop="copyrightYear" id="current-year"></span> 
+                        &copy; <span itemprop="copyrightYear">2025</span>
                         <span itemprop="copyrightHolder" itemscope itemtype="https://schema.org/Person">
-                            <a href="mailto:architect@donaldwsmithjr.com" class="email-link">
-                                <span itemprop="name">Donald W. Smith Jr.</span>
-                            </a>
+                            <span itemprop="name">Donald W. Smith Jr.</span>
                         </span>
-                        <span class="separator" aria-hidden="true">|</span>
-                        <a href="privacy.html" class="footer-link" title="View Privacy Policy">Privacy Policy</a>
-                        <span class="separator" aria-hidden="true">|</span>
-                        <a href="terms.html" class="footer-link" title="View Terms of Service">Terms of Service</a>
+                        <span class="divider" aria-hidden="true">|</span>
+                        <a href="privacy.html" class="legal-link">Privacy Policy</a>
+                        <span class="divider" aria-hidden="true">|</span>
+                        <a href="terms.html" class="legal-link">Terms of Service</a>
                     </p>
-                    <p class="last-updated">Last updated: <span id="last-updated"></span></p>
-                </div>
-            </div>
-        </footer>
+                    <p class="tagline">
+                        Built with <span class="heart" aria-label="love">❤️</span> for innovation
+                        <span class="divider" aria-hidden="true">|</span>
+                        Solving the future, one success after another
+                    </p>
+
+            <!-- Structured Data for Organization -->
+            <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Donald W. Smith Jr. Portfolio",
+                "url": "https://donaldwsmithjr.com",
+                "logo": "https://donaldwsmithjr.com/images/DLogo.png",
+                "sameAs": [
+                    "https://linkedin.com/in/donaldwsmithjr",
+                    "https://github.com/DWSMITHJR"
+                ]
+            }
+            </script>
+        </div>
+    </footer>
+
+    <!-- Build Info -->
+    <div class="build-info" style="background: rgba(0, 0, 0, 0.2); padding: 1rem 0; text-align: center;">
+        <div class="build-info-container" id="build-info" style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+            <span class="build-info-item" style="color: #666; font-family: monospace; font-size: 0.8rem;">
+                Build: 20251009.222439 | Oct 9, 2025, 10:24 PM EDT
+            </span>
+        </div>
     </div>
+
+    <!-- JavaScript -->
+    <script src="js/config.js" defer></script>
+    <script src="js/api.js" defer></script>
+    <script src="js/build-info.js" defer></script>
+    <script src="js/tracking.js" defer></script>
+    <script src="js/main.js" defer></script>
 
     <script>
         // Wait for DOM to be fully loaded
@@ -259,11 +253,11 @@
             // Set current year and last updated
             const currentYear = document.getElementById('current-year');
             const lastUpdated = document.getElementById('last-updated');
-            
+
             if (currentYear) {
                 currentYear.textContent = new Date().getFullYear();
             }
-            
+
             if (lastUpdated) {
                 lastUpdated.textContent = new Date().toLocaleString(undefined, {
                     year: 'numeric',
@@ -273,7 +267,7 @@
                     minute: '2-digit'
                 });
             }
-            
+
             // Initialize system info with error handling
             try {
                 detectSystemInfo();
@@ -289,7 +283,7 @@
                         </div>`;
                 }
             }
-            
+
             // Hide loading indicator
             setTimeout(() => {
                 const loadingIndicator = document.getElementById('loading-indicator');
@@ -320,7 +314,7 @@
             try {
                 const userAgent = navigator.userAgent;
                 let os = 'Unknown OS';
-                
+
                 // Detect operating system
                 if (userAgent.includes('Win')) os = 'Windows';
                 else if (userAgent.includes('Mac')) os = 'macOS';
@@ -331,23 +325,23 @@
                 // Update UI with system information
                 safeUpdateElement('os-name', os);
                 safeUpdateElement('os-platform', navigator.platform);
-                
+
                 // Get CPU cores with fallback
-                const cpuCores = navigator.hardwareConcurrency ? 
+                const cpuCores = navigator.hardwareConcurrency ?
                     `${navigator.hardwareConcurrency} cores` : 'Not available';
                 safeUpdateElement('cpu-cores', cpuCores);
-                
+
                 // Get device memory with fallback
-                const deviceMemory = navigator.deviceMemory ? 
+                const deviceMemory = navigator.deviceMemory ?
                     `${navigator.deviceMemory} GB` : 'Not available';
                 safeUpdateElement('device-memory', deviceMemory);
-                
+
                 // Get screen resolution and pixel ratio
-                safeUpdateElement('screen-resolution', 
+                safeUpdateElement('screen-resolution',
                     `${window.screen.width} × ${window.screen.height} (${window.screen.colorDepth}-bit)`);
-                safeUpdateElement('pixel-ratio', 
+                safeUpdateElement('pixel-ratio',
                     `${window.devicePixelRatio || 1}${window.devicePixelRatio > 1 ? ' (HiDPI/Retina)' : ''}`);
-                    
+
             } catch (error) {
                 console.error('Error detecting system info:', error);
                 throw error; // Re-throw to be caught by the parent try-catch
@@ -362,7 +356,7 @@
                 const userAgent = navigator.userAgent;
                 let browser = 'Unknown';
                 let version = 'Unknown';
-                
+
                 // Detect browser and version
                 if (userAgent.includes('Firefox/')) {
                     browser = 'Mozilla Firefox';
@@ -385,50 +379,50 @@
                     const msie = userAgent.match(/(?:MSIE |rv:)(\d+\.?\d*)/);
                     version = msie ? msie[1] : 'Unknown';
                 }
-                
+
                 // Update browser info
                 safeUpdateElement('browser-name', browser);
                 safeUpdateElement('browser-version', version);
                 safeUpdateElement('user-agent', userAgent);
-                
+
                 // Online/offline status with better detection
                 const updateOnlineStatus = () => {
                     const statusElement = document.getElementById('online-status');
                     if (!statusElement) return;
-                    
+
                     const isOnline = navigator.onLine;
                     statusElement.textContent = isOnline ? 'Online' : 'Offline';
                     statusElement.className = `value ${isOnline ? 'online' : 'offline'}`;
-                    
+
                     // Additional offline detection
                     if (!isOnline) {
                         statusElement.setAttribute('aria-live', 'assertive');
                     }
                 };
-                
+
                 // Enhanced connection information
                 const updateConnectionInfo = () => {
                     const connectionElement = document.getElementById('connection-type');
                     if (!connectionElement) return;
-                    
+
                     let connectionInfo = 'Unknown';
-                    
+
                     // Standard connection API
                     if ('connection' in navigator) {
-                        const connection = navigator.connection || 
-                                         navigator.mozConnection || 
+                        const connection = navigator.connection ||
+                                         navigator.mozConnection ||
                                          navigator.webkitConnection;
-                        
+
                         if (connection) {
                             const type = connection.type || connection.effectiveType || 'Unknown';
                             const effectiveType = connection.effectiveType || '';
-                            const downlink = connection.downlink ? 
+                            const downlink = connection.downlink ?
                                 ` (${connection.downlink} Mbps)` : '';
-                            const rtt = connection.rtt ? 
+                            const rtt = connection.rtt ?
                                 `, RTT: ${connection.rtt}ms` : '';
-                            
+
                             connectionInfo = `${type}${effectiveType ? ` (${effectiveType})` : ''}${downlink}${rtt}`;
-                            
+
                             // Save connection info for potential debugging
                             connectionElement.dataset.connectionType = type;
                             connectionElement.dataset.effectiveType = effectiveType;
@@ -440,50 +434,50 @@
                             }
                         }
                     }
-                    
+
                     connectionElement.textContent = connectionInfo;
                 };
-                
+
                 // Cookies and storage information
                 const updateStorageInfo = () => {
                     const cookiesElement = document.getElementById('cookies-enabled');
                     if (cookiesElement) {
                         cookiesElement.textContent = navigator.cookieEnabled ? 'Enabled' : 'Disabled';
                     }
-                    
+
                     // Additional storage information if available
                     if ('storage' in navigator && 'estimate' in navigator.storage) {
                         navigator.storage.estimate().then(estimate => {
                             const storageElement = document.getElementById('storage-info');
                             if (storageElement) {
-                                const used = estimate.usage ? 
+                                const used = estimate.usage ?
                                     (estimate.usage / 1024 / 1024).toFixed(2) + ' MB' : 'Unknown';
-                                const quota = estimate.quota ? 
+                                const quota = estimate.quota ?
                                     (estimate.quota / 1024 / 1024).toFixed(2) + ' MB' : 'Unknown';
                                 storageElement.textContent = `${used} / ${quota}`;
                             }
                         }).catch(console.error);
                     }
                 };
-                
+
                 // Add event listeners
                 window.addEventListener('online', updateOnlineStatus);
                 window.addEventListener('offline', updateOnlineStatus);
-                
+
                 if ('connection' in navigator) {
-                    const connection = navigator.connection || 
-                                     navigator.mozConnection || 
+                    const connection = navigator.connection ||
+                                     navigator.mozConnection ||
                                      navigator.webkitConnection;
                     if (connection) {
                         connection.addEventListener('change', updateConnectionInfo);
                     }
                 }
-                
+
                 // Initial updates
                 updateOnlineStatus();
                 updateConnectionInfo();
                 updateStorageInfo();
-                
+
             } catch (error) {
                 console.error('Error detecting browser info:', error);
                 throw error; // Re-throw to be caught by the parent try-catch

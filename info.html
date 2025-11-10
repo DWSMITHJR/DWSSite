@@ -53,45 +53,72 @@
     <!-- Header -->
     <header class="site-header" role="banner">
         <div class="header-content" itemscope itemtype="https://schema.org/Person">
-            <a href="index.html" class="logo" aria-label="Return to Home Page" title="Return to Home Page" itemprop="url">
+            <a href="#home" class="logo" aria-label="Return to Top of Page" title="Return to Top of Page" itemprop="url">
                 <img src="images/DLogo.jpg" alt="Donald W. Smith Jr. - Professional Portfolio" class="logo-img" width="50" height="50" loading="lazy" itemprop="image">
             </a>
-            
-            <!-- Mobile Menu Toggle -->
-            <button class="menu-toggle" 
-                    id="mobile-menu-toggle" 
-                    aria-expanded="false" 
-                    aria-controls="primary-navigation"
-                    aria-label="Toggle navigation menu">
-                <span class="menu-toggle-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Menu</span>
-            </button>
             
             <!-- Primary Navigation -->
             <nav id="primary-navigation" class="primary-navigation" aria-label="Primary">
                 <ul class="nav-links" role="menubar">
                     <li role="none">
-                        <a href="index.html" class="nav-link" title="Navigate to Home Page" aria-label="Home" role="menuitem">
+                        <a href="#home" 
+                           class="nav-link" 
+                           title="Home" 
+                           aria-label="Home"
+                           role="menuitem">
                             <span class="nav-icon" aria-hidden="true">🏠</span>
                             <span class="nav-text">Home</span>
                         </a>
                     </li>
                     <li role="none">
-                        <a href="link.html" class="nav-link" title="Request Access Code" aria-label="Request Access Code" role="menuitem">
+                        <a href="#contact" 
+                           class="nav-link" 
+                           title="Contact Information" 
+                           aria-label="Contact"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">✉️</span>
+                            <span class="nav-text">Contact</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="link.html" 
+                           class="nav-link" 
+                           title="Request Access Code" 
+                           aria-label="Request Access Code"
+                           role="menuitem">
                             <span class="nav-icon" aria-hidden="true">🔑</span>
                             <span class="nav-text">Request Code</span>
                         </a>
                     </li>
                     <li role="none">
-                        <a href="info.html" class="nav-link active" aria-current="page" title="Current Page: Documents" role="menuitem">
-                            <span class="nav-icon" aria-hidden="true">📂</span>
+                        <a href="info.html" 
+                           class="nav-link active" 
+                           aria-current="page"
+                           title="Current Section: Documents"
+                           aria-label="Documents"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">📄</span>
                             <span class="nav-text">Documents</span>
                         </a>
                     </li>
                     <li role="none">
-                        <a href="about.html" class="nav-link" title="About This Site" aria-label="About" role="menuitem">
+                        <a href="about.html" 
+                           class="nav-link" 
+                           title="About This Site" 
+                           aria-label="About"
+                           role="menuitem">
                             <span class="nav-icon" aria-hidden="true">ℹ️</span>
                             <span class="nav-text">About</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="suggest.html" 
+                           class="nav-link" 
+                           title="Make a Suggestion" 
+                           aria-label="Suggest"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">💡</span>
+                            <span class="nav-text">Suggest</span>
                         </a>
                     </li>
                 </ul>
@@ -100,6 +127,7 @@
     </header>
 
     <main id="main-content" role="main" tabindex="-1" itemscope itemtype="https://schema.org/CollectionPage">
+        <div class="main-content-container">
         <!-- Login Form Section -->
         <section id="login-section" class="access-code-section" aria-labelledby="login-heading" itemscope itemtype="https://schema.org/WebPageElement">
             <div class="container">
@@ -247,6 +275,7 @@
 
             </div>
         </section>
+        </div>
     </main>
 
     <!-- Scripts -->
@@ -1024,18 +1053,90 @@
     </script>
 
     <!-- Footer -->
-    <footer id="contact">
-        <div class="footer-content">
-            <div class="footer-social">
-                <a href="https://linkedin.com/in/donaldwsmithjr" class="project-card fade-in" target="_blank" title="LinkedIn">🔗 LinkedIn</a>
-                <a href="https://github.com/DWSMITHJR" class="project-card fade-in" target="_blank" title="GitHub">🐙 GitHub</a> 
-                <a href="mailto:architect@donaldwsmithjr.com" class="project-card fade-in" title="Email">📧 Email</a>
-            </div>
-            <div class="footer-text">
-                <p>&copy; 2025 Donald W. Smith Jr. | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
-                <p>Built with passion for innovation | Solving the future, one success after another</p>
-            </div>
+    <footer id="contact" role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
+        <div class="footer-container">
+            <div class="footer-content">
+                <!-- Contact Section -->
+                <section class="footer-section" aria-labelledby="contact-heading">
+                    <h3 id="contact-heading" class="footer-heading">
+                        <span class="emoji" aria-hidden="true">🚀</span>
+                        <span>Contact & Legal Information</span>
+                    </h3>
+                    <div class="footer-social" role="navigation" aria-label="Contact methods">
+                        <a href="https://linkedin.com/in/donaldwsmithjr"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="Connect on LinkedIn"
+                           class="social-link">
+                            <span class="social-icon" aria-hidden="true">🔗</span>
+                            <span class="social-text">LinkedIn</span>
+                        </a>
+                        <a href="https://github.com/DWSMITHJR"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="View GitHub profile"
+                           class="social-link">
+                            <span class="social-icon" aria-hidden="true">🐙</span>
+                            <span class="social-text">GitHub</span>
+                        </a>
+                        <a href="mailto:architect@donaldwsmithjr.com"
+                           aria-label="Send email to Donald W. Smith Jr."
+                           class="social-link">
+                            <span class="social-icon" aria-hidden="true">📧</span>
+                            <span class="social-text">Email</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Legal & Copyright -->
+                <div class="footer-legal" role="contentinfo">
+                    <p class="copyright">
+                        &copy; <span itemprop="copyrightYear">2025</span>
+                        <span itemprop="copyrightHolder" itemscope itemtype="https://schema.org/Person">
+                            <span itemprop="name">Donald W. Smith Jr.</span>
+                        </span>
+                        <span class="divider" aria-hidden="true">|</span>
+                        <a href="privacy.html" class="legal-link">Privacy Policy</a>
+                        <span class="divider" aria-hidden="true">|</span>
+                        <a href="terms.html" class="legal-link">Terms of Service</a>
+                    </p>
+                    <p class="tagline">
+                        Built with <span class="heart" aria-label="love">❤️</span> for innovation
+                        <span class="divider" aria-hidden="true">|</span>
+                        Solving the future, one success after another
+                    </p>
+
+            <!-- Structured Data for Organization -->
+            <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Donald W. Smith Jr. Portfolio",
+                "url": "https://donaldwsmithjr.com",
+                "logo": "https://donaldwsmithjr.com/images/DLogo.png",
+                "sameAs": [
+                    "https://linkedin.com/in/donaldwsmithjr",
+                    "https://github.com/DWSMITHJR"
+                ]
+            }
+            </script>
         </div>
     </footer>
+
+    <!-- Build Info -->
+    <div class="build-info" style="background: rgba(0, 0, 0, 0.2); padding: 1rem 0; text-align: center;">
+        <div class="build-info-container" id="build-info" style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+            <span class="build-info-item" style="color: #666; font-family: monospace; font-size: 0.8rem;">
+                Build: 20251009.222439 | Oct 9, 2025, 10:24 PM EDT
+            </span>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/config.js" defer></script>
+    <script src="js/api.js" defer></script>
+    <script src="js/build-info.js" defer></script>
+    <script src="js/tracking.js" defer></script>
+    <script src="js/main.js" defer></script>
 </body>
 </html>

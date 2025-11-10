@@ -86,6 +86,15 @@ function headerScrollEffect() {
     });
 }
 
+// Navigation initialization
+function initNavigation() {
+    const primaryNav = document.getElementById('primary-navigation');
+    if (primaryNav) {
+        // Ensure navigation is always visible
+        primaryNav.style.display = 'block';
+    }
+}
+
 // Initialize all functions when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     createParticles();
@@ -93,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     smoothScroll();
     headerScrollEffect();
     initEmailForm();
+    initNavigation();
 });
 
 // Log email and hash to console

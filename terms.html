@@ -51,29 +51,92 @@
     <!-- Header -->
     <header class="site-header" role="banner">
         <div class="header-content" itemscope itemtype="https://schema.org/Person">
-            <a href="index.html" class="logo" aria-label="Return to Home Page" title="Return to Home Page" itemprop="url">
+            <a href="#home" class="logo" aria-label="Return to Top of Page" title="Return to Top of Page" itemprop="url">
                 <img src="images/DLogo.jpg" alt="Donald W. Smith Jr. - Professional Portfolio" class="logo-img" width="50" height="50" loading="lazy" itemprop="image">
             </a>
             
-            <!-- Mobile Menu Toggle -->
-            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primary-navigation">
-                Menu
-            </button>
-            
             <!-- Primary Navigation -->
             <nav id="primary-navigation" class="primary-navigation" aria-label="Primary">
-                <ul class="nav-links">
-                    <li><a href="index.html" class="nav-link" title="Navigate to Home Page" aria-label="Home"><span>Home</span></a></li>
-                    <li><a href="about.html" class="nav-link" title="About This Site" aria-label="About"><span>About</span></a></li>
-                    <li><a href="privacy.html" class="nav-link" title="View Privacy Policy" aria-label="Privacy Policy"><span>Privacy</span></a></li>
-                    <li><a href="terms.html" class="nav-link active" aria-current="page" title="Current Page: Terms of Service"><span>Terms</span></a></li>
+                <ul class="nav-links" role="menubar">
+                    <li role="none">
+                        <a href="#home" 
+                           class="nav-link" 
+                           title="Home" 
+                           aria-label="Home"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">🏠</span>
+                            <span class="nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="#contact" 
+                           class="nav-link" 
+                           title="Contact Information" 
+                           aria-label="Contact"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">✉️</span>
+                            <span class="nav-text">Contact</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="link.html" 
+                           class="nav-link" 
+                           title="Request Access Code" 
+                           aria-label="Request Access Code"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">🔑</span>
+                            <span class="nav-text">Request Code</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="info.html" 
+                           class="nav-link" 
+                           title="View Documents" 
+                           aria-label="Documents"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">📄</span>
+                            <span class="nav-text">Documents</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="about.html" 
+                           class="nav-link" 
+                           title="About This Site" 
+                           aria-label="About"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">ℹ️</span>
+                            <span class="nav-text">About</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="suggest.html" 
+                           class="nav-link" 
+                           title="Make a Suggestion" 
+                           aria-label="Suggest"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">💡</span>
+                            <span class="nav-text">Suggest</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="terms.html" 
+                           class="nav-link active" 
+                           aria-current="page"
+                           title="Current Section: Terms of Service"
+                           aria-label="Terms of Service"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">📋</span>
+                            <span class="nav-text">Terms</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main id="main-content" class="legal-container" tabindex="-1" role="main" itemscope itemtype="https://schema.org/WebPage">
+    <main id="main-content" tabindex="-1" role="main" itemscope itemtype="https://schema.org/WebPage">
+        <div class="main-content-container">
         <header class="legal-header">
             <h1 itemprop="headline">Terms of Service</h1>
             <p class="last-updated" itemprop="dateModified" content="2025-07-01">
@@ -243,9 +306,38 @@
                     <span class="separator" aria-hidden="true">|</span>
                     <a href="terms.html" class="footer-link" title="View Terms of Service" aria-current="page">Terms of Service</a>
                 </p>
+                <p class="tagline">
+                    Built with <span class="heart" aria-label="love">❤️</span> for innovation 
+                    <span class="separator" aria-hidden="true">|</span>
+                    Solving the future, one success after another
+                </p>
             </div>
+            
+            <!-- Structured Data for Organization -->
+            <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Donald W. Smith Jr. Portfolio",
+                "url": "https://donaldwsmithjr.com",
+                "logo": "https://donaldwsmithjr.com/images/DLogo.png",
+                "sameAs": [
+                    "https://linkedin.com/in/donaldwsmithjr",
+                    "https://github.com/DWSMITHJR"
+                ]
+            }
+            </script>
         </div>
     </footer>
+
+    <!-- Build Info -->
+    <div class="build-info" style="background: rgba(0, 0, 0, 0.2); padding: 1rem 0; text-align: center;">
+        <div class="build-info-container" id="build-info" style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+            <span class="build-info-item" style="color: #666; font-family: monospace; font-size: 0.8rem;">
+                Build: 20251009.222439 | Oct 9, 2025, 10:24 PM EDT
+            </span>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="js/config.js" defer></script>
