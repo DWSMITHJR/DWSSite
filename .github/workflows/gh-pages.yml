@@ -2,13 +2,14 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]  # Change this to your default branch if it's not 'main'
+    branches: [main]  # Run when code is pushed to main
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
+  pull-requests: write
 
 # Allow one concurrent deployment across all branches
 concurrency:
@@ -42,14 +43,15 @@ jobs:
           ls -la public/
           [ -f public/index.html ] || { echo "index.html not found in public/" && exit 1; }
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: 'public/'
-          
+      # Deploy to gh-pages branch
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: public
+          branch: gh-pages
+          clean: true
+          clean-exclude: |
+            CNAME
+            .nojekyll
+          commit-message: "Deploy: ${{ github.sha }}"
+          force: true
