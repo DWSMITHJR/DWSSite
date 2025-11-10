@@ -3,6 +3,10 @@
   publish = "public"
   command = "npm run build"
 
+[build.environment]
+  NODE_VERSION = "18.x"
+  NPM_FLAGS = "--prefix=$NETLIFY_BUILD_BASE --no-audit --no-fund"
+
 [dev]
   command = "npm run dev"
   port = 3000
