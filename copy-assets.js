@@ -8,15 +8,25 @@ const destDir = path.join(__dirname, 'public');
 // Files and directories to copy
 const assetsToCopy = [
     'index.html',
+    'about.html',
     'family.html',
+    'info.html',
+    'link.html',
+    'privacy.html',
+    'services.html',
+    'solutions.html',
+    'suggest.html',
+    'terms.html',
     'css',
-    'images',
     'js',
-    'documents',
-    'favicon.ico',
-    'robots.txt',
-    'sitemap.xml'
-];
+    'files'
+].filter(asset => {
+    const exists = fs.existsSync(path.join(srcDir, asset));
+    if (!exists) {
+        console.warn(`Warning: ${asset} not found, skipping...`);
+    }
+    return exists;
+});
 
 // Create dist directory if it doesn't exist
 if (!fs.existsSync(destDir)) {

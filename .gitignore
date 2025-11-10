@@ -11,6 +11,9 @@ yarn-error.log
 # Build output
 dist/
 
+# Public directory is tracked for Netlify deployment
+# !public/
+
 # Environment variables
 .env
 .env.local

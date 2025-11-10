@@ -8,27 +8,27 @@
     <meta name="author" content="Donald W. Smith Jr.">
     <meta name="keywords" content="system information, browser details, device specs, technical information">
     <meta name="theme-color" content="#ffffff">
-    
+
     <title>System Information | Donald W. Smith Jr.</title>
-    
+
     <!-- Favicon (base64 encoded to prevent 404) -->
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AkEEjIXDlQhNQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAGUlEQVQ4y2NgGAWjYAQBExMTEwPJgAEAHp4B8ZtDqo0AAAAASUVORK5CYII=">
-    
+
     <!-- Preload Critical Resources -->
     <link rel="preload" href="css/styles.css" as="style">
     <link rel="preload" href="css/about.css" as="style">
     <link rel="preload" href="images/DLogo.jpg" as="image">
-    
+
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css" media="all">
     <link rel="stylesheet" href="css/base/reset.css" media="all">
     <link rel="stylesheet" href="css/base/variables.css" media="all">
     <link rel="stylesheet" href="css/about.css" media="all">
-    
+
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
+
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
@@ -49,24 +49,24 @@
 
     <!-- Skip to Main Content Link -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    
+
     <!-- Header -->
     <header class="site-header" role="banner">
         <div class="header-content" itemscope itemtype="https://schema.org/Person">
             <a href="index.html" class="logo" aria-label="Return to Home Page" title="Return to Home Page" itemprop="url">
                 <img src="images/DLogo.jpg" alt="Donald W. Smith Jr. - Professional Portfolio" class="logo-img" width="50" height="50" loading="lazy" itemprop="image">
             </a>
-            
+
             <!-- Mobile Menu Toggle -->
-            <button class="menu-toggle" 
-                    id="mobile-menu-toggle" 
-                    aria-expanded="false" 
+            <button class="menu-toggle"
+                    id="mobile-menu-toggle"
+                    aria-expanded="false"
                     aria-controls="primary-navigation"
                     aria-label="Toggle navigation menu">
                 <span class="menu-toggle-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Menu</span>
             </button>
-            
+
             <!-- Primary Navigation -->
             <nav id="primary-navigation" class="primary-navigation" aria-label="Primary">
                 <ul class="nav-links" role="menubar">
@@ -101,6 +101,45 @@
 
     <main id="main-content" role="main" tabindex="-1">
         <!-- Page content will go here -->
+        <div class="about-container">
+            <h1 class="section-title">System Information</h1>
+
+            <section class="info-section" aria-labelledby="system-info-heading">
+                <h2 id="system-info-heading">System Information</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Operating System</h3>
+                        <p><span class="label">OS:</span> <span id="os-name" class="value">Detecting...</span></p>
+                        <p><span class="label">Platform:</span> <span id="os-platform" class="value">Detecting...</span></p>
+                        <p><span class="label">CPU Cores:</span> <span id="cpu-cores" class="value">Detecting...</span></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Device</h3>
+                        <p><span class="label">Memory:</span> <span id="device-memory" class="value">Detecting...</span></p>
+                        <p><span class="label">Screen Resolution:</span> <span id="screen-resolution" class="value">Detecting...</span></p>
+                        <p><span class="label">Pixel Ratio:</span> <span id="pixel-ratio" class="value">Detecting...</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-section" aria-labelledby="browser-info-heading">
+                <h2 id="browser-info-heading">Browser Information</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Browser</h3>
+                        <p><span class="label">Name:</span> <span id="browser-name" class="value">Detecting...</span></p>
+                        <p><span class="label">Version:</span> <span id="browser-version" class="value">Detecting...</span></p>
+                        <p><span class="label">User Agent:</span> <span id="user-agent" class="value">Detecting...</span></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Network</h3>
+                        <p><span class="label">Status:</span> <span id="online-status" class="value">Detecting...</span></p>
+                        <p><span class="label">Connection:</span> <span id="connection-type" class="value">Detecting...</span></p>
+                        <p><span class="label">Cookies:</span> <span id="cookies-enabled" class="value">Detecting...</span></p>
+                    </div>
+                </div>
+            </section>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -108,7 +147,7 @@
         <div class="footer-content">
             <div class="footer-social">
                 <a href="https://linkedin.com/in/donaldwsmithjr" class="project-card fade-in" target="_blank" title="LinkedIn" rel="noopener noreferrer">🔗 LinkedIn</a>
-                <a href="https://github.com/DWSMITHJR" class="project-card fade-in" target="_blank" title="GitHub" rel="noopener noreferrer">🐙 GitHub</a> 
+                <a href="https://github.com/DWSMITHJR" class="project-card fade-in" target="_blank" title="GitHub" rel="noopener noreferrer">🐙 GitHub</a>
                 <a href="mailto:architect@donaldwsmithjr.com" class="project-card fade-in" title="Email">📧 Email</a>
             </div>
             <div class="footer-text">
@@ -117,6 +156,15 @@
             </div>
         </div>
     </footer>
+
+    <!-- Build Info -->
+    <div class="build-info" style="background: rgba(0, 0, 0, 0.2); padding: 1rem 0; text-align: center;">
+        <div class="build-info-container" id="build-info" style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+            <span class="build-info-item" style="color: #666; font-family: monospace; font-size: 0.8rem;">
+                Build: 20251009.222439 | Oct 9, 2025, 10:24 PM EDT
+            </span>
+        </div>
+    </div>
 
     <script>
         // Set current year in footer

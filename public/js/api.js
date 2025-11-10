@@ -1,27 +1,26 @@
 /**
- * API Service - Handles all API communication with the backend
+ * API Service for handling HTTP requests
  */
-
-// Make sure API_CONFIG is loaded
-if (typeof API_CONFIG === 'undefined') {
-    console.error('API_CONFIG is not defined. Make sure config.js is loaded before api.js');
-}
-
 class ApiService {
+    constructor() {
+        this.baseUrl = CONFIG.API_BASE_URL;
+    }
+
     /**
      * Make an API request
-     * @param {string} endpoint - The API endpoint to call
+     * @param {string} endpoint - API endpoint
      * @param {string} method - HTTP method (GET, POST, etc.)
-     * @param {Object} [data] - Request body data
-     * @param {Object} [headers] - Additional headers
-     * @returns {Promise<Object>} - Response data
+     * @param {Object} data - Request data
+     * @returns {Promise} - Promise with response data
      */
-    static async request(endpoint, method = 'GET', data = null, headers = {}) {
-        const url = API_CONFIG.getUrl(endpoint);
+    async request(endpoint, method = 'GET', data = null) {
+        const url = `${this.baseUrl}${endpoint}`;
         const options = {
             method,
-            headers: API_CONFIG.getHeaders(headers),
-            credentials: 'include' // Important for cookies/session
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.getAuthToken()}`
+            }
         };
 
         if (data) {
@@ -30,87 +29,61 @@ class ApiService {
 
         try {
             const response = await fetch(url, options);
-            
-            // Handle non-2xx responses
+            const responseData = await response.json();
+
             if (!response.ok) {
-                const errorData = await this._parseErrorResponse(response);
-                throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+                throw new Error(responseData.message || 'Something went wrong');
             }
 
-            // For 204 No Content responses
-            if (response.status === 204) {
-                return {};
-            }
-
-            return await response.json();
+            return responseData;
         } catch (error) {
-            console.error(`API request failed for ${endpoint}:`, error);
+            console.error('API request failed:', error);
             throw error;
         }
     }
 
     /**
-     * Parse error response from the API
-     * @private
+     * Get authentication token from localStorage
+     * @returns {string|null} - Auth token or null if not found
      */
-    static async _parseErrorResponse(response) {
-        try {
-            return await response.json();
-        } catch (e) {
-            return {
-                status: response.status,
-                message: response.statusText || 'An error occurred'
-            };
+    getAuthToken() {
+        const authData = JSON.parse(localStorage.getItem(CONFIG.AUTH.STORAGE_KEY) || '{}');
+        return authData.token || null;
+    }
+
+    // Auth endpoints
+    async login(email, code) {
+        return this.request(CONFIG.ENDPOINTS.AUTH, 'POST', { email, code });
+    }
+
+    // Document endpoints
+    async getDocuments() {
+        return this.request(CONFIG.ENDPOINTS.DOCUMENTS);
+    }
+
+    async uploadDocument(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        const response = await fetch(`${this.baseUrl}${CONFIG.ENDPOINTS.UPLOAD}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${this.getAuthToken()}`
+            },
+            body: formData
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Upload failed');
         }
-    }
 
-    // Authentication
-    static verifyEmail(email, code) {
-        return this.request(API_CONFIG.ENDPOINTS.VERIFY, 'POST', { email, code });
-    }
-
-    static signOut() {
-        return this.request(API_CONFIG.ENDPOINTS.SIGNOUT, 'POST');
-    }
-
-    // Documents
-    static getDocuments() {
-        return this.request(API_CONFIG.ENDPOINTS.DOCUMENTS, 'GET');
-    }
-
-    // Tracking
-    static trackEvent(eventData) {
-        return this.request(API_CONFIG.ENDPOINTS.TRACK, 'POST', eventData);
-    }
-
-    static logEmailHash(email, emailHash, additionalData = {}) {
-        return this.request(API_CONFIG.ENDPOINTS.LOG_EMAIL_HASH, 'POST', {
-            email,
-            emailHash,
-            pageUrl: window.location.href,
-            userAgent: navigator.userAgent,
-            ...additionalData
-        });
-    }
-
-    // Diagnostic logging
-    static logDiagnostic(level, message, category = 'application', additionalData = {}) {
-        return this.request(API_CONFIG.ENDPOINTS.DIAGNOSTICS, 'POST', {
-            level,
-            message,
-            category,
-            timestamp: new Date().toISOString(),
-            pageUrl: window.location.href,
-            userAgent: navigator.userAgent,
-            ...additionalData
-        }).catch(error => {
-            console.error('Failed to log diagnostic:', error);
-            // Don't throw the error to prevent breaking the application flow
-            // due to logging failures
-            return Promise.resolve();
-        });
+        return response.json();
     }
 }
 
-// Make the API service available globally
-window.ApiService = ApiService;
+// Initialize API service
+const apiService = new ApiService();
+
+// Make available globally
+window.apiService = apiService;

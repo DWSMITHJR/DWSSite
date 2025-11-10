@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Events Demo - DWS</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .console {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Consolas', 'Courier New', monospace;
+            height: 400px;
+            overflow-y: auto;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: #495057 #1e1e1e;
+        }
+        
+        .console::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        .console::-webkit-scrollbar-track {
+            background: #1e1e1e;
+        }
+        
+        .console::-webkit-scrollbar-thumb {
+            background-color: #495057;
+            border-radius: 4px;
+        }
+        
+        .console-line {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+            border-bottom: 1px solid #2d2d2d;
+            padding-bottom: 0.5rem;
+            word-break: break-word;
+        }
+        
+        .console-line:last-child {
+            border-bottom: none;
+        }
+        
+        .badge {
+            font-family: inherit;
+        }
+        
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(74, 111, 165, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a5a80;
+            border-color: #3a5a80;
+        }
+        
+        .btn-outline-secondary:hover {
+            color: #fff;
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .connection-status {
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        
+        .status-connected {
+            background-color: var(--success-color);
+        }
+        
+        .status-connecting {
+            background-color: var(--warning-color);
+            animation: pulse 2s infinite;
+        }
+        
+        .status-disconnected {
+            background-color: var(--danger-color);
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .console {
+                height: 300px;
+            }
+            
+            .btn-group-vertical {
+                width: 100%;
+            }
+            
+            .btn-group-vertical > .btn {
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">DWS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="services.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="server-events.html">Server Events</a>
+                    </li>
+                </ul>
+                <div class="d-flex
+                <span class="text-light me-3 d-flex align-items-center">
+                    <span id="connectionIndicator" class="status-indicator status-disconnected me-2"></span>
+                    <span id="connectionStatus">Disconnected</span>
+                </span>
+                <button id="connectBtn" class="btn btn-outline-light">
+                    <i class="bi bi-power"></i> Connect
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>Server Events Console</span>
+                        <span class="badge bg-secondary" id="eventCounter">0 Events</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="console" class="console" role="log" aria-live="polite">
+                            <div class="text-muted">
+                                <div class="spinner-border spinner-border-sm me-2" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                Ready to connect to server events...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        Send Event
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="eventName" class="form-label">Event Name</label>
+                            <input type="text" class="form-control" id="eventName" value="message" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventData" class="form-label">Event Data</label>
+                            <textarea class="form-control" id="eventData" rows="2" required></textarea>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-outline-primary quick-event" 
+                                        data-event="user_joined" data-data="New user connected">
+                                    <i class="bi bi-person-plus"></i> User Joined
+                                </button>
+                                <button type="button" class="btn btn-outline-primary quick-event" 
+                                        data-event="notification" data-data="New notification received">
+                                    <i class="bi bi-bell"></i> Notification
+                                </button>
+                                <button type="button" class="btn btn-outline-warning quick-event" 
+                                        data-event="system" data-data="System update in progress...">
+                                    <i class="bi bi-gear"></i> System
+                                </button>
+                            </div>
+                            <button id="sendBtn" class="btn btn-primary" disabled>
+                                <i class="bi bi-send"></i> Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Connection Settings Modal -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="settingsModalLabel">Connection Settings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="serverUrl" class="form-label">Server URL</label>
+                        <input type="text" class="form-control" id="serverUrl" 
+                               value="api/serverevents/connect" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="clientId" class="form-label">Client ID</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="clientId" readonly>
+                            <button class="btn btn-outline-secondary" type="button" id="generateIdBtn">
+                                <i class="bi bi-arrow-clockwise"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="groupName" class="form-label">Group</label>
+                        <input type="text" class="form-control" id="groupName" value="default">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveSettingsBtn">Save & Connect</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // DOM Elements
+        const consoleEl = document.getElementById('console');
+        const eventCounter = document.getElementById('eventCounter');
+        const connectionStatus = document.getElementById('connectionStatus');
+        const connectionIndicator = document.getElementById('connectionIndicator');
+        const connectBtn = document.getElementById('connectBtn');
+        const sendBtn = document.getElementById('sendBtn');
+        const eventNameInput = document.getElementById('eventName');
+        const eventDataInput = document.getElementById('eventData');
+        const quickEventBtns = document.querySelectorAll('.quick-event');
+        const settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
+        const serverUrlInput = document.getElementById('serverUrl');
+        const clientIdInput = document.getElementById('clientId');
+        const groupNameInput = document.getElementById('groupName');
+        const generateIdBtn = document.getElementById('generateIdBtn');
+        const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+
+        // State
+        let eventSource = null;
+        let eventsReceived = 0;
+        let isConnected = false;
+        let reconnectAttempts = 0;
+        const maxReconnectAttempts = 5;
+        const reconnectDelay = 3000; // 3 seconds
+        let reconnectTimeout = null;
+
+        // Initialize
+        function init() {
+            // Load settings from localStorage or use defaults
+            loadSettings();
+            
+            // Generate a random client ID if not set
+            if (!clientIdInput.value) {
+                generateClientId();
+            }
+            
+            // Event Listeners
+            connectBtn.addEventListener('click', toggleConnection);
+            sendBtn.addEventListener('click', sendEvent);
+            eventDataInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendEvent();
+                }
+            });
+            
+            // Quick event buttons
+            quickEventBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const target = e.currentTarget;
+                    eventNameInput.value = target.dataset.event;
+                    eventDataInput.value = target.dataset.data;
+                    eventDataInput.focus();
+                });
+            });
+            
+            // Settings modal
+            generateIdBtn.addEventListener('click', generateClientId);
+            saveSettingsBtn.addEventListener('click', saveSettings);
+            
+            // Handle page visibility changes
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+            
+            // Auto-connect if previously connected
+            if (localStorage.getItem('autoConnect') === 'true') {
+                connect();
+            }
+            
+            // Enable tooltips
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        }
+
+        // Connection Management
+        function connect() {
+            if (isConnected) return;
+            
+            const serverUrl = serverUrlInput.value.trim();
+            const clientId = clientIdInput.value.trim();
+            const group = groupNameInput.value.trim() || 'default';
+            
+            if (!serverUrl) {
+                log('Error: Server URL is required', 'error');
+                return;
+            }
+            
+            if (!clientId) {
+                log('Error: Client ID is required', 'error');
+                return;
+            }
+            
+            try {
+                // Close existing connection if any
+                if (eventSource) {
+                    eventSource.close();
+                    eventSource = null;
+                }
+                
+                // Build the URL with query parameters
+                const url = new URL(serverUrl, window.location.origin);
+                url.searchParams.append('clientId', clientId);
+                if (group) {
+                    url.searchParams.append('group', group);
+                }
+                
+                updateConnectionStatus('Connecting...', 'connecting');
+                log(`Connecting to ${url}...`, 'info');
+                
+                // Create new EventSource connection
+                eventSource = new EventSource(url);
+                
+                // Connection opened
+                eventSource.onopen = () => {
+                    isConnected = true;
+                    reconnectAttempts = 0;
+                    updateConnectionStatus('Connected', 'connected');
+                    log('Connected to server', 'success');
+                    
+                    // Save auto-connect preference
+                    localStorage.setItem('autoConnect', 'true');
+                };
+                
+                // Handle errors
+                eventSource.onerror = (error) => {
+                    console.error('EventSource error:', error);
+                    
+                    if (!isConnected) {
+                        // Connection failed
+                        handleConnectionError('Failed to connect to server');
+                    } else {
+                        // Connection lost
+                        handleConnectionError('Connection lost. Reconnecting...');
+                    }
+                };
+                
+                // Handle messages
+                eventSource.onmessage = (event) => {
+                    try {
+                        const data = JSON.parse(event.data);
+                        log(data.message || 'Received event', 'message', data);
+                    } catch (e) {
+                        log(event.data, 'message');
+                    }
+                };
+                
+                // Custom event handlers
+                eventSource.addEventListener('notification', (event) => {
+                    log(event.data, 'notification');
+                });
+                
+                eventSource.addEventListener('system', (event) => {
+                    log(event.data, 'system');
+                });
+                
+                eventSource.addEventListener('error', (event) => {
+                    log(event.data || 'An error occurred', 'error');
+                });
+                
+            } catch (error) {
+                console.error('Connection error:', error);
+                handleConnectionError(`Connection error: ${error.message}`);
+            }
+        }
+        
+        function disconnect() {
+            if (eventSource) {
+                eventSource.close();
+                eventSource = null;
+            }
+            
+            isConnected = false;
+            updateConnectionStatus('Disconnected', 'disconnected');
+            log('Disconnected from server', 'info');
+            
+            // Clear any pending reconnection
+            if (reconnectTimeout) {
+                clearTimeout(reconnectTimeout);
+                reconnectTimeout = null;
+            }
+            
+            // Clear auto-connect preference
+            localStorage.removeItem('autoConnect');
+        }
+        
+        function toggleConnection() {
+            if (isConnected) {
+                disconnect();
+                connectBtn.innerHTML = '<i class="bi bi-power"></i> Connect';
+            } else {
+                // Show settings modal if not configured
+                if (!localStorage.getItem('serverConfigured')) {
+                    settingsModal.show();
+                } else {
+                    connect();
+                    connectBtn.innerHTML = '<i class="bi bi-power"></i> Disconnect';
+                }
+            }
+        }
+        
+        function handleConnectionError(message) {
+            isConnected = false;
+            updateConnectionStatus('Disconnected', 'disconnected');
+            log(message, 'error');
+            
+            // Auto-reconnect logic
+            if (reconnectAttempts < maxReconnectAttempts) {
+                reconnectAttempts++;
+                const delay = reconnectDelay * reconnectAttempts;
+                
+                log(`Attempting to reconnect (${reconnectAttempts}/${maxReconnectAttempts}) in ${delay/1000}s...`, 'info');
+                
+                reconnectTimeout = setTimeout(() => {
+                    connect();
+                }, delay);
+            } else {
+                log('Max reconnection attempts reached. Please check your connection and try again.', 'error');
+            }
+        }
+        
+        // Event Handling
+        function sendEvent() {
+            if (!isConnected) {
+                log('Not connected to server', 'error');
+                return;
+            }
+            
+            const eventName = eventNameInput.value.trim();
+            const eventData = eventDataInput.value.trim();
+            
+            if (!eventName) {
+                log('Event name is required', 'error');
+                eventNameInput.focus();
+                return;
+            }
+            
+            if (!eventData) {
+                log('Event data is required', 'error');
+                eventDataInput.focus();
+                return;
+            }
+            
+            try {
+                // In a real app, you would send this to your server via WebSocket or fetch
+                // For this demo, we'll just log it to the console
+                log(`Sending: ${eventName} - ${eventData}`, 'sent');
+                
+                // Simulate server response
+                setTimeout(() => {
+                    log(`Server received: ${eventName}`, 'message', { 
+                        event: eventName, 
+                        data: eventData,
+                        timestamp: new Date().toISOString()
+                    });
+                }, 300);
+                
+                // Clear the input
+                eventDataInput.value = '';
+                eventDataInput.focus();
+                
+            } catch (error) {
+                console.error('Error sending event:', error);
+                log(`Failed to send event: ${error.message}`, 'error');
+            }
+        }
+        
+        // UI Updates
+        function log(message, type = 'info', data = null) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            
+            const messageEl = document.createElement('div');
+            messageEl.className = `console-line`;
+            
+            let displayMessage = message;
+            let badgeClass = 'bg-secondary';
+            
+            // Determine badge class based on message type
+            switch (type) {
+                case 'error':
+                    badgeClass = 'bg-danger';
+                    break;
+                case 'success':
+                    badgeClass = 'bg-success';
+                    break;
+                case 'warning':
+                    badgeClass = 'bg-warning text-dark';
+                    break;
+                case 'info':
+                    badgeClass = 'bg-info text-dark';
+                    break;
+                case 'sent':
+                    badgeClass = 'bg-primary';
+                    displayMessage = `You: ${message}`;
+                    break;
+                case 'message':
+                    badgeClass = 'bg-secondary';
+                    break;
+                case 'notification':
+                    badgeClass = 'bg-primary';
+                    break;
+                case 'system':
+                    badgeClass = 'bg-warning text-dark';
+                    break;
+            }
+            
+            // Format the message with timestamp and type badge
+            messageEl.innerHTML = `
+                <span class="text-muted me-2">${timeString}</span>
+                <span class="badge ${badgeClass} me-2">${type}</span>
+                <span>${escapeHtml(displayMessage)}</span>
+            `;
+            
+            // Add data as JSON if provided
+            if (data && Object.keys(data).length > 0) {
+                const dataEl = document.createElement('pre');
+                dataEl.className = 'mt-2 mb-0 p-2 bg-dark text-light rounded';
+                dataEl.style.fontSize = '0.8rem';
+                dataEl.textContent = JSON.stringify(data, null, 2);
+                messageEl.appendChild(dataEl);
+            }
+            
+            // Add to console
+            consoleEl.appendChild(messageEl);
+            
+            // Auto-scroll to bottom
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+            
+            // Update event counter
+            eventsReceived++;
+            eventCounter.textContent = `${eventsReceived} Event${eventsReceived !== 1 ? 's' : ''}`;
+            
+            // Keep only the last 100 messages
+            while (consoleEl.children.length > 100) {
+                consoleEl.removeChild(consoleEl.firstChild);
+            }
+        }
+        
+        function updateConnectionStatus(status, state) {
+            connectionStatus.textContent = status;
+            
+            // Update indicator
+            connectionIndicator.className = 'status-indicator';
+            
+            switch (state) {
+                case 'connected':
+                    connectionIndicator.classList.add('status-connected');
+                    connectBtn.innerHTML = '<i class="bi bi-power"></i> Disconnect';
+                    connectBtn.classList.remove('btn-outline-light');
+                    connectBtn.classList.add('btn-outline-danger');
+                    sendBtn.disabled = false;
+                    break;
+                    
+                case 'connecting':
+                    connectionIndicator.classList.add('status-connecting');
+                    connectBtn.disabled = true;
+                    sendBtn.disabled = true;
+                    break;
+                    
+                case 'disconnected':
+                    connectionIndicator.classList.add('status-disconnected');
+                    connectBtn.innerHTML = '<i class="bi bi-power"></i> Connect';
+                    connectBtn.classList.remove('btn-outline-danger');
+                    connectBtn.classList.add('btn-outline-light');
+                    connectBtn.disabled = false;
+                    sendBtn.disabled = true;
+                    break;
+            }
+        }
+        
+        // Settings Management
+        function loadSettings() {
+            const settings = {
+                serverUrl: localStorage.getItem('serverUrl') || 'api/serverevents/connect',
+                clientId: localStorage.getItem('clientId') || '',
+                groupName: localStorage.getItem('groupName') || 'default',
+                autoConnect: localStorage.getItem('autoConnect') === 'true'
+            };
+            
+            serverUrlInput.value = settings.serverUrl;
+            clientIdInput.value = settings.clientId || generateClientId();
+            groupNameInput.value = settings.groupName;
+            
+            return settings;
+        }
+        
+        function saveSettings() {
+            const settings = {
+                serverUrl: serverUrlInput.value.trim(),
+                clientId: clientIdInput.value.trim(),
+                groupName: groupNameInput.value.trim() || 'default'
+            };
+            
+            // Validate
+            if (!settings.serverUrl) {
+                alert('Server URL is required');
+                return;
+            }
+            
+            if (!settings.clientId) {
+                alert('Client ID is required');
+                return;
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('serverUrl', settings.serverUrl);
+            localStorage.setItem('clientId', settings.clientId);
+            localStorage.setItem('groupName', settings.groupName);
+            localStorage.setItem('serverConfigured', 'true');
+            
+            // Close modal
+            settingsModal.hide();
+            
+            // Connect with new settings
+            connect();
+            connectBtn.innerHTML = '<i class="bi bi-power"></i> Disconnect';
+        }
+        
+        function generateClientId() {
+            const id = 'client-' + Math.random().toString(36).substr(2, 9);
+            clientIdInput.value = id;
+            return id;
+        }
+        
+        // Event Handlers
+        function handleVisibilityChange() {
+            if (document.visibilityState === 'visible' && !isConnected && localStorage.getItem('autoConnect') === 'true') {
+                // Reconnect if the page becomes visible and we were previously connected
+                connect();
+            }
+        }
+        
+        // Utility Functions
+        function escapeHtml(unsafe) {
+            if (!unsafe) return '';
+            return unsafe
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

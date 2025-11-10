@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Share your suggestions and feedback with Donald W. Smith Jr.">
+    <meta name="author" content="Donald W. Smith Jr.">
+    <meta name="keywords" content="suggestions, feedback, contact, Donald Smith">
+    <meta name="theme-color" content="#0a0e27">
+    
+    <title>Suggestions | Donald W. Smith Jr.</title>
+    
+    <!-- Favicon (base64 encoded to prevent 404) -->
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AkEEjIXDlQhNQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAGUlEQVQ4y2NgGAWjYAQBExMTEwPJgAEAHp4B8ZtDqo0AAAAASUVORK5CYII=">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="images/DLogo.png" as="image">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css" media="all">
+    <link rel="stylesheet" href="css/components/forms.css" media="all">
+    <link rel="stylesheet" href="css/components/build-info.css" media="all">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- Skip to Main Content Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Header -->
+    <header class="site-header" role="banner">
+        <div class="header-content" itemscope itemtype="https://schema.org/Person">
+            <a href="#home" class="logo" aria-label="Return to Top of Page" title="Return to Top of Page" itemprop="url">
+                <img src="images/DLogo.jpg" alt="Donald W. Smith Jr. - Professional Portfolio" class="logo-img" width="50" height="50" loading="lazy" itemprop="image">
+            </a>
+            
+            <!-- Primary Navigation -->
+            <nav id="primary-navigation" class="primary-navigation" aria-label="Primary">
+                <ul class="nav-links" role="menubar">
+                    <li role="none">
+                        <a href="#home" 
+                           class="nav-link" 
+                           title="Home" 
+                           aria-label="Home"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">🏠</span>
+                            <span class="nav-text">Home</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="#contact" 
+                           class="nav-link" 
+                           title="Contact Information" 
+                           aria-label="Contact"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">✉️</span>
+                            <span class="nav-text">Contact</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="link.html" 
+                           class="nav-link" 
+                           title="Request Access Code" 
+                           aria-label="Request Access Code"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">🔑</span>
+                            <span class="nav-text">Request Code</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="info.html" 
+                           class="nav-link" 
+                           title="View Documents" 
+                           aria-label="Documents"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">📄</span>
+                            <span class="nav-text">Documents</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="about.html" 
+                           class="nav-link" 
+                           title="About This Site" 
+                           aria-label="About"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">ℹ️</span>
+                            <span class="nav-text">About</span>
+                        </a>
+                    </li>
+                    <li role="none">
+                        <a href="suggest.html" 
+                           class="nav-link active" 
+                           aria-current="page"
+                           title="Current Section: Suggest"
+                           aria-label="Suggest"
+                           role="menuitem">
+                            <span class="nav-icon" aria-hidden="true">💡</span>
+                            <span class="nav-text">Suggest</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" tabindex="-1" role="main" class="suggest-page">
+        <div class="page-container">
+            <section class="section">
+                <h1 class="section-title">Share Your Suggestions</h1>
+                <p class="section-subtitle">I'd love to hear your ideas, feedback, or suggestions for improvement.</p>
+                
+                <form id="suggestionForm" class="suggestion-form" novalidate>
+                    <div id="formFeedback" class="form-feedback" role="alert" aria-live="polite"></div>
+                    
+                    <div class="form-group">
+                        <label for="name" class="form-label">Your Name</label>
+                        <input type="text" id="name" name="name" class="form-input" required 
+                               placeholder="Enter your name"
+                               aria-required="true"
+                               autocomplete="name">
+                        <div id="nameError" class="form-error" role="alert" aria-live="polite"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address <span class="asterisk" aria-hidden="true">*</span></label>
+                        <input type="email" id="email" name="email" class="form-input" required
+                               placeholder="Enter your email"
+                               aria-required="true"
+                               autocomplete="email">
+                        <div id="emailError" class="form-error" role="alert" aria-live="polite"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="suggestion" class="form-label">Your Suggestion <span class="asterisk" aria-hidden="true">*</span></label>
+                        <textarea id="suggestion" name="suggestion" class="form-textarea" rows="6" required
+                                 placeholder="Please share your suggestion or feedback here..."
+                                 aria-required="true"
+                                 minlength="10"></textarea>
+                        <div id="suggestionError" class="form-error" role="alert" aria-live="polite"></div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-icon" aria-hidden="true">✉️</span>
+                            <span class="btn-text">Send Suggestion</span>
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            <span class="btn-icon" aria-hidden="true">🔄</span>
+                            <span class="btn-text">Reset Form</span>
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- CSRF Token (in a real app, this would be generated server-side) -->
+                <meta name="csrf-token" content="">
+                
+                <script>
+                // Rate limiting variables
+                let lastSubmissionTime = 0;
+                const SUBMISSION_COOLDOWN = 5000; // 5 seconds
+                
+                document.addEventListener('DOMContentLoaded', function() {
+                    const form = document.getElementById('suggestionForm');
+                    const submitButton = form.querySelector('button[type="submit"]');
+                    
+                    // Clear error state on input
+                    form.querySelectorAll('input, textarea').forEach(input => {
+                        input.addEventListener('input', function() {
+                            this.classList.remove('invalid');
+                            const errorElement = document.getElementById(`${this.id}Error`);
+                            if (errorElement) {
+                                errorElement.textContent = '';
+                                errorElement.setAttribute('aria-hidden', 'true');
+                            }
+                        });
+                    });
+                    
+                    // Add form submission handler
+                    form.addEventListener('submit', handleSubmit);
+                });
+
+                /**
+                 * Validates an email address
+                 * @param {string} email - The email to validate
+                 * @returns {boolean} True if email is valid
+                 */
+                function validateEmail(email) {
+                    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    return re.test(String(email).toLowerCase());
+                }
+
+                /**
+                 * Sanitizes input to prevent XSS
+                 * @param {string} str - The string to sanitize
+                 * @returns {string} Sanitized string
+                 */
+                function sanitizeInput(str) {
+                    const div = document.createElement('div');
+                    div.textContent = str;
+                    return div.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
+                }
+
+                /**
+                 * Shows feedback message to the user
+                 * @param {string} message - The message to display
+                 * @param {boolean} isError - Whether this is an error message
+                 */
+                function showFeedback(message, isError = false) {
+                    const feedback = document.getElementById('formFeedback');
+                    const status = isError ? 'error' : 'success';
+                    
+                    // Update feedback element
+                    feedback.textContent = message;
+                    feedback.className = `form-feedback ${status}`;
+                    feedback.setAttribute('role', 'alert');
+                    feedback.setAttribute('aria-live', 'assertive');
+                    feedback.setAttribute('aria-atomic', 'true');
+                    
+                    // Show the feedback
+                    feedback.classList.add('visible');
+                    
+                    // Scroll to feedback
+                    setTimeout(() => {
+                        feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 100);
+                    
+                    // Hide feedback after delay
+                    setTimeout(() => {
+                        feedback.classList.remove('visible');
+                    }, 10000); // 10 seconds for success, 15 for errors
+                }
+
+                /**
+                 * Shows an error message for a specific form field
+                 * @param {string} fieldId - The ID of the field with the error
+                 * @param {string} message - The error message to display
+                 */
+                function showFieldError(fieldId, message) {
+                    const field = document.getElementById(fieldId);
+                    const errorElement = document.getElementById(`${fieldId}Error`);
+                    
+                    if (field && errorElement) {
+                        // Add error classes and attributes
+                        field.classList.add('invalid');
+                        field.setAttribute('aria-invalid', 'true');
+                        field.setAttribute('aria-describedby', `${fieldId}Error`);
+                        
+                        // Set error message
+                        errorElement.textContent = message;
+                        errorElement.setAttribute('aria-hidden', 'false');
+                        
+                        // Focus the first field with error
+                        if (!document.activeElement.matches('input, textarea, button, [tabindex]')) {
+                            field.focus();
+                        }
+                    }
+                }
+
+                /**
+                 * Handles form submission
+                 * @param {Event} event - The form submission event
+                 * @returns {boolean} False to prevent default form submission
+                 */
+                function handleSubmit(event) {
+                    event.preventDefault();
+                    
+                    // Rate limiting check
+                    const now = Date.now();
+                    if (now - lastSubmissionTime < SUBMISSION_COOLDOWN) {
+                        showFeedback('Please wait a moment before submitting again.', true);
+                        return false;
+                    }
+                    
+                    // Update last submission time
+                    lastSubmissionTime = now;
+                    
+                    // Disable submit button to prevent double submission
+                    const submitButton = event.target.querySelector('button[type="submit"]');
+                    const originalButtonText = submitButton.innerHTML;
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<span class="btn-icon">⏳</span><span class="btn-text">Sending...</span>';
+                    
+                    try {
+                        // Reset previous states
+                        document.querySelectorAll('.form-input, .form-textarea').forEach(el => {
+                            el.classList.remove('invalid');
+                            el.removeAttribute('aria-invalid');
+                            el.removeAttribute('aria-describedby');
+                        });
+                        
+                        document.querySelectorAll('.form-error').forEach(el => {
+                            el.textContent = '';
+                            el.setAttribute('aria-hidden', 'true');
+                        });
+                        
+                        // Get and sanitize form values
+                        const name = sanitizeInput(document.getElementById('name').value.trim());
+                        const email = sanitizeInput(document.getElementById('email').value.trim());
+                        const suggestion = sanitizeInput(document.getElementById('suggestion').value.trim());
+                        let isValid = true;
+                        
+                        // Validate inputs
+                        if (!name) {
+                            showFieldError('name', 'Please enter your name');
+                            isValid = false;
+                        } else if (name.length > 100) {
+                            showFieldError('name', 'Name must be less than 100 characters');
+                            isValid = false;
+                        }
+                        
+                        if (!email) {
+                            showFieldError('email', 'Please enter your email address');
+                            isValid = false;
+                        } else if (!validateEmail(email)) {
+                            showFieldError('email', 'Please enter a valid email address');
+                            isValid = false;
+                        } else if (email.length > 255) {
+                            showFieldError('email', 'Email must be less than 255 characters');
+                            isValid = false;
+                        }
+                        
+                        if (!suggestion) {
+                            showFieldError('suggestion', 'Please enter your suggestion');
+                            isValid = false;
+                        } else if (suggestion.length < 10) {
+                            showFieldError('suggestion', 'Please provide a more detailed suggestion (at least 10 characters)');
+                            isValid = false;
+                        } else if (suggestion.length > 2000) {
+                            showFieldError('suggestion', 'Suggestion must be less than 2000 characters');
+                            isValid = false;
+                        }
+                        
+                        if (!isValid) {
+                            showFeedback('Please fix the errors in the form.', true);
+                            submitButton.disabled = false;
+                            submitButton.innerHTML = originalButtonText;
+                            return false;
+                        }
+                        
+                        // In a real app, you would send this to your server first
+                        // For now, we'll proceed with the mailto link
+                        const subject = encodeURIComponent(`Suggestion from ${name}`);
+                        const body = encodeURIComponent(
+                            `Name: ${name}\n` +
+                            `Email: ${email}\n` +
+                            `Date: ${new Date().toISOString()}\n\n` +
+                            `Suggestion:\n${suggestion}`
+                        );
+                        
+                        const mailtoLink = `mailto:contact@dwsmithjr.com?subject=${subject}&body=${body}&reply-to=${encodeURIComponent(email)}`;
+                        
+                        // Show success feedback
+                        showFeedback('Thank you for your suggestion! Opening your email client...');
+                        
+                        // Open email client after a short delay
+                        setTimeout(() => {
+                            window.location.href = mailtoLink;
+                            event.target.reset();
+                            submitButton.disabled = false;
+                            submitButton.innerHTML = originalButtonText;
+                        }, 1500);
+                        
+                    } catch (error) {
+                        console.error('Form submission error:', error);
+                        showFeedback('An error occurred while processing your suggestion. Please try again later.', true);
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalButtonText;
+                    }
+                    
+                    return false;
+                }
+                </script>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
+        <div class="footer-container">
+            <div class="footer-content">
+                <!-- Contact Section -->
+                <section class="footer-section" aria-labelledby="contact-heading">
+                    <h3 id="contact-heading" class="footer-heading">
+                        <span class="emoji" aria-hidden="true">🚀</span>
+                        <span>Contact & Legal Information</span>
+                    </h3>
+                    <div class="footer-social" role="navigation" aria-label="Contact methods">
+                        <a href="https://linkedin.com/in/donaldwsmithjr"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="Connect on LinkedIn"
+                           class="social-link">
+                            <span class="social-icon" aria-hidden="true">🔗</span>
+                            <span class="social-text">LinkedIn</span>
+                        </a>
+                        <a href="https://github.com/DWSMITHJR"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           aria-label="View GitHub profile"
+                           class="social-link">
+                            <span class="social-icon" aria-hidden="true">🐙</span>
+                            <span class="social-text">GitHub</span>
+                        </a>
+                        <a href="mailto:architect@donaldwsmithjr.com"
+                           aria-label="Send email to Donald W. Smith Jr."
+                           class="social-link">
+                            <span class="social-icon" aria-hidden="true">📧</span>
+                            <span class="social-text">Email</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Legal & Copyright -->
+                <div class="footer-legal" role="contentinfo">
+                    <p class="copyright">
+                        &copy; <span itemprop="copyrightYear">2025</span>
+                        <span itemprop="copyrightHolder" itemscope itemtype="https://schema.org/Person">
+                            <span itemprop="name">Donald W. Smith Jr.</span>
+                        </span>
+                        <span class="divider" aria-hidden="true">|</span>
+                        <a href="privacy.html" class="legal-link">Privacy Policy</a>
+                        <span class="divider" aria-hidden="true">|</span>
+                        <a href="terms.html" class="legal-link">Terms of Service</a>
+                    </p>
+                    <p class="tagline">
+                        Built with <span class="heart" aria-label="love">❤️</span> for innovation
+                        <span class="divider" aria-hidden="true">|</span>
+                        Solving the future, one success after another
+                    </p>
+
+            <!-- Structured Data for Organization -->
+            <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Donald W. Smith Jr. Portfolio",
+                "url": "https://donaldwsmithjr.com",
+                "logo": "https://donaldwsmithjr.com/images/DLogo.png",
+                "sameAs": [
+                    "https://linkedin.com/in/donaldwsmithjr",
+                    "https://github.com/DWSMITHJR"
+                ]
+            }
+            </script>
+        </div>
+    </footer>
+
+    <!-- Build Info -->
+    <div class="build-info">
+        <div class="build-info-container" id="build-info">
+            <span class="build-info-item">Last Updated: <span id="last-updated">Loading...</span></span>
+            <span class="build-info-separator">|</span>
+            <span class="build-info-item">Version: <span id="build-version">1.0.0</span></span>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Form submission handling
+        document.getElementById('suggestionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Disable submit button and show loading state
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = 'Sending...';
+            
+            // Get form data
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const suggestion = document.getElementById('suggestion').value.trim();
+            
+            // Basic validation
+            if (!name || !email || !suggestion) {
+                // Re-enable button if validation fails
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Create mailto link with proper fields
+            const subject = `Suggestion from ${name.replace(/[^\w\s]/gi, ' ').trim()}`;
+            const body = `Name: ${name}%0D%0A` +
+                        `Email: ${email}%0D%0A%0D%0A` +
+                        `Suggestion:%0D%0A${suggestion}`;
+                        
+            // Clean and encode values
+            const cleanSubject = encodeURIComponent(subject).replace(/%20/g, ' ');
+            const cleanBody = body.replace(/\n/g, '%0D%0A');
+            
+            // Store the current form reference
+            const form = this;
+            
+            // Create a simple mailto link instead of a form
+            const mailtoLink = `mailto:phdproton@pm.me?subject=${cleanSubject}&body=${cleanBody}&from=${encodeURIComponent(email)}`;
+            
+            // Add subject and body as hidden inputs
+            const subjectInput = document.createElement('input');
+            subjectInput.type = 'hidden';
+            subjectInput.name = 'subject';
+            subjectInput.value = subject;
+            
+            const bodyInput = document.createElement('input');
+            bodyInput.type = 'hidden';
+            bodyInput.name = 'body';
+            bodyInput.value = decodeURIComponent(body).replace(/%0D%0A/g, '\n');
+            
+            tempForm.appendChild(subjectInput);
+            tempForm.appendChild(bodyInput);
+            document.body.appendChild(tempForm);
+            
+            try {
+                // Open mail client with all fields pre-filled
+                window.location.href = mailtoLink;
+                
+                // Reset the original form
+                form.reset();
+                
+                // Redirect after a short delay
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 500);
+                
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                // Re-enable button on error
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+                alert('Error submitting form. Please try again.');
+            }
+        });
+        
+        // Set last updated timestamp
+        document.getElementById('last-updated').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>

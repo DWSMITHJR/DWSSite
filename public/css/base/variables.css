@@ -1,0 +1,11 @@
+:root {
+    --primary-color: #4fc3f7;
+    --background-color: #0a0e27;
+    --text-color: #e2e8f0;
+    --header-bg: rgba(10, 14, 39, 0.95);
+    --header-border: rgba(79, 195, 247, 0.1);
+    --transition-duration: 0.3s;
+    --border-radius: 8px;
+    --spacing-unit: 1rem;
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
