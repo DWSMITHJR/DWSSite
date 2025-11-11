@@ -7,16 +7,19 @@ Donald W. Smith Jr. is an Atlanta-based Global Solutions Architect specializing 
 ## 🚀 Key Projects
 
 ### Natural Language Application (2024-2025)
+
 - **Role:** Architect - Lead Developer
 - **Description:** Reference implementation for NLWeb, AutoRAG and AutoML for LLM processing of artifacts. Python-based web application for natural language processing and machine learning.
 - **Technologies:** Python, LLM, AutoML, NLP
 
 ### Tracker Application (2025)
+
 - **Role:** Architect - Lead Developer
 - **Description:** C# Blazor web application serving as a reference implementation for multitenant systems for secure individual tracking.
 - **Technologies:** C#, Blazor, .NET Core, Multi-tenant
 
 ### TimeLine Application (2025)
+
 - **Role:** Architect - Developer
 - **Description:** Windows Forms application providing local storage image timeline with EXIF data processing.
 - **Technologies:** C#, WinForms, EXIF, .NET
@@ -24,10 +27,12 @@ Donald W. Smith Jr. is an Atlanta-based Global Solutions Architect specializing 
 ## 🏢 Professional Experience
 
 ### Azure Mesh Core Architecture - GlaxoSmithKline (2020-2021)
+
 - Provided technical support for Azure mesh core architecture for big data analytics
 - Technologies: Databricks, Talend, Collibra, Synapse, SQL Server, Kubernetes
 
 ### Insurance Platform - Advanta Insurance (2016-2017)
+
 - Azure cloud solution for online insurance binding
 - Implemented data-driven rules engine and 3rd party API integrations
 
@@ -43,12 +48,13 @@ Donald W. Smith Jr. is an Atlanta-based Global Solutions Architect specializing 
 ## 📚 Education & Certifications
 
 - **Degree:** [Your Degree] - [University Name]
-- **Certifications:** 
+- **Certifications:**
   - Microsoft Certified: Azure Solutions Architect Expert
   - [Other relevant certifications]
 
 ## 📞 Contact Information
 
+- **GitHub:** [https://github.com/DWSMITHJR/DWSSite](https://github.com/DWSMITHJR/DWSSite)
 - **Email:** [Your Email]
 - **LinkedIn:** [Your LinkedIn Profile]
 - **Portfolio:** [Your Portfolio URL]
