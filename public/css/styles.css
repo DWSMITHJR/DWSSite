@@ -271,25 +271,32 @@ header {
 
 /* Project Grid */
 .project-grid {
-width: 100%;
-max-width: 1000px;
-margin: 2rem auto;
-padding: 0 2rem;
-box-sizing: border-box;
+    width: 100%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    box-sizing: border-box;
 }
 
+/* Import Panel Components */
+@import './components/panels.css';
+
+/* Project Grid Table */
 .project-grid table {
-width: 100%;
-border-collapse: collapse;
-border-spacing: 0;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .panel-cell {
-width: 50%;
-padding: 1rem;
-vertical-align: top;
+    width: 50%;
+    padding: 1rem;
+    vertical-align: top;
 }
 
+/* Project Card Link */
 .project-card-link {
     display: block;
     text-decoration: none;
@@ -298,8 +305,12 @@ vertical-align: top;
     height: 100%;
     position: relative;
     perspective: 1000px;
+    margin: 0;
+    padding: 0;
+    border: none;
 }
 
+/* Project Card */
 .project-card {
     height: 100%;
     padding: 1.5rem;
