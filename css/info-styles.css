@@ -1,0 +1,219 @@
+/* Info Page Text Alignment and Consistency */
+
+/* Main content container */
+.main-content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Section headers */
+.section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.3;
+    position: relative;
+    padding-bottom: 0.75rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #4fc3f7, #2196f3);
+    border-radius: 3px;
+}
+
+/* Content sections */
+.info-section {
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    background: rgba(30, 41, 59, 0.6);
+    border-radius: 8px;
+    border: 1px solid rgba(79, 195, 247, 0.1);
+}
+
+.info-section h2 {
+    color: #4fc3f7;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Paragraph text */
+.info-section p {
+    color: #e2e8f0;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+    font-size: 1.05rem;
+}
+
+/* Lists */
+.info-section ul, 
+.info-section ol {
+    margin: 1.25rem 0;
+    padding-left: 1.5rem;
+}
+
+.info-section li {
+    margin-bottom: 0.75rem;
+    color: #e2e8f0;
+    line-height: 1.6;
+}
+
+/* Code blocks */
+.info-section pre {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-section code {
+    font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+    font-size: 0.95rem;
+    color: #7fdbff;
+}
+
+/* Tables */
+.info-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.info-section th,
+.info-section td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-section th {
+    background: rgba(79, 195, 247, 0.1);
+    color: #4fc3f7;
+    font-weight: 600;
+}
+
+.info-section tr:last-child td {
+    border-bottom: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-content-container {
+        padding: 0 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .info-section {
+        padding: 1.25rem;
+    }
+    
+    .info-section h2 {
+        font-size: 1.35rem;
+    }
+    
+    .info-section p {
+        font-size: 1rem;
+    }
+}
+
+/* Links */
+.info-section a {
+    color: #4fc3f7;
+    text-decoration: none;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.info-section a:hover {
+    color: #7fdbff;
+    text-decoration: underline;
+}
+
+/* Images */
+.info-section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 1.5rem 0;
+    display: block;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Blockquotes */
+.info-section blockquote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    border-left: 4px solid #4fc3f7;
+    background: rgba(79, 195, 247, 0.1);
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: #e2e8f0;
+}
+
+/* Horizontal rules */
+.info-section hr {
+    border: none;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 2rem 0;
+}
+
+/* Cards */
+.info-card {
+    background: rgba(30, 41, 59, 0.8);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border: 1px solid rgba(79, 195, 247, 0.15);
+}
+
+.info-card h3 {
+    margin-top: 0;
+    color: #4fc3f7;
+    font-size: 1.25rem;
+}
+
+/* Alerts/notices */
+.info-notice {
+    padding: 1rem 1.25rem;
+    border-radius: 6px;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.info-notice.info {
+    background: rgba(79, 195, 247, 0.1);
+    border-left: 4px solid #4fc3f7;
+    color: #e2e8f0;
+}
+
+.info-notice.warning {
+    background: rgba(255, 152, 0, 0.1);
+    border-left: 4px solid #ff9800;
+    color: #ffcc80;
+}
+
+.info-notice.success {
+    background: rgba(76, 175, 80, 0.1);
+    border-left: 4px solid #4caf50;
+    color: #a5d6a7;
+}
