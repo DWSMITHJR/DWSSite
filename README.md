@@ -36,14 +36,21 @@ Donald W. Smith Jr. is an Atlanta-based Global Solutions Architect specializing 
 - Azure cloud solution for online insurance binding
 - Implemented data-driven rules engine and 3rd party API integrations
 
-## 🛠️ Technical Expertise
+## 🛠️ Technical Stack
 
-- **Cloud Platforms:** Microsoft Azure, Azure AD, Azure DevOps
-- **Programming:** C#, Python, JavaScript, .NET Core
-- **AI/ML:** LLM, NLP, AutoML, RAG
-- **Databases:** SQL Server, Cosmos DB, Delta Lake
-- **Security:** Zero Trust Architecture, Identity Management
-- **DevOps:** CI/CD, Kubernetes, Docker, GitHub Actions
+### Core Technologies
+- **Frontend:** HTML5, CSS3, JavaScript (ES6+), React
+- **Backend:** Node.js, Express.js
+- **Hosting:** Netlify, Vercel
+- **Version Control:** Git, GitHub
+- **CI/CD:** GitHub Actions
+- **Package Management:** npm, Yarn
+
+### Key Tools & Services
+- **Development:** VS Code, GitHub Copilot, ESLint, Prettier
+- **APIs:** RESTful services, JSON
+- **Testing:** Jest, React Testing Library
+- **Performance:** Lighthouse, Web Vitals
 
 ## 📚 Education & Certifications
 

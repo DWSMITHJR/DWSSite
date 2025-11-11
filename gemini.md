@@ -6,7 +6,7 @@ This file contains settings and information about the project that are useful fo
 
 *   **Project Name:** dws-portfolio
 *   **Description:** Donald W. Smith Jr. Portfolio and Document Library. This is a professional portfolio for Donald W. Smith Jr., an Atlanta-based Global Solutions Architect specializing in cloud solution design, zero-trust security, and enterprise architecture.
-*   **Repository:** https://github.com/DWSMITHJR/refDWSSite
+*   **Repository:** https://github.com/DWSMITHJR/DWSSite
 
 ## Technologies Used
 
