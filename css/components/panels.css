@@ -15,16 +15,26 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.panel:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 /* Panel Hover Effects */
 .panel-hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.panel-hover-lift:hover {
+.panel-hover-lift:hover,
+.panel-hover-lift:focus {
   transform: translateY(-0.25rem);
   box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
 }
 
 /* Panel Accent Variants */

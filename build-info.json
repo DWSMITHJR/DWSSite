@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "buildDate": "2025-11-11T01:42:26.333Z",
+  "commitHash": "e03e820",
+  "lastModifiedFiles": [
+    {
+      "file": "windsurf_deployment.yaml",
+      "modified": "2025-11-10 20:42:11 -0500"
+    },
+    {
+      "file": "web.config",
+      "modified": "2025-11-10 20:42:11 -0500"
+    },
+    {
+      "file": "terms.html",
+      "modified": "2025-11-10 20:42:11 -0500"
+    },
+    {
+      "file": "suggest.html",
+      "modified": "2025-11-10 20:42:11 -0500"
+    },
+    {
+      "file": "start-server.bat",
+      "modified": "2025-11-10 20:42:11 -0500"
+    }
+  ],
+  "environment": "development"
+}
