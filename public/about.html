@@ -16,7 +16,7 @@
     
     <!-- Preload Critical Resources -->
     <link rel="preload" href="css/styles.css" as="style">
-    <link rel="preload" href="images/DLogo.png" as="image">
+    <link rel="preload" href="images/DLogo.jpg" as="image">
     
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css" media="all">
@@ -122,18 +122,22 @@
             <section class="info-section" aria-labelledby="system-info-heading">
                 <h2 id="system-info-heading">System Information</h2>
                 <div class="info-grid">
-                    <div class="info-card">
-                        <h3>Operating System</h3>
-                        <p><span class="label">OS:</span> <span id="os-name" class="value">Detecting...</span></p>
-                        <p><span class="label">Platform:</span> <span id="os-platform" class="value">Detecting...</span></p>
-                        <p><span class="label">CPU Cores:</span> <span id="cpu-cores" class="value">Detecting...</span></p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Device</h3>
-                        <p><span class="label">Memory:</span> <span id="device-memory" class="value">Detecting...</span></p>
-                        <p><span class="label">Screen Resolution:</span> <span id="screen-resolution" class="value">Detecting...</span></p>
-                        <p><span class="label">Pixel Ratio:</span> <span id="pixel-ratio" class="value">Detecting...</span></p>
-                    </div>
+                    <a href="info.html#system-info" class="info-card" aria-label="View detailed system information">
+                        <div>
+                            <h3>Operating System</h3>
+                            <p><span class="label">OS:</span> <span id="os-name" class="value">Detecting...</span></p>
+                            <p><span class="label">Platform:</span> <span id="os-platform" class="value">Detecting...</span></p>
+                            <p><span class="label">CPU Cores:</span> <span id="cpu-cores" class="value">Detecting...</span></p>
+                        </div>
+                    </a>
+                    <a href="info.html#device-info" class="info-card" aria-label="View detailed device information">
+                        <div>
+                            <h3>Device</h3>
+                            <p><span class="label">Memory:</span> <span id="device-memory" class="value">Detecting...</span></p>
+                            <p><span class="label">Screen Resolution:</span> <span id="screen-resolution" class="value">Detecting...</span></p>
+                            <p><span class="label">Pixel Ratio:</span> <span id="pixel-ratio" class="value">Detecting...</span></p>
+                        </div>
+                    </a>
                 </div>
             </section>
 
@@ -141,12 +145,14 @@
             <section class="info-section" aria-labelledby="browser-info-heading">
                 <h2 id="browser-info-heading">Browser Information</h2>
                 <div class="info-grid">
-                    <div class="info-card">
-                        <h3>Browser</h3>
-                        <p><span class="label">Name:</span> <span id="browser-name" class="value">Detecting...</span></p>
-                        <p><span class="label">Version:</span> <span id="browser-version" class="value">Detecting...</span></p>
-                        <p><span class="label">User Agent:</span> <span id="user-agent" class="value">Detecting...</span></p>
-                    </div>
+                    <a href="info.html#browser-info" class="info-card" aria-label="View detailed browser information">
+                        <div>
+                            <h3>Browser</h3>
+                            <p><span class="label">Name:</span> <span id="browser-name" class="value">Detecting...</span></p>
+                            <p><span class="label">Version:</span> <span id="browser-version" class="value">Detecting...</span></p>
+                            <p><span class="label">User Agent:</span> <span id="user-agent" class="value">Detecting...</span></p>
+                        </div>
+                    </a>
                     <div class="info-card">
                         <h3>Network</h3>
                         <p><span class="label">Status:</span> <span id="online-status" class="value">Detecting...</span></p>
@@ -155,8 +161,27 @@
                     </div>
                 </div>
             </section>
-        </div>
 
+            <!-- Build Information -->
+            <section class="info-section" aria-labelledby="build-info-heading">
+                <h2 id="build-info-heading">Build Information</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Version Information</h3>
+                        <p><span class="label">Version:</span> <span id="build-version" class="value">Loading...</span></p>
+                        <p><span class="label">Build Date:</span> <span id="build-date" class="value">Loading...</span></p>
+                        <p><span class="label">Commit Hash:</span> <span id="commit-hash" class="value">Loading...</span></p>
+                        <p><span class="label">Environment:</span> <span id="build-env" class="value">Loading...</span></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Recent Changes</h3>
+                        <div id="recent-changes" class="recent-changes">
+                            <p>Loading recent changes...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
         </footer>
     </main>
 
@@ -252,39 +277,96 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Set current year and last updated
             const currentYear = document.getElementById('current-year');
-            const lastUpdated = document.getElementById('last-updated');
-
             if (currentYear) {
                 currentYear.textContent = new Date().getFullYear();
             }
-
+            
+            const lastUpdated = document.getElementById('last-updated');
             if (lastUpdated) {
-                lastUpdated.textContent = new Date().toLocaleString(undefined, {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
+                lastUpdated.textContent = document.lastModified;
             }
+            
+            // Load build information
+            async function loadBuildInfo() {
+                // Default values
+                let buildInfo = {
+                    buildDate: new Date().toISOString(),
+                    version: '1.0.0',
+                    commitHash: 'local-dev',
+                    environment: 'development'
+                };
 
-            // Initialize system info with error handling
-            try {
-                detectSystemInfo();
-                detectBrowserInfo();
-            } catch (error) {
-                console.error('Error initializing system info:', error);
-                const loadingIndicator = document.getElementById('loading-indicator');
-                if (loadingIndicator) {
-                    loadingIndicator.innerHTML = `
-                        <div class="error-message">
-                            <p>Unable to load system information. Please refresh the page or try again later.</p>
-                            <p><small>Error: ${error.message}</small></p>
-                        </div>`;
+                try {
+                    // Try to load build info from the JSON file
+                    const response = await fetch('/build-info.json');
+                    if (response.ok) {
+                        const data = await response.json();
+                        buildInfo = { ...buildInfo, ...data };
+                    }
+                } catch (error) {
+                    console.error('Error loading build info:', error);
                 }
-            }
 
-            // Hide loading indicator
+                // Format the build date
+                const formatDate = (dateString) => {
+                    if (!dateString) return 'Not available';
+                    try {
+                        const date = new Date(dateString);
+                        if (isNaN(date.getTime())) return 'Invalid date';
+                        
+                        const options = { 
+                            year: 'numeric', 
+                            month: 'short', 
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            timeZoneName: 'short'
+                        };
+                        return date.toLocaleString('en-US', options);
+                    } catch (e) {
+                        console.error('Error formatting date:', e);
+                        return 'Date error';
+                    }
+                };
+
+                // Update the DOM elements with proper error handling
+                const safeUpdate = (id, value, fallback = 'Not available') => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.textContent = value !== undefined && value !== null ? value : fallback;
+                    } else {
+                        console.warn(`Element with ID '${id}' not found`);
+                    }
+                };
+
+                safeUpdate('build-version', buildInfo.version, '1.0.0');
+                safeUpdate('build-date', buildInfo.buildDate ? formatDate(buildInfo.buildDate) : 'Not available');
+                safeUpdate('commit-hash', buildInfo.commitHash, 'Not available');
+                safeUpdate('build-env', buildInfo.environment, 'development');
+            }
+            
+            // Initialize tooltips
+            const tooltipTriggers = document.querySelectorAll('[data-tooltip]');
+            tooltipTriggers.forEach(trigger => {
+                const tooltip = document.createElement('span');
+                tooltip.className = 'tooltip';
+                tooltip.textContent = trigger.getAttribute('data-tooltip');
+                trigger.appendChild(tooltip);
+                
+                // Position tooltip on hover
+                trigger.addEventListener('mouseenter', () => {
+                    const rect = trigger.getBoundingClientRect();
+                    tooltip.style.left = `${rect.left + window.scrollX}px`;
+                    tooltip.style.top = `${rect.bottom + window.scrollY + 5}px`;
+                    tooltip.style.opacity = '1';
+                    tooltip.style.visibility = 'visible';
+                });
+                
+                trigger.addEventListener('mouseleave', () => {
+                    tooltip.style.opacity = '0';
+                    tooltip.style.visibility = 'hidden';
+                });
+            });
             setTimeout(() => {
                 const loadingIndicator = document.getElementById('loading-indicator');
                 if (loadingIndicator) {

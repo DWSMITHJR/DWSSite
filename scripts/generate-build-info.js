@@ -20,20 +20,38 @@ try {
 // Get last modified files (top 5)
 let lastModifiedFiles = [];
 try {
-  const files = execSync('git ls-files -z --full-name | xargs -0 -n1 -I{} -- git log -1 --format="%ai {}" -- "{}" | sort -r | head -n 5')
+  // Windows-compatible command to get last modified files
+  const command = process.platform === 'win32' 
+    ? 'powershell -Command "git ls-files | ForEach-Object { $file = $_; $log = git log -1 --format=\'%ai %H\' -- $file; Write-Output \"$log $file\" } | Sort-Object -Descending | Select-Object -First 5"'
+    : 'git ls-files -z --full-name | xargs -0 -n1 -I{} -- git log -1 --format="%ai %H {}" -- "{}" | sort -r | head -n 5';
+    
+  const files = execSync(command)
     .toString()
     .split('\n')
     .filter(Boolean)
     .map(line => {
-      const [date, time, tz, ...fileParts] = line.split(' ');
-      return {
-        file: fileParts.join(' '),
-        modified: `${date} ${time} ${tz}`
-      };
-    });
+      // Handle both Windows and Unix output formats
+      const parts = line.trim().split(/\s+/);
+      if (parts.length >= 4) {
+        const date = parts[0];
+        const time = parts[1];
+        const tz = parts[2];
+        const file = parts.slice(3).join(' ');
+        return {
+          file,
+          modified: `${date} ${time} ${tz}`,
+          commit: parts[3] || 'unknown'
+        };
+      }
+      return null;
+    })
+    .filter(Boolean);
+    
   lastModifiedFiles = files;
 } catch (e) {
   console.warn('Could not get last modified files:', e.message);
+  // Fallback to empty array
+  lastModifiedFiles = [];
 }
 
 const buildInfo = {
@@ -55,5 +73,17 @@ fs.writeFileSync(
   path.join(publicDir, 'build-info.json'),
   JSON.stringify(buildInfo, null, 2)
 );
+
+// Copy build-info.js to the public directory
+const buildInfoJsPath = path.join(__dirname, '../js/build-info.js');
+const publicJsDir = path.join(publicDir, 'js');
+
+// Ensure the public/js directory exists
+if (!fs.existsSync(publicJsDir)) {
+  fs.mkdirSync(publicJsDir, { recursive: true });
+}
+
+// Copy the file
+fs.copyFileSync(buildInfoJsPath, path.join(publicJsDir, 'build-info.js'));
 
 console.log('Build info generated successfully');
