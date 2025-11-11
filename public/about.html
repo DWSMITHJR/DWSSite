@@ -266,15 +266,14 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="js/config.js" defer></script>
-    <script src="js/api.js" defer></script>
-    <script src="js/build-info.js" defer></script>
-    <script src="js/tracking.js" defer></script>
-    <script src="js/main.js" defer></script>
+    <script src="js/config.js"></script>
+    <!-- Main application script that will handle all initializations -->
+    <script type="module" src="js/about-page.js"></script>
 
     <script>
         // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM fully loaded');
             // Set current year and last updated
             const currentYear = document.getElementById('current-year');
             if (currentYear) {
