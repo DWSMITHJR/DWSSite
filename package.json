@@ -9,7 +9,8 @@
     "clean": "rimraf public",
     "clean:all": "rimraf public node_modules package-lock.json",
     "copy:assets": "node copy-assets.js",
-    "build": "npm run clean && npm run copy:assets && echo 'Build complete!'",
+    "generate:build-info": "node scripts/generate-build-info.js",
+    "build": "npm run clean && npm run copy:assets && npm run generate:build-info && echo 'Build complete!'",
     "heroku-postbuild": "npm install && npm run build"
   },
   "dependencies": {

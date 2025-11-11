@@ -1,0 +1,18 @@
+# Site settings
+title: Donald W Smith Jr
+description: Personal website
+baseurl: "/DWSSite" # the subpath of your site, e.g. /blog
+url: "https://www.donaldwsmithjr.com" # the base hostname & protocol for your site
+
+theme: minima
+
+# Build settings
+markdown: kramdown
+plugins:
+  - jekyll-feed
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor

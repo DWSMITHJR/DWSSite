@@ -155,8 +155,27 @@
                     </div>
                 </div>
             </section>
-        </div>
 
+            <!-- Build Information -->
+            <section class="info-section" aria-labelledby="build-info-heading">
+                <h2 id="build-info-heading">Build Information</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Version Information</h3>
+                        <p><span class="label">Version:</span> <span id="build-version" class="value">Loading...</span></p>
+                        <p><span class="label">Build Date:</span> <span id="build-date" class="value">Loading...</span></p>
+                        <p><span class="label">Commit Hash:</span> <span id="commit-hash" class="value">Loading...</span></p>
+                        <p><span class="label">Environment:</span> <span id="build-env" class="value">Loading...</span></p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Recent Changes</h3>
+                        <div id="recent-changes" class="recent-changes">
+                            <p>Loading recent changes...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
         </footer>
     </main>
 
@@ -252,39 +271,44 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Set current year and last updated
             const currentYear = document.getElementById('current-year');
-            const lastUpdated = document.getElementById('last-updated');
-
             if (currentYear) {
                 currentYear.textContent = new Date().getFullYear();
             }
-
+            
+            const lastUpdated = document.getElementById('last-updated');
             if (lastUpdated) {
-                lastUpdated.textContent = new Date().toLocaleString(undefined, {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
+                lastUpdated.textContent = document.lastModified;
+            }
+            
+            // Initialize system and browser info detection
+            detectSystemInfo();
+            detectBrowserInfo();
+            
+            // Load build information
+            loadBuildInfo();
+            
+            // Initialize tooltips
+            const tooltipTriggers = document.querySelectorAll('[data-tooltip]');
+            tooltipTriggers.forEach(trigger => {
+                const tooltip = document.createElement('span');
+                tooltip.className = 'tooltip';
+                tooltip.textContent = trigger.getAttribute('data-tooltip');
+                trigger.appendChild(tooltip);
+                
+                // Position tooltip on hover
+                trigger.addEventListener('mouseenter', () => {
+                    const rect = trigger.getBoundingClientRect();
+                    tooltip.style.left = `${rect.left + window.scrollX}px`;
+                    tooltip.style.top = `${rect.bottom + window.scrollY + 5}px`;
+                    tooltip.style.opacity = '1';
+                    tooltip.style.visibility = 'visible';
                 });
-            }
-
-            // Initialize system info with error handling
-            try {
-                detectSystemInfo();
-                detectBrowserInfo();
-            } catch (error) {
-                console.error('Error initializing system info:', error);
-                const loadingIndicator = document.getElementById('loading-indicator');
-                if (loadingIndicator) {
-                    loadingIndicator.innerHTML = `
-                        <div class="error-message">
-                            <p>Unable to load system information. Please refresh the page or try again later.</p>
-                            <p><small>Error: ${error.message}</small></p>
-                        </div>`;
-                }
-            }
-
-            // Hide loading indicator
+                
+                trigger.addEventListener('mouseleave', () => {
+                    tooltip.style.opacity = '0';
+                    tooltip.style.visibility = 'hidden';
+                });
+            });
             setTimeout(() => {
                 const loadingIndicator = document.getElementById('loading-indicator');
                 if (loadingIndicator) {
