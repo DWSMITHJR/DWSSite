@@ -1,0 +1,158 @@
+/* Panel Base Styles */
+.panel {
+  --panel-bg: var(--bg-panel, #1e293b);
+  --panel-padding: 1.5rem;
+  --panel-border-radius: 0.8rem;
+  --panel-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  background: var(--panel-bg);
+  border-radius: var(--panel-border-radius);
+  padding: var(--panel-padding);
+  box-shadow: var(--shadow-md);
+  transition: var(--panel-transition);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Panel Hover Effects */
+.panel-hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.panel-hover-lift:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Panel Accent Variants */
+.panel-accent-left {
+  border-left: 4px solid var(--primary, #3b82f6);
+}
+
+.panel-accent-top {
+  border-top: 4px solid var(--primary, #3b82f6);
+}
+
+/* Panel with Shine Effect */
+.panel-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.1), 
+    transparent
+  );
+  transition: 0.6s;
+  pointer-events: none;
+}
+
+.panel-shine:hover::before {
+  left: 100%;
+}
+
+/* Panel Content Layout */
+.panel-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color, #2d3748);
+}
+
+.panel-body {
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.panel-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color, #2d3748);
+}
+
+/* Animation Classes */
+.panel-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.panel-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .panel {
+    --panel-padding: 1.25rem;
+  }
+}
+
+/* Specific Panel Types */
+.project-panel {
+  /* Panel base styles */
+  --panel-bg: var(--bg-panel, #1e293b);
+  --panel-padding: 1.5rem;
+  --panel-border-radius: 0.8rem;
+  --panel-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  background: var(--panel-bg);
+  border-radius: var(--panel-border-radius);
+  padding: var(--panel-padding);
+  box-shadow: var(--shadow-md);
+  transition: var(--panel-transition);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  /* Hover effects */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 4px solid var(--primary, #3b82f6);
+}
+
+/* Hover state for project panel */
+.project-panel:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Shine effect for project panel */
+.project-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: 0.6s;
+  pointer-events: none;
+}
+
+.project-panel:hover::before {
+  left: 100%;
+}
+
+/* Add more specific panel types as needed */
