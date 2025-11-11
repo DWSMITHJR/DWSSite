@@ -266,14 +266,41 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="js/config.js"></script>
-    <!-- Main application script that will handle all initializations -->
-    <script type="module" src="js/about-page.js"></script>
+    <script>
+        console.log('Script loading started');
+        // Add error handling for script loading
+        window.addEventListener('error', function(event) {
+            console.error('Script error:', event.message, 'in', event.filename, 'line', event.lineno);
+            return true; // Prevent default error handling
+        });
+    </script>
+    
+    <!-- Load config.js first -->
+    <script src="js/config.js" onload="console.log('config.js loaded')" 
+            onerror="console.error('Failed to load config.js')"></script>
+    
+    <!-- Load about-page.js as a regular script since we've converted it to work both ways -->
+    <script src="js/about-page.js" onload="console.log('about-page.js loaded')" 
+            onerror="console.error('Failed to load about-page.js')"></script>
+    
+    <!-- Other scripts -->
+    <script src="js/tracking.js" defer></script>
+    <script src="js/main.js" defer></script>
+    
+    <!-- Initialize the page -->
+    <script>
+        console.log('About page initialization starting...');
+        if (typeof initAboutPage === 'function') {
+            console.log('Calling initAboutPage...');
+            initAboutPage();
+        } else {
+            console.error('initAboutPage function not found!');
+        }
+    </script>
 
     <script>
         // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM fully loaded');
             // Set current year and last updated
             const currentYear = document.getElementById('current-year');
             if (currentYear) {
@@ -286,62 +313,34 @@
             }
             
             // Load build information
-            async function loadBuildInfo() {
-                // Default values
-                let buildInfo = {
+            function loadBuildInfo() {
+                // Get build info from the build-info.js file that's already included
+                // or use default values if not available
+                const buildInfo = window.buildInfo || {
                     buildDate: new Date().toISOString(),
                     version: '1.0.0',
                     commitHash: 'local-dev',
                     environment: 'development'
                 };
 
-                try {
-                    // Try to load build info from the JSON file
-                    const response = await fetch('/build-info.json');
-                    if (response.ok) {
-                        const data = await response.json();
-                        buildInfo = { ...buildInfo, ...data };
-                    }
-                } catch (error) {
-                    console.error('Error loading build info:', error);
-                }
-
                 // Format the build date
                 const formatDate = (dateString) => {
-                    if (!dateString) return 'Not available';
-                    try {
-                        const date = new Date(dateString);
-                        if (isNaN(date.getTime())) return 'Invalid date';
-                        
-                        const options = { 
-                            year: 'numeric', 
-                            month: 'short', 
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            timeZoneName: 'short'
-                        };
-                        return date.toLocaleString('en-US', options);
-                    } catch (e) {
-                        console.error('Error formatting date:', e);
-                        return 'Date error';
-                    }
+                    const options = { 
+                        year: 'numeric', 
+                        month: 'short', 
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        timeZoneName: 'short'
+                    };
+                    return new Date(dateString).toLocaleString('en-US', options);
                 };
 
-                // Update the DOM elements with proper error handling
-                const safeUpdate = (id, value, fallback = 'Not available') => {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        element.textContent = value !== undefined && value !== null ? value : fallback;
-                    } else {
-                        console.warn(`Element with ID '${id}' not found`);
-                    }
-                };
-
-                safeUpdate('build-version', buildInfo.version, '1.0.0');
-                safeUpdate('build-date', buildInfo.buildDate ? formatDate(buildInfo.buildDate) : 'Not available');
-                safeUpdate('commit-hash', buildInfo.commitHash, 'Not available');
-                safeUpdate('build-env', buildInfo.environment, 'development');
+                // Update the DOM elements
+                document.getElementById('build-version').textContent = buildInfo.version || '1.0.0';
+                document.getElementById('build-date').textContent = buildInfo.buildDate ? formatDate(buildInfo.buildDate) : 'Not available';
+                document.getElementById('commit-hash').textContent = buildInfo.commitHash || 'Not available';
+                document.getElementById('build-env').textContent = buildInfo.environment || 'development';
             }
             
             // Initialize tooltips

@@ -1,10 +1,17 @@
 /**
  * About Page - System Information Dashboard
  * Consolidated JavaScript functionality for the about page
+ * @module aboutPage
  */
 
-// Wait for the DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', () => {
+console.log('About page module loaded');
+
+// Main initialization function
+function initAboutPage() {
+    console.log('Initializing about page...');
+    
+    // Wait for the DOM to be fully loaded
+    if (document.readyState === 'loading') {
     'use strict';
 
     // Feature detection
@@ -454,4 +461,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Start the application
     initApp();
-});
+    }
+}
+
+// Initialize when DOM is ready
+if (document.readyState !== 'loading') {
+    // DOM is already ready, initialize immediately
+    initAboutPage();
+} else {
+    // Wait for DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', initAboutPage);
+}
+
+// Export for testing or other modules
+// Note: This won't be used directly when loaded as a module
+// but is here for potential future use
+try {
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = { initAboutPage };
+    }
+} catch (e) {
+    // Not in a CommonJS environment
+}

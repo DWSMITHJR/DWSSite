@@ -11,6 +11,9 @@ yarn-error.log
 # Build output
 dist/
 
+# Generated build info
+public/build-info.json
+
 # Public directory is tracked for Netlify deployment
 # !public/
 
@@ -396,3 +399,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# Local Netlify folder
+.netlify
