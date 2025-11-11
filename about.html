@@ -122,18 +122,22 @@
             <section class="info-section" aria-labelledby="system-info-heading">
                 <h2 id="system-info-heading">System Information</h2>
                 <div class="info-grid">
-                    <div class="info-card">
-                        <h3>Operating System</h3>
-                        <p><span class="label">OS:</span> <span id="os-name" class="value">Detecting...</span></p>
-                        <p><span class="label">Platform:</span> <span id="os-platform" class="value">Detecting...</span></p>
-                        <p><span class="label">CPU Cores:</span> <span id="cpu-cores" class="value">Detecting...</span></p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Device</h3>
-                        <p><span class="label">Memory:</span> <span id="device-memory" class="value">Detecting...</span></p>
-                        <p><span class="label">Screen Resolution:</span> <span id="screen-resolution" class="value">Detecting...</span></p>
-                        <p><span class="label">Pixel Ratio:</span> <span id="pixel-ratio" class="value">Detecting...</span></p>
-                    </div>
+                    <a href="info.html#system-info" class="info-card" aria-label="View detailed system information">
+                        <div>
+                            <h3>Operating System</h3>
+                            <p><span class="label">OS:</span> <span id="os-name" class="value">Detecting...</span></p>
+                            <p><span class="label">Platform:</span> <span id="os-platform" class="value">Detecting...</span></p>
+                            <p><span class="label">CPU Cores:</span> <span id="cpu-cores" class="value">Detecting...</span></p>
+                        </div>
+                    </a>
+                    <a href="info.html#device-info" class="info-card" aria-label="View detailed device information">
+                        <div>
+                            <h3>Device</h3>
+                            <p><span class="label">Memory:</span> <span id="device-memory" class="value">Detecting...</span></p>
+                            <p><span class="label">Screen Resolution:</span> <span id="screen-resolution" class="value">Detecting...</span></p>
+                            <p><span class="label">Pixel Ratio:</span> <span id="pixel-ratio" class="value">Detecting...</span></p>
+                        </div>
+                    </a>
                 </div>
             </section>
 
@@ -141,12 +145,14 @@
             <section class="info-section" aria-labelledby="browser-info-heading">
                 <h2 id="browser-info-heading">Browser Information</h2>
                 <div class="info-grid">
-                    <div class="info-card">
-                        <h3>Browser</h3>
-                        <p><span class="label">Name:</span> <span id="browser-name" class="value">Detecting...</span></p>
-                        <p><span class="label">Version:</span> <span id="browser-version" class="value">Detecting...</span></p>
-                        <p><span class="label">User Agent:</span> <span id="user-agent" class="value">Detecting...</span></p>
-                    </div>
+                    <a href="info.html#browser-info" class="info-card" aria-label="View detailed browser information">
+                        <div>
+                            <h3>Browser</h3>
+                            <p><span class="label">Name:</span> <span id="browser-name" class="value">Detecting...</span></p>
+                            <p><span class="label">Version:</span> <span id="browser-version" class="value">Detecting...</span></p>
+                            <p><span class="label">User Agent:</span> <span id="user-agent" class="value">Detecting...</span></p>
+                        </div>
+                    </a>
                     <div class="info-card">
                         <h3>Network</h3>
                         <p><span class="label">Status:</span> <span id="online-status" class="value">Detecting...</span></p>
@@ -280,10 +286,6 @@
                 lastUpdated.textContent = document.lastModified;
             }
             
-            // Initialize system and browser info detection
-            detectSystemInfo();
-            detectBrowserInfo();
-            
             // Load build information
             function loadBuildInfo() {
                 // Get build info from the build-info.js file that's already included
@@ -292,7 +294,7 @@
                     buildDate: new Date().toISOString(),
                     version: '1.0.0',
                     commitHash: 'local-dev',
-                    environment: process.env.NODE_ENV || 'development'
+                    environment: 'development'
                 };
 
                 // Format the build date
@@ -314,9 +316,6 @@
                 document.getElementById('commit-hash').textContent = buildInfo.commitHash || 'Not available';
                 document.getElementById('build-env').textContent = buildInfo.environment || 'development';
             }
-            
-            // Load the build info
-            loadBuildInfo();
             
             // Initialize tooltips
             const tooltipTriggers = document.querySelectorAll('[data-tooltip]');
